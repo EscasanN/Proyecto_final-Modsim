@@ -1,9 +1,12 @@
-# Uso de herramientas de inteligencia artificial
+**Uso de herramientas de inteligencia artificial**
 
-El enunciado exige declarar el uso de IA. Cada integrante registra aquí lo que usó, para qué y cómo lo verificó.
+Se utilizó IA para investigación adicional del tema, explicación de conceptos, apoyo logístico del plan de trabajo y asistencia en programación, documentación y pruebas.
 
-| Fecha | Integrante | Herramienta | Uso | Verificación humana |
+| Fecha | Área | Herramienta | Alcance registrado | Comprobación disponible |
 | --- | --- | --- | --- | --- |
-| 2026-11-03 | Nelson Escalante | Claude Code (Anthropic, modelo Claude Opus 5.5) | Primera versión de `data_io.py`, `time_blocks.py`, `calibration.py`, `synthetic_data.py`, la CLI, las pruebas de `tests/` y los borradores de `docs/protocol.md`, `docs/data_dictionary.md`, `docs/calibration.md` y `report/secciones/A_contexto_datos.md`, a partir del plan de trabajo del equipo. Consulta de metadatos de [R1] y [R2]. | Los datos fueron verificados y los programas funcionan de manera correcta, segun lo esperado :)
+| 2026-11-03 | Datos y calibración | Claude Code, según el registro inicial | Apoyo en carga de datos, bloques, calibración, generador sintético, interfaz de comandos, pruebas y texto de contexto | Código y pruebas del commit inicial |
+| 2026-11-03 | Modelo y simulación | Codex, OpenAI | Investigación sobre métodos numéricos, explicación del balance, asistencia en implementación de integradores y eventos, documentación y pruebas | Casos analíticos, conservación, convergencia, pruebas automatizadas y demostración reproducible |
 
-Ningún dato de `data/raw/` fue generado por IA. Los datos sintéticos se generan con `src/macetas/synthetic_data.py`, están marcados como `synthetic` y no se usan como validación.
+Las referencias técnicas se identifican en `docs/references.bib` y `docs/model.md`. Los resultados de pruebas se pueden reconstruir con los comandos del README.
+
+No se generaron mediciones reales mediante IA. Los datos del generador llevan el origen `synthetic`; las comprobaciones exactas llevan `analytical`. Estos conjuntos se utilizan para verificar el programa y no constituyen validación con plantas reales.

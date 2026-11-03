@@ -1,9 +1,20 @@
-# Registro de contribuciones
+**Distribución de trabajo y contribuciones**
 
-Una fila por tarea concreta. Revisión cruzada: Nelson Escalante (A) revisa D, D revisa B, B revisa C, C revisa a Nelson Escalante.
+| Integrante | Responsabilidad |
+| --- | --- |
+| Nelson Escalante | Datos, protocolo y calibración |
+| Nina Nájera | Modelo, integradores y simulación |
+| Eliazar Canastuj | Optimización y política de riego |
+| Diego Ramirez | Experimentos, validación y resultados |
 
-| Fecha | Integrante | Tarea | Evidencia (archivo o commit) | Revisor | Horas aprox. |
-| --- | --- | --- | --- | --- | --- |
-| 2026-11-03 | Nelson Escalante | Protocolo de medición y diccionario de datos | `docs/protocol.md`, `docs/data_dictionary.md` | Equipo | [COMPLETAR] |
-| 2026-11-03 | Nelson Escalante | Carga y controles de calidad de datos | `src/macetas/data_io.py`, `tests/test_data_io.py` | C | [COMPLETAR] |
-| 2026-11-03 | Nelson Escalante | Calibración de pérdidas, bloques horarios y datos sintéticos de prueba | `src/macetas/calibration.py`, `src/macetas/time_blocks.py`, `src/macetas/synthetic_data.py`, `tests/` | C | [COMPLETAR] |
+**Aportes registrados**
+
+| Fecha | Integrante | Aporte | Evidencia |
+| --- | --- | --- | --- |
+| 2026-11-03 | Nelson Escalante | Protocolo de medición y diccionario de datos | `docs/protocol.md`, `docs/data_dictionary.md`, commit `483e37c` |
+| 2026-11-03 | Nelson Escalante | Carga, controles de calidad, calibración, bloques horarios y generador sintético | `src/macetas/data_io.py`, `calibration.py`, `time_blocks.py`, `synthetic_data.py`, pruebas iniciales, commit `483e37c` |
+| 2026-11-03 | Nina Nájera | Corrección de campos opcionales vacíos | `src/macetas/data_io.py`, commit `285beaa` |
+| 2026-11-03 | Nina Nájera | Balance de agua, Euler, RK4, eventos, política fija e interfaz del simulador | `src/macetas/model.py`, `integrators.py`, `policies.py`, `simulator.py`, `simulation_io.py`, commit `621be50` |
+| 2026-11-03 | Nina Nájera | Casos conocidos, conservación y convergencia | `src/macetas/verification.py`, `tests/test_integrators.py`, `tests/test_simulator.py` |
+| 2026-11-03 | Nina Nájera | Precisión de horarios y trazabilidad de calibración | `src/macetas/time_blocks.py`, `calibration.py`, `synthetic_data.py`, pruebas de horarios, commit `8a62bad` |
+| 2026-11-03 | Nina Nájera | Formulación, diagrama, límites del modelo y comandos de reproducción | `docs/model.md`, `docs/references.bib`, `README.md` |
