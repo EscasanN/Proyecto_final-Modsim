@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Datos sintéticos: se regeneran con `python -m src.macetas make-synthetic` y su semilla.
+data/synthetic/

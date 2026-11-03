@@ -1,0 +1,22 @@
+{
+  "_nota": "Parámetros del modelo (Nelson Escalante y B). Nelson Escalante mantiene 'time_blocks' y 'calibration'; B añade aquí paso de integración y opciones del simulador.",
+  "data_config": "data.json",
+  "time_blocks": [
+    {"name": "day", "start_hour": 6, "end_hour": 18},
+    {"name": "night", "start_hour": 18, "end_hour": 6}
+  ],
+  "calibration": {
+    "_nota": "Modelos candidatos: E = q(t)*max(0, a + b*D). constant: solo a; blocks: a y q por bloque; blocks_linear: a, b y q. Se elige el más simple con AICc a menos de 'tolerance' del mínimo.",
+    "candidate_models": ["constant", "blocks", "blocks_linear"],
+    "selection": {"criterion": "aicc", "tolerance": 2.0},
+    "scope": "pooled",
+    "min_interval_h": 1.0,
+    "max_interval_h": 36.0,
+    "bounds": {
+      "a_ml_per_h": [0.0, 50.0],
+      "b_per_h": [-0.1, 0.0],
+      "q": [0.0, 5.0]
+    },
+    "bootstrap": {"n": 500, "seed": 20261103, "unit": "day"}
+  }
+}
