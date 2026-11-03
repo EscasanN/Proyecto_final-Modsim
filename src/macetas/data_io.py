@@ -165,7 +165,8 @@ def _read_csv(path: Path, columns, label: str, issues: IssueLog, required: bool)
         return frame
     frame = pd.read_csv(path, dtype=str, keep_default_na=False, encoding="utf-8-sig")
     for col in frame.columns:
-        frame[col] = frame[col].str.strip().replace("", np.nan)
+        values = frame[col].astype("string").str.strip()
+        frame[col] = values.mask(values.eq(""))
     for col in columns:
         if col not in frame.columns:
             issues.add("error", "columnas", label, f"Falta la columna obligatoria '{col}'.")
