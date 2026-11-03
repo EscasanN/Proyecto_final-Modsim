@@ -60,7 +60,7 @@ class LossModel:
 
     def factor_at(self, timestamp) -> float:
         timestamp = local_timestamp(timestamp, self.timezone)
-        hour = timestamp.hour + timestamp.minute / 60 + timestamp.second / 3600
+        hour = (timestamp - timestamp.normalize()).value / 3_600_000_000_000
         index = block_index(hour, self.time_blocks)
         return self.q[self.time_blocks[index]["name"]]
 

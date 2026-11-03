@@ -34,3 +34,19 @@ def test_blocks_must_cover_the_day_once():
         validate_blocks(BLOCKS + [{"name": "extra", "start_hour": 10, "end_hour": 12}])
     validate_blocks(BLOCKS)
     validate_blocks([{"name": "all", "start_hour": 0, "end_hour": 24}])
+
+
+def test_subminute_gaps_and_overlaps_are_rejected():
+    for start in (6.0001, 5.9999):
+        with pytest.raises(ValueError):
+            validate_blocks([{"name": "morning", "start_hour": 0, "end_hour": 6},
+                             {"name": "rest", "start_hour": start, "end_hour": 24}])
+
+
+def test_subsecond_block_segment_uses_precise_local_time():
+    blocks = [{"name": "first", "start_hour": 0, "end_hour": 0.0001},
+              {"name": "rest", "start_hour": 0.0001, "end_hour": 24}]
+    validate_blocks(blocks)
+    segments = block_segments(ts("2000-01-01T00:00:00-06:00"), ts("2000-01-01T00:00:01-06:00"), blocks)
+    assert segments[0] == pytest.approx((0, 0.0001))
+    assert segments[1] == pytest.approx((1, 1 / 3600 - 0.0001))

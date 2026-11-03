@@ -253,7 +253,7 @@ def irrigation_events(dataset: Dataset, blocks, fit: FitResult | None = None,
                       phases=("pilot", "fit")) -> pd.DataFrame:
     """Contrasta cada riego con la regla ideal Q = max(0, I - D-), D+ = max(0, D- - I).
 
-    Solo usa piloto y ajuste: los eventos de validación son de D. `apparent_loss_ml`
+    Solo usa piloto y ajuste: los eventos de validación se evalúan por separado. `apparent_loss_ml`
     = (D+ - D-) - (Q - I) es el agua que el balance atribuye a pérdidas durante el
     evento; `expected_loss_ml` es la que predice el ajuste en el mismo lapso.
     """
@@ -485,7 +485,7 @@ def _jsonable(x):
 
 
 def parameters_for_model(result: CalibrationResult) -> dict:
-    """Parámetros en formato para el simulador de B (results/tables/parametros_modelo.json)."""
+    """Parámetros en formato para el simulador (results/tables/parametros_modelo.json)."""
     blocks = result.model_config["time_blocks"]
     table = parameter_table(result)
 
@@ -530,7 +530,9 @@ def _sha256(path: Path) -> str | None:
 
 def _git_commit() -> str | None:
     try:
-        return subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
+        root = Path(__file__).resolve().parents[2]
+        return subprocess.run(["git", "-c", f"safe.directory={root.as_posix()}", "-C", str(root),
+                               "rev-parse", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
     except (OSError, subprocess.CalledProcessError):
         return None
 

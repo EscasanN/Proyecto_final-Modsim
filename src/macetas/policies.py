@@ -34,7 +34,7 @@ class FixedPolicy:
             raise ValueError("every_n_days debe ser un entero positivo.")
 
     def dose(self, timestamp: pd.Timestamp, observed_deficit_ml: float) -> float:
-        hour = timestamp.hour + timestamp.minute / 60 + timestamp.second / 3600
+        hour = (timestamp - timestamp.normalize()).value / 3_600_000_000_000
         scheduled = any(abs(hour - target) < 1e-9 for target in self.irrigation_hours)
         active_day = (timestamp.date() - self.anchor_date).days % self.every_n_days == 0
         return self.dose_ml if scheduled and active_day else 0.0

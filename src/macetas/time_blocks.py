@@ -1,6 +1,6 @@
 """Bloques horarios del factor q(t) de la pérdida de agua.
 
-Compartido entre calibración (Nelson Escalante) y modelo (B). Un bloque se define por su hora
+Compartido entre calibración y simulación. Un bloque se define por su hora
 local de inicio y fin; los bloques deben cubrir las 24 h sin solaparse. La hora
 local se toma de la zona horaria de los instantes recibidos (America/Guatemala no
 tiene horario de verano; en zonas con cambio horario habría que revisar los cortes).
@@ -8,22 +8,27 @@ tiene horario de verano; en zonas con cambio horario habría que revisar los cor
 
 from __future__ import annotations
 
+from math import isfinite
+
 import numpy as np
 import pandas as pd
 
 
 def validate_blocks(blocks: list[dict]) -> None:
-    """Comprueba nombres únicos y que cada minuto del día esté en un solo bloque."""
+    """Comprueba cobertura completa sin solapamientos."""
     names = [b["name"] for b in blocks]
     if len(set(names)) != len(names):
         raise ValueError("Los bloques horarios deben tener nombres únicos.")
     for b in blocks:
-        if not (0 <= b["start_hour"] < 24 and 0 <= b["end_hour"] <= 24):
+        if not (isfinite(b["start_hour"]) and isfinite(b["end_hour"])
+                and 0 <= b["start_hour"] < 24 and 0 <= b["end_hour"] <= 24):
             raise ValueError(f"Horas fuera de rango en el bloque {b['name']}.")
-    for minute in range(24 * 60):
-        hits = sum(_contains(b, minute / 60) for b in blocks)
+    cuts = sorted({0, 24, *(b["start_hour"] for b in blocks), *(b["end_hour"] for b in blocks)})
+    for left, right in zip(cuts, cuts[1:]):
+        hour = (left + right) / 2
+        hits = sum(_contains(b, hour) for b in blocks)
         if hits != 1:
-            raise ValueError(f"La hora {minute / 60:.2f} pertenece a {hits} bloques; deben cubrir el día exactamente una vez.")
+            raise ValueError(f"La hora {hour:.6f} pertenece a {hits} bloques; deben cubrir el día exactamente una vez.")
 
 
 def _contains(block: dict, hour: float) -> bool:
@@ -53,7 +58,7 @@ def block_segments(t0: pd.Timestamp, t1: pd.Timestamp, blocks: list[dict]) -> li
     segments = []
     for e0, e1 in zip(edges, edges[1:]):
         mid = e0 + (e1 - e0) / 2
-        hour = mid.hour + mid.minute / 60 + mid.second / 3600
+        hour = (mid - mid.normalize()).value / 3_600_000_000_000
         segments.append((block_index(hour, blocks), (e1 - e0).total_seconds() / 3600))
     return segments
 

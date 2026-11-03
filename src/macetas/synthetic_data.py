@@ -1,7 +1,7 @@
 """Conjunto de datos SINTÉTICO con el mismo formato que data/raw.
 
 Sirve para probar data_io y calibration con parámetros verdaderos conocidos y
-para que B, C y D desarrollen antes de tener mediciones. Todas las filas llevan
+para desarrollar antes de tener mediciones. Todas las filas llevan
 data_origin = "synthetic" y la configuración generada solo admite ese origen, de
 modo que no pueden mezclarse con observaciones reales. Estos datos NO validan el
 modelo contra la realidad.
@@ -61,7 +61,6 @@ def generate_synthetic(out_dir, seed: int = 20260001, n_pots: int = 6, start_dat
         return float(predict_deficit([d], hours, idx, a, params["b_per_h"], q)[0])
 
     pots, rows, truth = [], [], {}
-    observers = ["A", "B", "C", "D"]
     for p in range(n_pots):
         pot_id = f"M{p + 1:02d}"
         m_ref = round(float(rng.uniform(850, 1150)), 1)
@@ -75,7 +74,7 @@ def generate_synthetic(out_dir, seed: int = 20260001, n_pots: int = 6, start_dat
         d, t_prev, n_event = 0.0, t_ref, 0
 
         def row(t, stage, mass, **extra):
-            base = {"timestamp": t.isoformat(), "pot_id": pot_id, "observer": observers[len(rows) % 4],
+            base = {"timestamp": t.isoformat(), "pot_id": pot_id, "observer": "simulado",
                     "phase": day_phase[(t - start).days], "treatment": "base", "reading_stage": stage,
                     "mass_g": mass, "irrigation_ml": "", "drainage_ml": "", "irrigation_timestamp": "",
                     "event_id": "", "ambient_temperature_c": "", "notes": "", "quality_flag": "ok",
@@ -123,7 +122,7 @@ def generate_synthetic(out_dir, seed: int = 20260001, n_pots: int = 6, start_dat
     for obj, known in (("pesa_500g", 500.0), ("objeto_estable", None)):
         center = known if known is not None else 312.4
         for i in range(10):
-            scale.append({"timestamp": (start - pd.Timedelta(hours=2, minutes=-i)).isoformat(), "observer": "A",
+            scale.append({"timestamp": (start - pd.Timedelta(hours=2, minutes=-i)).isoformat(), "observer": "simulado",
                           "scale_id": "BAL-SINT", "object_id": obj, "known_mass_g": "" if known is None else known,
                           "reading_g": measure(center), "resolution_g": resolution_g if resolution_g > 0 else 0.1,
                           "notes": "", "data_origin": "synthetic"})

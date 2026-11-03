@@ -81,6 +81,15 @@ def test_fixed_policy_uses_review_times_and_excludes_horizon_end():
     assert result.metrics["total_irrigation_ml"] == 10
 
 
+def test_fractional_review_hour_keeps_full_time_precision():
+    cfg = config(start="2000-01-01T07:00:00-06:00", end="2000-01-01T08:00:00-06:00",
+                 review_hours=(7.123456,))
+    result = simulate(model(a=0), cfg, FixedPolicy(10, irrigation_hours=(7.123456,)))
+    assert result.metrics["n_irrigations"] == 1
+    expected = pd.Timestamp(cfg.start).normalize() + pd.Timedelta(hours=7.123456)
+    assert result.events.iloc[0]["timestamp"] == expected
+
+
 def test_final_refill_is_counted_and_cannot_bypass_dose_limit():
     cfg = config(initial_deficit_ml=0, close_balance=True, safe_deficit_ml=100,
                  max_dose_ml=10, max_daily_ml=100)
