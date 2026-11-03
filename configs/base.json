@@ -1,0 +1,18 @@
+{
+  "status": "pending",
+  "justification": null,
+  "policy": {
+    "dose_ml": null,
+    "irrigation_hours": [7],
+    "every_n_days": 1
+  },
+  "simulation": {
+    "start": null,
+    "end": null,
+    "initial_deficit_ml": null,
+    "safe_deficit_ml": null,
+    "max_dose_ml": null,
+    "max_daily_ml": null
+  },
+  "loss_multiplier": 1.0
+}

@@ -1,0 +1,18 @@
+{
+  "status": "frozen",
+  "data_origin": ["synthetic"],
+  "selected_scope": "pooled",
+  "timezone": "America/Guatemala",
+  "time_blocks": [
+    {"name": "day", "start_hour": 6, "end_hour": 18},
+    {"name": "night", "start_hour": 18, "end_hour": 6}
+  ],
+  "pooled": {
+    "model": "blocks_linear",
+    "a_ml_per_h": 2.5,
+    "b_per_h": -0.006,
+    "q": {"day": 1.0, "night": 0.35}
+  },
+  "per_pot": {},
+  "provenance": "Parámetros hipotéticos del generador sintético; no se obtuvieron mediante mediciones ni calibración real."
+}

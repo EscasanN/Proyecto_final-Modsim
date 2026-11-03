@@ -1,9 +1,3 @@
-"""Interfaz de línea de comandos: `python -m src.macetas <comando>` desde la raíz del repositorio.
-
-Comandos de Nelson Escalante: validate-data, calibrate y make-synthetic. B, C y D añaden aquí los
-suyos (validate-model, optimize, experiments, report-results).
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -62,6 +56,30 @@ def _make_synthetic(args) -> int:
     return 0
 
 
+def _simulate(args) -> int:
+    from .simulation_io import run_from_files
+
+    result, paths = run_from_files(args.config, args.base, args.parameters, args.out, args.pot_id,
+                                    args.allow_synthetic, args.method, args.step_h)
+    print(f"Origen: {result.metrics['data_origin']} | Método: {result.metrics['method']}")
+    print(f"Agua total: {result.metrics['total_irrigation_ml']:.6f} mL | "
+          f"Reposición final: {result.metrics['final_refill_ml']:.6f} mL")
+    print(f"Balance: {result.metrics['balance_residual_ml']:.3e} mL | "
+          f"Factible: {result.metrics['feasible']}")
+    for name, path in paths.items():
+        print(f"  {name}: {path}")
+    return 0
+
+
+def _validate_model(args) -> int:
+    from .verification import verify_numerics
+
+    for name, path in verify_numerics(args.out).items():
+        print(f"  {name}: {path}")
+    print("Verificación analítica completada; no constituye validación con mediciones reales.")
+    return 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="python -m src.macetas")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -81,8 +99,27 @@ def main(argv=None) -> int:
     p.add_argument("--seed", type=int, default=20260001)
     p.set_defaults(func=_make_synthetic)
 
+    p = sub.add_parser("simulate", help="Simulación del balance con política fija")
+    p.add_argument("--config", default="configs/model.json")
+    p.add_argument("--base", default="configs/base.json")
+    p.add_argument("--parameters", required=True)
+    p.add_argument("--out", default="results/base")
+    p.add_argument("--pot-id", default=None)
+    p.add_argument("--allow-synthetic", action="store_true")
+    p.add_argument("--method", choices=("euler", "rk4"), default=None)
+    p.add_argument("--step-h", type=float, default=None)
+    p.set_defaults(func=_simulate)
+
+    p = sub.add_parser("validate-model", help="Casos analíticos y convergencia de Euler y RK4")
+    p.add_argument("--out", default="results/verification")
+    p.set_defaults(func=_validate_model)
+
     args = parser.parse_args(argv)
-    return args.func(args)
+    try:
+        return args.func(args)
+    except (ValueError, OSError, KeyError, TypeError, RuntimeError) as error:
+        print(f"Error: {error}", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":

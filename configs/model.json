@@ -1,10 +1,16 @@
 {
-  "_nota": "Parámetros del modelo (Nelson Escalante y B). Nelson Escalante mantiene 'time_blocks' y 'calibration'; B añade aquí paso de integración y opciones del simulador.",
+  "_nota": "Configuración de bloques, calibración e integración del balance de agua.",
   "data_config": "data.json",
   "time_blocks": [
     {"name": "day", "start_hour": 6, "end_hour": 18},
     {"name": "night", "start_hour": 18, "end_hour": 6}
   ],
+  "simulation": {
+    "method": "rk4",
+    "step_h": 0.25,
+    "review_hours": [7, 13, 19],
+    "close_balance": true
+  },
   "calibration": {
     "_nota": "Modelos candidatos: E = q(t)*max(0, a + b*D). constant: solo a; blocks: a y q por bloque; blocks_linear: a, b y q. Se elige el más simple con AICc a menos de 'tolerance' del mínimo.",
     "candidate_models": ["constant", "blocks", "blocks_linear"],

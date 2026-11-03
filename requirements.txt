@@ -1,7 +1,4 @@
-# Versiones verificadas con Python 3.14.3 en Windows 11 (2026-11-03).
-# B y D añaden aquí las dependencias de simulación y gráficas (p. ej. matplotlib)
-# después de verificarlas con una instalación real.
-numpy==2.4.3
-pandas==3.0.1
-scipy==1.17.1
+numpy==2.4.2
+pandas==2.3.3
+scipy==1.17.0
 pytest==9.1.1
