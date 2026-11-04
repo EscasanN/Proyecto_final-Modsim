@@ -46,7 +46,7 @@ python -m src.macetas calibrate --config configs/model.json --data-config data/s
 python -m src.macetas simulate --parameters data/synthetic/salidas/tables/parametros_modelo.json --base configs/demo_base.json --allow-synthetic --out results/calibrated_demo
 ```
 
-**Ejecución con mediciones reales**
+**Ejecución con mediciones**
 
 La ejecución utiliza las observaciones originales, los metadatos del montaje, las referencias drenadas y la verificación de balanza. La partición se realiza por ventanas temporales completas y se congela antes del ajuste final. `configs/base.json` contiene el horizonte, el déficit inicial, la dosis, el horario, los límites y su justificación; el estado `frozen` identifica la configuración fijada para la comparación.
 
