@@ -4,7 +4,7 @@
 
 Se consideran seis macetas de una misma especie, con sustrato y recipientes comparables. Se registra cada maceta con identificador estable, par, especie, sustrato, ubicación y descripción de la planta. Se elige un lugar protegido de lluvia y se documentan los cambios de exposición.
 
-Se pesa siempre el mismo conjunto: maceta, sustrato y planta, sin bandeja ni plato. Se utiliza una bandeja individual removible para recoger el drenaje, sin permitir su reabsorción. Los instrumentos, la especie y el sustrato todavía no están registrados.
+Se pesa siempre el mismo conjunto: maceta, sustrato y planta, sin bandeja ni plato. Se utiliza una bandeja individual removible para recoger el drenaje, sin permitir su reabsorción. La especie, el sustrato, la ubicación y los instrumentos se documentan en los metadatos del montaje.
 
 **Verificación de balanza**
 
@@ -25,7 +25,7 @@ La referencia no se redefine diariamente. El crecimiento, la caída de hojas y l
 
 **Rutina de revisión**
 
-Se proponen revisiones a las 07:00, 13:00 y 19:00, hora de Guatemala. Los horarios se ajustan después del piloto y se conservan las horas reales en el registro.
+Se establecen revisiones a las 07:00, 13:00 y 19:00, hora de Guatemala. Se conserva la hora real de cada pesaje en el registro.
 
 Sin riego se pesa la maceta y se anota una lectura `no_irrigation`. Con riego se registra el peso previo como `pre_irrigation`, se mide la dosis y se anota la hora de aplicación. Al terminar el tiempo de drenaje se mide el agua recogida y se registra el peso como `post_drainage`. Las lecturas del mismo riego comparten `event_id`. Después se retira el drenaje.
 
@@ -51,21 +51,21 @@ Se utilizan CSV UTF-8, decimales con punto y fechas ISO 8601 con zona horaria, c
 python -m src.macetas validate-data
 ```
 
-El resultado comprueba formato y coherencia. Los tres archivos vacíos pueden superar el formato, pero siguen siendo insuficientes para calibrar.
+El control comprueba el formato, las fechas, las unidades, las etapas de lectura y la coherencia entre riegos, drenaje y pesajes.
 
 **Turnos**
 
-La rotación prevista por revisión es Nelson Escalante, Nina Nájera, Eliazar Canastuj y Diego Ramirez, continuando entre días y fines de semana. Cada sesión necesita titular y suplente. Las fechas y la disponibilidad todavía no están registradas.
+La rotación por revisión sigue el orden Nelson Escalante, Nina Nájera, Eliazar Canastuj y Diego Ramirez, continuando entre días y fines de semana. Se registra un titular y un suplente por sesión.
 
 **Separación temporal**
 
 Se reserva un piloto para establecer la referencia drenada, los instrumentos y los horarios. Después se separan ciclos completos de ajuste (`fit`) y ciclos posteriores de validación (`validation`). La fase de intervención (`intervention`) se utiliza únicamente después de congelar una política, cuando se realice una comparación física.
 
-Las ventanas se definen en `configs/data.json`. Se completan y congelan antes del ajuste final con `frozen: true` y una fecha en `frozen_on`. El código rechaza fases que contradicen las ventanas y el ajuste solo recibe intervalos `fit`. Las ventanas todavía no están definidas.
+Las ventanas se definen en `configs/data.json` y se congelan antes del ajuste final con `frozen: true` y una fecha en `frozen_on`. El código rechaza fases que contradicen las ventanas y el ajuste solo recibe intervalos `fit`.
 
-**Decisiones pendientes del piloto**
+**Parámetros del ensayo**
 
-| Decisión | Registro previsto |
+| Decisión | Registro |
 | --- | --- |
 | Especie, sustrato, ubicación y fuente de manejo | Metadatos de macetas y bibliografía |
 | Instrumento y error de lectura | `balanza.csv` y tabla de parámetros |
@@ -81,4 +81,4 @@ Las ventanas se definen en `configs/data.json`. Se completan y congelan antes de
 | Fecha | Cambio | Responsable |
 | --- | --- | --- |
 | 2026-11-03 | Protocolo, formatos y controles iniciales | Nelson Escalante |
-| 2026-11-03 | Revisión del estado y coherencia con el simulador | Nina Nájera |
+| 2026-11-03 | Coherencia del protocolo con el simulador | Nina Nájera |

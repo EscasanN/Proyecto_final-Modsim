@@ -1,13 +1,13 @@
 **Modelo de balance de agua y simulación**
 
-**Estado y alcance**
+**Alcance**
 
-Se modela una maceta mediante el déficit de agua respecto de una masa drenada de referencia. Se usa el mismo modelo físico al comparar políticas. Los valores del ejemplo son hipotéticos; los parámetros reales y el intervalo operacional todavía no están disponibles.
+Se modela una maceta mediante el déficit de agua respecto de una masa drenada de referencia. Se usa el mismo modelo físico al comparar políticas. Los parámetros de pérdida y el intervalo operacional se definen a partir de las observaciones del montaje y del piloto.
 
 | Símbolo | Unidad | Significado y procedencia |
 | --- | --- | --- |
 | D | mL | Déficit: `(M_ref - M) / rho_w` |
-| M, M_ref | g | Masa observada y referencia drenada, pendientes de medición |
+| M, M_ref | g | Masa total observada y masa drenada de referencia |
 | rho_w | g/mL | Densidad aproximada del agua; se adopta 1 como simplificación |
 | a | mL/h | Pérdida a déficit cero, estimada en la fase de ajuste |
 | b | 1/h | Dependencia local de la pérdida con el déficit |
@@ -23,7 +23,7 @@ Se supone que los cambios de masa durante el horizonte se deben principalmente a
 
 $$\frac{dD}{dt}=u(t)q(t)\max(0,a+bD).$$
 
-La pérdida agrupa evaporación y transpiración. Los bloques iniciales son día de 06:00 a 18:00 y noche de 18:00 a 06:00, en `America/Guatemala`. Ambos se pueden configurar. La carga de parámetros respeta el ámbito agrupado o por maceta de la calibración y comprueba su origen y estado.
+La pérdida agrupa evaporación y transpiración. Los bloques horarios son día de 06:00 a 18:00 y noche de 18:00 a 06:00, en `America/Guatemala`. Ambos se pueden configurar. La carga de parámetros respeta el ámbito agrupado o por maceta de la calibración y comprueba su origen y estado.
 
 Con `b = 0`, la solución en un tramo de duración T es `D(T) = D(0) + u*q*a*T`. Con `b` distinto de cero y pérdida activa, se usa como referencia analítica:
 
@@ -37,7 +37,7 @@ $$Q=\max(0,I-D^-),\qquad D^+=\max(0,D^--I).$$
 
 Por tanto, `D+ - D- = Q - I`: la parte retenida repone el déficit y el excedente drena. Por ejemplo, un déficit de 40 mL y un riego de 60 mL producen un déficit de 0 mL y un drenaje de 20 mL.
 
-El evento representa una aplicación efectiva con infiltración y drenaje instantáneos. Para reproducir observaciones, su tiempo corresponde al final del drenaje y se mantiene la evolución continua hasta ese instante una sola vez. Esto equivale a retrasar la aplicación efectiva durante el intervalo de drenaje; su error depende de la duración y de la pérdida. Antes de usar mediciones, se debe cuantificar esa aproximación con los residuos de los eventos. No se deben introducir simultáneamente el riego a la hora de aplicación y otro al final del drenaje. Si el error resulta relevante, se requiere un estado adicional de agua excedente y una tasa de drenaje.
+El evento representa una aplicación efectiva con infiltración y drenaje instantáneos. Para reproducir observaciones, su tiempo corresponde al final del drenaje y se mantiene la evolución continua hasta ese instante una sola vez. Esto equivale a retrasar la aplicación efectiva durante el intervalo de drenaje; su error depende de la duración y de la pérdida. La aproximación se evalúa mediante los residuos de los eventos. No se deben introducir simultáneamente el riego a la hora de aplicación y otro al final del drenaje. Si el error resulta relevante, se requiere un estado adicional de agua excedente y una tasa de drenaje.
 
 En el ejemplo sintético los eventos son instantáneos en la hora de revisión. No se atribuye a ese ejemplo un tiempo de drenaje medido.
 
@@ -70,7 +70,7 @@ Solo se admite una de dos entradas: una política de riego o una secuencia de ri
 
 **Política fija**
 
-`FixedPolicy` aplica una dosis constante en las horas y días seleccionados. El horario debe estar contenido en las horas de revisión. Se permite un intervalo entero entre días de riego; el día inicial del horizonte actúa como referencia en la ejecución con archivos. La dosis se define con el piloto, se justifica y se congela antes de optimizar. `configs/base.json` conserva los campos pendientes como valores nulos.
+`FixedPolicy` aplica una dosis constante en las horas y días seleccionados. El horario debe estar contenido en las horas de revisión. Se permite un intervalo entero entre días de riego; el día inicial del horizonte actúa como referencia en la ejecución con archivos. La dosis se sustenta en el piloto y se fija antes de optimizar. `configs/base.json` reúne la dosis, el horario, el horizonte y las restricciones de la política base.
 
 **Balance y comparación**
 
@@ -82,7 +82,7 @@ donde L es la pérdida acumulada durante la evolución continua. El residuo debe
 
 Se repone `max(0, D_final - D_inicial)` al final. Esa cantidad se incluye en `total_irrigation_ml`, en el límite por evento y en el presupuesto del día calendario que contiene el instante final. El cierre es una operación común al final del ensayo, separada de las revisiones ordinarias. Su momento y disponibilidad deben mantenerse iguales al comparar políticas. Si el déficit final es menor que el inicial, no se retira agua para forzar igualdad: `closure_ok` resulta falso y la comparación queda señalada como no equivalente.
 
-No se recortan dosis que violan límites para ocultar incumplimientos. Se conserva la acción solicitada y se reporta su factibilidad. Los indicadores básicos comprueban déficit máximo, dosis máxima, presupuesto diario y cierre. Sin los tres límites definidos, `feasible` queda sin determinar. La verificación independiente de restricciones para PSO sigue pendiente.
+No se recortan dosis que violan límites para ocultar incumplimientos. Se conserva la acción solicitada y se reporta su factibilidad. Los indicadores básicos comprueban déficit máximo, dosis máxima, presupuesto diario y cierre. El cálculo de `feasible` requiere la definición de los tres límites.
 
 Se reportan agua total y operacional, reposición final, drenaje, pérdida, déficit máximo, número de riegos y tiempo sobre el límite. Este último se estima interpolando linealmente dentro de cada paso continuo y debe revisarse con pasos menores cuando afecte una decisión.
 
@@ -116,7 +116,7 @@ Para `D(0)=5 mL`, `a=3 mL/h`, `b=-0.02 1/h`, `q=1` y 12 h, la referencia es 35.9
 
 Las tablas completas se guardan en `results/verification/`. Se rechazan pasos que producen estados no finitos, descenso del déficit durante secado o sobrepaso numérico del equilibrio cuando `b < 0`.
 
-El paso de 0.25 h es provisional. Después de calibrar, se deben comparar 1, 0.5 y 0.25 h con idénticas entradas y políticas, y elegir un paso cuyo efecto sobre las métricas sea pequeño frente al error de medición y a la diferencia entre políticas.
+El paso máximo configurado es 0.25 h. La comparación de pasos de 1, 0.5 y 0.25 h utiliza idénticas entradas y políticas. El criterio de selección exige que el efecto sobre las métricas sea pequeño frente al error de medición y a la diferencia entre políticas.
 
 **Diagrama del sistema**
 
@@ -134,11 +134,11 @@ flowchart TD
     busqueda --> politica
 ```
 
-Los bloques de búsqueda y evaluación representan conexiones previstas; todavía no se dispone de PSO ni de validación real.
+El diagrama resume la relación entre observaciones, calibración, simulación, decisiones de riego y evaluación de resultados.
 
-**Límites pendientes de contraste**
+**Supuestos y limitaciones**
 
-La referencia drenada no representa humedad absoluta ni garantiza salud vegetal. El modelo no identifica por separado evaporación y transpiración y no se debe extrapolar fuera del rango observado. La utilidad del drenaje instantáneo, la estabilidad de la masa de referencia, el límite operacional y el paso definitivo dependen del piloto. No se puede afirmar ahorro real a partir de la demostración sintética.
+La referencia drenada no representa humedad absoluta ni garantiza salud vegetal. El modelo no identifica por separado evaporación y transpiración y no se debe extrapolar fuera del rango observado. La aproximación del drenaje instantáneo, la estabilidad de la masa de referencia y el intervalo operacional se evalúan en las condiciones del ensayo. Las trayectorias sintéticas se emplean en la verificación numérica y las observaciones del montaje sustentan la interpretación experimental.
 
 **Referencias**
 

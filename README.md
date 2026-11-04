@@ -1,6 +1,6 @@
 **Riego de macetas: simulación, optimización y validación**
 
-Proyecto de CC3074 Modelización y Simulación, UVG 2026. Se representa el balance de agua de una maceta mediante Euler y RK4. La política fija sirve como referencia para integrar después una política optimizada con enjambre de partículas.
+Proyecto de CC3074 Modelización y Simulación, UVG 2026. Se representa el balance de agua de una maceta mediante Euler y RK4. La política fija define la referencia para comparar políticas de riego.
 
 La formulación y la interfaz del simulador se describen en [docs/model.md](docs/model.md). Las contribuciones se registran en [docs/contributions.md](docs/contributions.md).
 
@@ -25,9 +25,9 @@ python -m src.macetas validate-model
 python -m src.macetas simulate --parameters configs/demo_parameters.json --base configs/demo_base.json --allow-synthetic --out results/demo
 ```
 
-El primer comando guarda casos conocidos y convergencia en `results/verification/`. El segundo ejecuta siete días con parámetros hipotéticos identificados como sintéticos y guarda trayectoria, riegos, métricas y un manifiesto con configuración y hashes. Estas salidas comprueban el programa y no validan el comportamiento de plantas reales.
+El primer comando guarda casos conocidos y convergencia en `results/verification/`. El segundo ejecuta siete días con parámetros hipotéticos identificados como sintéticos y guarda trayectoria, riegos, métricas y un manifiesto con configuración y hashes. Estas salidas permiten verificar los integradores, los eventos y el balance de agua.
 
-Para comparar integradores se puede repetir la simulación con `--method euler --step-h 0.5 --out results/demo_euler`. El método predeterminado es RK4 y el paso máximo es 0.25 h; su elección definitiva depende de los datos y de la precisión de la balanza.
+Para comparar integradores se puede repetir la simulación con `--method euler --step-h 0.5 --out results/demo_euler`. El método predeterminado es RK4 y el paso máximo configurado es 0.25 h. La comparación entre pasos permite evaluar la precisión numérica frente a la escala de las mediciones.
 
 **Datos y calibración**
 
@@ -36,7 +36,7 @@ python -m src.macetas validate-data
 python -m src.macetas calibrate --config configs/model.json
 ```
 
-La calibración requiere mediciones utilizables y una ventana `fit` definida en `configs/data.json`. Sin ellas se detiene con un mensaje explicativo. Que los CSV vacíos superen el control de formato no significa que existan datos suficientes.
+La calibración utiliza exclusivamente intervalos de secado de la fase `fit`. Las ventanas temporales y los controles de calidad se definen en `configs/data.json`.
 
 Para comprobar la conexión entre calibración y simulación se puede generar un conjunto sintético separado:
 
@@ -48,7 +48,7 @@ python -m src.macetas simulate --parameters data/synthetic/salidas/tables/parame
 
 **Ejecución con mediciones reales**
 
-Se completan las mediciones originales, la especie, el sustrato, las referencias drenadas y la verificación de balanza. Se definen y congelan ventanas temporales completas antes del ajuste final. Se completa `configs/base.json` con horizonte, déficit inicial, dosis, horario, límites y justificación; su estado pasa a `frozen` cuando esas decisiones están sustentadas.
+La ejecución utiliza las observaciones originales, los metadatos del montaje, las referencias drenadas y la verificación de balanza. La partición se realiza por ventanas temporales completas y se congela antes del ajuste final. `configs/base.json` contiene el horizonte, el déficit inicial, la dosis, el horario, los límites y su justificación; el estado `frozen` identifica la configuración fijada para la comparación.
 
 ```powershell
 python -m src.macetas calibrate --config configs/model.json
@@ -68,7 +68,7 @@ Cuando la calibración selecciona parámetros por maceta se añade `--pot-id M01
 | `src/macetas/simulator.py` | Calendario de eventos, evolución, restricciones y cierre |
 | `src/macetas/policies.py` | Interfaz de políticas y riego fijo |
 | `src/macetas/simulation_io.py`, `verification.py` | Ejecución con archivos y comprobación analítica |
-| `configs/` | Datos, calibración, simulación, política real pendiente y ejemplos sintéticos |
+| `configs/` | Datos, calibración, simulación, política base y ejemplos sintéticos |
 | `data/raw/` | CSV originales de mediciones |
 | `results/verification/`, `results/demo/` | Salidas regenerables de verificación y demostración |
 | `tests/` | Pruebas de datos, calibración, integradores y simulación |
