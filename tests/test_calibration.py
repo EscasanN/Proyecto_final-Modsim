@@ -155,3 +155,34 @@ def test_calibrate_refuses_without_fit_window(tmp_path):
     cfg = write_dataset(tmp_path, [pot()], [obs("07:00:00")], scale_rows(), windows=[])
     with pytest.raises(ValueError, match="fit"):
         calibrate(write_model_config(tmp_path, cfg))
+
+
+# --- Criterio de sustrato superficial seco -------------------------------------------
+
+def test_top_dry_threshold_matches_generator(exact_synthetic, tmp_path):
+    truth = json.loads(exact_synthetic["truth"].read_text(encoding="utf-8"))
+    result = calibrate(write_model_config(tmp_path, exact_synthetic["config"]))
+    dry = result.soil_dry.dropna(subset=["deficit_at_first_dry_ml"])
+    assert len(dry) > 0
+    # la primera lectura seca es la primera revisión con déficit >= umbral
+    assert (dry["deficit_at_first_dry_ml"] >= truth["top_dry_deficit_ml"] - 1e-9).all()
+    table = parameter_table(result)
+    assert "deficit_top_dry_median" in set(table["parameter"])
+    assert parameters_for_model(result)["top_soil_dry_deficit_ml"]["median"] is not None
+
+
+def test_cycle_without_dry_reading_is_reported_as_missing(tmp_path):
+    windows = [{"phase": "fit", "start": "2000-01-01T00:00:00-06:00", "end": "2000-01-02T00:00:00-06:00"}]
+    rows = [obs("07:00:00", stage="pre_irrigation", mass=950.0, event_id="E1", top_soil_dry="yes"),
+            obs("07:30:00", stage="post_drainage", mass=1000.0, event_id="E1", irrigation_ml=80, drainage_ml=30,
+                irrigation_timestamp="2000-01-01T07:01:00-06:00"),
+            obs("13:00:00", mass=990.0, top_soil_dry="no"),
+            obs("19:00:00", mass=980.0, top_soil_dry="yes")]
+    ds = load_dataset(write_dataset(tmp_path, [pot(mass=1000.0)], rows, scale_rows(), windows))
+    assert ds.n_errors == 0, ds.issues
+    from src.macetas.calibration import top_dry_thresholds
+
+    out = top_dry_thresholds(ds)
+    assert len(out) == 1  # el ciclo previo al primer riego no cuenta
+    assert out["deficit_at_first_dry_ml"].iloc[0] == pytest.approx(20.0)
+    assert out["hours_since_irrigation"].iloc[0] == pytest.approx(11.5)

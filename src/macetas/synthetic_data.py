@@ -27,14 +27,16 @@ def generate_synthetic(out_dir, seed: int = 20260001, n_pots: int = 6, start_dat
                        phase_days: dict | None = None, revision_hours=(7, 13, 19), dose_ml: float = 150.0,
                        irrigation_days=(1, 4, 7, 10, 13), drain_minutes: float = 30.0,
                        drain_tau_minutes: float = 4.0, noise_g: float = 0.4, resolution_g: float = 0.1,
-                       pot_variation: float = 0.10, params: dict | None = None, blocks: list | None = None,
+                       pot_variation: float = 0.10, top_dry_deficit_ml: float = 60.0,
+                       params: dict | None = None, blocks: list | None = None,
                        timezone: str = "America/Guatemala") -> dict[str, Path]:
     """Genera macetas.csv, observaciones.csv, balanza.csv y data_config.json en `out_dir`.
 
     El riego es fijo (dosis `dose_ml` en la revisión de las 07:00 de los días de
     `irrigation_days`); solo sirve para producir ciclos de secado. El agua excedente
     drena con constante `drain_tau_minutes` (0 = instantáneo). Con noise_g=0 y
-    resolution_g=0 las lecturas son exactas.
+    resolution_g=0 las lecturas son exactas. La prueba de sustrato superficial
+    (`top_soil_dry`) es "yes" cuando el déficit verdadero alcanza `top_dry_deficit_ml`.
     """
     rng = np.random.default_rng(seed)
     phase_days = phase_days or {"pilot": 2, "fit": 7, "validation": 7}
@@ -77,7 +79,10 @@ def generate_synthetic(out_dir, seed: int = 20260001, n_pots: int = 6, start_dat
             base = {"timestamp": t.isoformat(), "pot_id": pot_id, "observer": "simulado",
                     "phase": day_phase[(t - start).days], "treatment": "base", "reading_stage": stage,
                     "mass_g": mass, "irrigation_ml": "", "drainage_ml": "", "irrigation_timestamp": "",
-                    "event_id": "", "ambient_temperature_c": "", "notes": "", "quality_flag": "ok",
+                    "event_id": "", "ambient_temperature_c": "",
+                    "top_soil_dry": ("yes" if d >= top_dry_deficit_ml else "no")
+                    if stage in ("pre_irrigation", "no_irrigation") else "",
+                    "notes": "", "quality_flag": "ok",
                     "data_origin": "synthetic"}
             base.update(extra)
             rows.append(base)
@@ -148,6 +153,7 @@ def generate_synthetic(out_dir, seed: int = 20260001, n_pots: int = 6, start_dat
     paths["config"].write_text(json.dumps(config, indent=2, ensure_ascii=False), encoding="utf-8")
     paths["truth"].write_text(json.dumps({
         "seed": seed, "params": params, "time_blocks": blocks, "per_pot": truth, "dose_ml": dose_ml,
+        "top_dry_deficit_ml": top_dry_deficit_ml,
         "noise_g": noise_g, "resolution_g": resolution_g, "drain_tau_minutes": drain_tau_minutes,
     }, indent=2, ensure_ascii=False), encoding="utf-8")
     return paths

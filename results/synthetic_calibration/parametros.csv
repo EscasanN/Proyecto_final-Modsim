@@ -39,6 +39,9 @@ global,deficit_max_fit,115.20000000000005,mL,observed_range,,,,,,,,Máximo en in
 global,loss_rate_min_fit,0.6666666666666666,mL/h,observed_range,,,,,,,,Mínimo en intervalos de ajuste,Intervalos de secado de la fase fit (data/processed/intervalos_secado_fit.csv),synthetic,No extrapolar fuera del rango observado
 global,loss_rate_max_fit,2.6333333333333258,mL/h,observed_range,,,,,,,,Máximo en intervalos de ajuste,Intervalos de secado de la fase fit (data/processed/intervalos_secado_fit.csv),synthetic,No extrapolar fuera del rango observado
 global,drainage_stable_minutes_median,20.0,min,measured,,,,,,,,Mediana del tiempo de estabilización en eventos con drainage_check,results/tables/tiempo_drenaje.csv,synthetic,
+global,deficit_top_dry_median,64.55000000000007,mL,observed,,,,,,,,Mediana del déficit en la primera lectura con sustrato superficial seco (16 ciclos),results/tables/umbral_sustrato_seco.csv,synthetic,Traduce el criterio de riego de las fuentes de manejo a D; base para D_seguro
+global,deficit_top_dry_min,61.09999999999991,mL,observed,,,,,,,,Mínimo entre ciclos,results/tables/umbral_sustrato_seco.csv,synthetic,
+global,deficit_top_dry_max,70.49999999999989,mL,observed,,,,,,,,Máximo entre ciclos,results/tables/umbral_sustrato_seco.csv,synthetic,
 M01,reference_mass,1089.4,g,measured,,,,,,,,Masa drenada de referencia (protocolo 5.1),data/raw/macetas.csv,synthetic,
 M02,reference_mass,962.3,g,measured,,,,,,,,Masa drenada de referencia (protocolo 5.1),data/raw/macetas.csv,synthetic,
 M03,reference_mass,1079.4,g,measured,,,,,,,,Masa drenada de referencia (protocolo 5.1),data/raw/macetas.csv,synthetic,

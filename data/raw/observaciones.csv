@@ -1,1 +1,1 @@
-timestamp,pot_id,observer,phase,treatment,reading_stage,mass_g,irrigation_ml,drainage_ml,irrigation_timestamp,event_id,ambient_temperature_c,notes,quality_flag,data_origin
+timestamp,pot_id,observer,phase,treatment,reading_stage,mass_g,irrigation_ml,drainage_ml,irrigation_timestamp,event_id,ambient_temperature_c,top_soil_dry,notes,quality_flag,data_origin

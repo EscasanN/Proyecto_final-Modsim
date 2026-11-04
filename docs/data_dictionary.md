@@ -56,7 +56,8 @@ Obligatorio en los tres archivos. Se distinguen datos reales, públicos, estimad
 | `irrigation_timestamp` | fecha con zona | solo en `post_drainage` | Hora real de aplicación del riego |
 | `event_id` | texto | en etapas de riego | Vincula las filas de un mismo riego (`M01-E001`) |
 | `ambient_temperature_c` | °C | — | Opcional; vacío si no se midió |
-| `notes` | texto | — | Incidentes |
+| `top_soil_dry` | `yes`, `no` | en `pre_irrigation` y `no_irrigation` | Prueba del palillo a 2.5 cm (`docs/especie.md`); vacío si no se hizo |
+| `notes` | texto | — | Incidentes y síntomas de la planta |
 | `quality_flag` | `ok`, `suspect`, `bad` | sí | `bad` excluye la lectura del ajuste |
 | `data_origin` | ver arriba | sí | |
 
@@ -74,10 +75,10 @@ Se incluyen `irrigation_timestamp` para la hora real de aplicación, `drainage_c
 **Ejemplo ilustrativo (valores inventados, no son datos)**
 
 ```csv
-timestamp,pot_id,observer,phase,treatment,reading_stage,mass_g,irrigation_ml,drainage_ml,irrigation_timestamp,event_id,ambient_temperature_c,notes,quality_flag,data_origin
-2026-11-12T07:04:00-06:00,M01,Nelson Escalante,fit,base,pre_irrigation,912.4,,,,M01-E003,,,ok,observed
-2026-11-12T07:37:00-06:00,M01,Nelson Escalante,fit,base,post_drainage,1001.9,150,61,2026-11-12T07:06:00-06:00,M01-E003,,,ok,observed
-2026-11-12T13:02:00-06:00,M01,Nina Nájera,fit,base,no_irrigation,988.0,,,,,,bandeja vacía,ok,observed
+timestamp,pot_id,observer,phase,treatment,reading_stage,mass_g,irrigation_ml,drainage_ml,irrigation_timestamp,event_id,ambient_temperature_c,top_soil_dry,notes,quality_flag,data_origin
+2026-11-12T07:04:00-06:00,M01,Nelson Escalante,fit,base,pre_irrigation,912.4,,,,M01-E003,,yes,,ok,observed
+2026-11-12T07:37:00-06:00,M01,Nelson Escalante,fit,base,post_drainage,1001.9,150,61,2026-11-12T07:06:00-06:00,M01-E003,,,,ok,observed
+2026-11-12T13:02:00-06:00,M01,Nina Nájera,fit,base,no_irrigation,988.0,,,,,,no,bandeja vacía,ok,observed
 ```
 
 **`balanza.csv` — una fila por pesaje de verificación**
@@ -111,5 +112,6 @@ Advertencias (se reportan y se conservan): masa faltante; drenaje u hora de rieg
 | `results/tables/seleccion_modelos.csv` | `calibrate` | Comparación de modelos candidatos (AICc) |
 | `results/tables/eventos_riego.csv` | `calibrate` | Contraste de cada riego con la regla de drenaje ideal |
 | `results/tables/tiempo_drenaje.csv` | `calibrate` | Tiempo de estabilización tras el riego (piloto) |
+| `results/tables/umbral_sustrato_seco.csv` | `calibrate` | Déficit en la primera lectura con sustrato superficial seco de cada ciclo |
 | `results/tables/parametros_modelo.json` | `calibrate` | Parámetros para el simulador |
 | `results/tables/calibracion_manifest.json` | `calibrate` | Hash de los CSV, configuración, versiones, semillas y commit |

@@ -10,7 +10,7 @@ Se construyó un modelo del balance de agua con separación entre ajuste de par�
 
 **Sistema y alcance**
 
-El sistema comprende seis macetas comparables, una especie, un sustrato y una ubicación protegida de lluvia. La identificación de las plantas y las características del montaje se conservan en los metadatos. Las entradas son los riegos y las condiciones que determinan las pérdidas. El estado es el déficit respecto de la referencia drenada; las salidas son déficit, agua aplicada y drenaje.
+El sistema comprende seis macetas de *Crassula ovata* (árbol de jade), con sustrato para cactus y suculentas, macetas plásticas idénticas y una ubicación protegida de lluvia. La especie se eligió por su crecimiento relativamente lento, que limita la deriva de masa, por su identificación inequívoca y por la existencia de guías de extensión sobre su riego (Mahr, 2025; UConn). La identificación de las plantas y las características del montaje se conservan en los metadatos. Las entradas son los riegos y las condiciones que determinan las pérdidas. El estado es el déficit respecto de la referencia drenada; las salidas son déficit, agua aplicada y drenaje.
 
 Se excluyen automatización, crecimiento, rendimiento, salud de la planta y generalización a otras especies o estaciones. Un intervalo de déficit es una condición operacional y no una demostración de bienestar vegetal.
 
@@ -44,12 +44,16 @@ Se comprobó la recuperación de parámetros conocidos con datos sintéticos y l
 
 **Control de medición y limitaciones**
 
-El control de medición incluye repetibilidad de la balanza, referencias drenadas, horarios de pesaje y ciclos de secado. El intervalo operacional se sustenta en las características de la especie y en el piloto. La aproximación del drenaje mediante un evento instantáneo se evalúa con los residuos entre la respuesta observada y la predicha.
+El control de medición incluye repetibilidad de la balanza, referencias drenadas, horarios de pesaje y ciclos de secado. El intervalo operacional se sustenta en las características de la especie y en el piloto. Las fuentes recomiendan regar en profundidad cuando los ~2.5 cm superiores del sustrato están secos y evitar el agua estancada (Mahr, 2025; UConn). Ese criterio se registra en cada revisión mediante una prueba con palillo (`top_soil_dry`), y la calibración lo traduce a un déficit (`deficit_top_dry_median`). `D_seguro` se fija como el mayor déficit observado sin síntomas de estrés, de modo que las políticas no se evalúan fuera del rango registrado. La aproximación del drenaje mediante un evento instantáneo se evalúa con los residuos entre la respuesta observada y la predicha.
 
 La frecuencia de pesaje limita la estimación del tiempo real fuera del intervalo. Varias lecturas de una maceta no equivalen a plantas independientes. El crecimiento, la caída de hojas y las diferencias entre plantas pueden alterar la relación entre masa y agua. La interpretación se limita al montaje y al período observados.
 
 **Referencias**
 
 Lieth, H. *Tensiometer-based irrigation of potted plants*. University of California, Davis. [Informe](https://lieth.ucdavis.edu/research/tens/96/potirg.htm).
+
+Mahr, S. (2025). *Jade Plant, Crassula ovata*. Wisconsin Horticulture, University of Wisconsin–Madison. [Artículo](https://hort.extension.wisc.edu/articles/jade-plant-crassula-ovata/).
+
+University of Connecticut, Home Garden Education Office. *Jade Plants (Crassula ovata)*. [Ficha](https://homegarden.cahnr.uconn.edu/factsheets/jade-plants).
 
 Kombala Liyanage, D., Chathuranga, I., Mori, B. A. y Thilakarathna, M. S. (2022). *A Simple, Semi-Automated, Gravimetric Method to Simulate Drought Stress on Plants*. Agronomy, 12(2), 349. [Artículo](https://doi.org/10.3390/agronomy12020349).

@@ -18,3 +18,5 @@
 | 2026-11-03 | Nina Nájera | Casos conocidos, conservación y convergencia | `src/macetas/verification.py`, `tests/test_integrators.py`, `tests/test_simulator.py` |
 | 2026-11-03 | Nina Nájera | Precisión de horarios y trazabilidad de calibración | `src/macetas/time_blocks.py`, `calibration.py`, `synthetic_data.py`, pruebas de horarios, commit `8a62bad` |
 | 2026-11-03 | Nina Nájera | Formulación, diagrama, límites del modelo y comandos de reproducción | `docs/model.md`, `docs/references.bib`, `README.md` |
+| 2026-11-04 | Nelson Escalante | Calibración sintética de referencia para el simulador | `results/synthetic_calibration/`, commit `65b0127` |
+| 2026-11-04 | Nelson Escalante | Especie, fuentes de manejo, prueba de sustrato superficial, hoja de registro y turnos | `docs/especie.md`, `docs/hoja_registro.md`, `docs/protocol.md`, `top_dry_thresholds` en `calibration.py` |

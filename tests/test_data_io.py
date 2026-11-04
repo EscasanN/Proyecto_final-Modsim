@@ -50,6 +50,7 @@ def test_missing_values_stay_missing(tmp_path):
     (obs("07:00:00", reading_stage=None).__or__({"reading_stage": "regado"}), "categoria"),
     (obs("07:00:00", origin="observed"), "origen"),
     (obs("07:00:00", phase="validation"), "particion"),
+    (obs("07:00:00", top_soil_dry="seco"), "categoria"),
 ])
 def test_errors_are_detected(tmp_path, bad_row, expected_check):
     ds = load_dataset(write_dataset(tmp_path, [pot()], [obs("06:00:00"), bad_row], scale_rows(), FIT_WINDOW))

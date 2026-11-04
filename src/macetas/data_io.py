@@ -28,7 +28,7 @@ POT_COLUMNS = (
 OBSERVATION_COLUMNS = (
     "timestamp", "pot_id", "observer", "phase", "treatment", "reading_stage",
     "mass_g", "irrigation_ml", "drainage_ml", "irrigation_timestamp", "event_id",
-    "ambient_temperature_c", "notes", "quality_flag", "data_origin",
+    "ambient_temperature_c", "top_soil_dry", "notes", "quality_flag", "data_origin",
 )
 SCALE_COLUMNS = (
     "timestamp", "observer", "scale_id", "object_id", "known_mass_g",
@@ -38,6 +38,8 @@ SCALE_COLUMNS = (
 PHASES = ("pilot", "fit", "validation", "intervention")
 STAGES = ("pre_irrigation", "post_drainage", "no_irrigation", "drainage_check")
 TREATMENTS = ("none", "base", "optimized")
+# Prueba táctil de los ~2.5 cm superiores del sustrato (criterio de riego de las fuentes de manejo).
+TOP_SOIL_VALUES = ("yes", "no")
 QUALITY_FLAGS = ("ok", "suspect", "bad")
 DATA_ORIGINS = ("observed", "public", "estimated", "synthetic")
 
@@ -261,6 +263,7 @@ def _check_observations(obs, pots, cfg, issues) -> None:
     _check_category(obs, "reading_stage", STAGES, label, issues, required=True)
     _check_category(obs, "treatment", TREATMENTS, label, issues, required=False)
     _check_category(obs, "quality_flag", QUALITY_FLAGS, label, issues, required=True)
+    _check_category(obs, "top_soil_dry", TOP_SOIL_VALUES, label, issues, required=False)
     _check_origin(obs, cfg, label, issues)
 
     known = set(pots["pot_id"].dropna())

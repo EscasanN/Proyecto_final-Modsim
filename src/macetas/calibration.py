@@ -317,6 +317,37 @@ def drainage_time_estimates(dataset: Dataset, threshold_g: float) -> pd.DataFram
     return pd.DataFrame(records, columns=columns)
 
 
+def top_dry_thresholds(dataset: Dataset, phases=("pilot", "fit")) -> pd.DataFrame:
+    """Déficit en la primera lectura de cada ciclo de secado con el sustrato superficial seco.
+
+    Un ciclo empieza en un riego (`post_drainage`) y termina en el siguiente. Las
+    fuentes de manejo de la especie recomiendan regar cuando los ~2.5 cm superiores
+    están secos; este déficit traduce ese criterio a la variable del modelo. Solo
+    usa piloto y ajuste.
+    """
+    columns = ["pot_id", "cycle_start", "first_dry_timestamp", "hours_since_irrigation",
+               "deficit_at_first_dry_ml", "max_deficit_cycle_ml", "n_readings_cycle"]
+    obs = dataset.observations
+    rows = obs[obs["usable"] & obs["split"].isin(phases) & (obs["reading_stage"] != "drainage_check")]
+    records = []
+    for pot_id, g in rows.sort_values("timestamp").groupby("pot_id"):
+        cycle = (g["reading_stage"] == "post_drainage").cumsum()
+        for k, c in g.groupby(cycle):
+            if k == 0:
+                continue  # lecturas anteriores al primer riego: ciclo incompleto
+            start = c["timestamp"].iloc[0]
+            dry = c[c["top_soil_dry"] == "yes"]
+            first = dry.iloc[0] if len(dry) else None
+            records.append({
+                "pot_id": pot_id, "cycle_start": start,
+                "first_dry_timestamp": first["timestamp"] if first is not None else pd.NaT,
+                "hours_since_irrigation": (first["timestamp"] - start).total_seconds() / 3600
+                if first is not None else np.nan,
+                "deficit_at_first_dry_ml": first["deficit_ml"] if first is not None else np.nan,
+                "max_deficit_cycle_ml": c["deficit_ml"].max(), "n_readings_cycle": len(c)})
+    return pd.DataFrame(records, columns=columns)
+
+
 # ---------------------------------------------------------------------------
 # Orquestación
 # ---------------------------------------------------------------------------
@@ -332,6 +363,7 @@ class CalibrationResult:
     events: pd.DataFrame
     drainage: pd.DataFrame
     status: str
+    soil_dry: pd.DataFrame = field(default_factory=pd.DataFrame)
 
 
 def load_model_config(path) -> dict:
@@ -377,7 +409,8 @@ def calibrate(model_config_path, data_config_path=None) -> CalibrationResult:
     events = irrigation_events(dataset, blocks, selected["pooled"])
     drainage = drainage_time_estimates(dataset, dataset.tolerances["mass_tolerance_g"])
     status = "frozen" if dcfg["split"].get("frozen") else "preliminary"
-    return CalibrationResult(dataset, mcfg, intervals, fits, selected, boot, events, drainage, status)
+    soil_dry = top_dry_thresholds(dataset)
+    return CalibrationResult(dataset, mcfg, intervals, fits, selected, boot, events, drainage, status, soil_dry)
 
 
 # ---------------------------------------------------------------------------
@@ -460,6 +493,14 @@ def parameter_table(result: CalibrationResult) -> pd.DataFrame:
         add("drainage_stable_minutes_median", result.drainage["stable_after_minutes"].median(), "min",
             "measured", "Mediana del tiempo de estabilización en eventos con drainage_check",
             "results/tables/tiempo_drenaje.csv")
+    dry = result.soil_dry["deficit_at_first_dry_ml"].dropna() if len(result.soil_dry) else pd.Series(dtype=float)
+    if len(dry):
+        src = "results/tables/umbral_sustrato_seco.csv"
+        add("deficit_top_dry_median", dry.median(), "mL", "observed",
+            f"Mediana del déficit en la primera lectura con sustrato superficial seco ({len(dry)} ciclos)", src,
+            "Traduce el criterio de riego de las fuentes de manejo a D; base para D_seguro")
+        add("deficit_top_dry_min", dry.min(), "mL", "observed", "Mínimo entre ciclos", src)
+        add("deficit_top_dry_max", dry.max(), "mL", "observed", "Máximo entre ciclos", src)
     for _, p in ds.pots.iterrows():
         rows.append({"scope": p["pot_id"], "parameter": "reference_mass", "value": p["reference_mass_g"],
                      "unit": "g", "kind": "measured", "method": "Masa drenada de referencia (protocolo 5.1)",
@@ -515,6 +556,9 @@ def parameters_for_model(result: CalibrationResult) -> dict:
         "observed_range_fit": {"deficit_ml": [glob.get("deficit_min_fit"), glob.get("deficit_max_fit")],
                                "loss_rate_ml_per_h": [glob.get("loss_rate_min_fit"), glob.get("loss_rate_max_fit")]},
         "drainage_stable_minutes_median": glob.get("drainage_stable_minutes_median"),
+        "top_soil_dry_deficit_ml": {"median": glob.get("deficit_top_dry_median"),
+                                    "min": glob.get("deficit_top_dry_min"),
+                                    "max": glob.get("deficit_top_dry_max")},
         "irrigation_event_check": {
             "n_events": len(result.events),
             "drainage_residual_mean_ml": result.events["drainage_residual_ml"].mean() if len(result.events) else None,
@@ -573,6 +617,7 @@ def write_outputs(result: CalibrationResult) -> dict[str, Path]:
         "parametros": tables / "parametros.csv",
         "eventos": tables / "eventos_riego.csv",
         "drenaje": tables / "tiempo_drenaje.csv",
+        "sustrato_seco": tables / "umbral_sustrato_seco.csv",
         "parametros_modelo": tables / "parametros_modelo.json",
         "manifest": tables / "calibracion_manifest.json",
     }
@@ -583,6 +628,7 @@ def write_outputs(result: CalibrationResult) -> dict[str, Path]:
     parameter_table(result).to_csv(paths["parametros"], index=False, encoding=CSV_ENCODING)
     format_timestamps(result.events).to_csv(paths["eventos"], index=False, encoding=CSV_ENCODING)
     result.drainage.to_csv(paths["drenaje"], index=False, encoding=CSV_ENCODING)
+    format_timestamps(result.soil_dry).to_csv(paths["sustrato_seco"], index=False, encoding=CSV_ENCODING)
     paths["parametros_modelo"].write_text(json.dumps(parameters_for_model(result), indent=2, ensure_ascii=False),
                                           encoding="utf-8")
     paths["manifest"].write_text(json.dumps(manifest(result), indent=2, ensure_ascii=False), encoding="utf-8")

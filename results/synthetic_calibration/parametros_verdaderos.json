@@ -47,6 +47,7 @@
     }
   },
   "dose_ml": 150.0,
+  "top_dry_deficit_ml": 60.0,
   "noise_g": 0.4,
   "resolution_g": 0.1,
   "drain_tau_minutes": 4.0

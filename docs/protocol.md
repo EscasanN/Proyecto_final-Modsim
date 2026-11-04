@@ -2,7 +2,7 @@
 
 **Montaje**
 
-Se consideran seis macetas de una misma especie, con sustrato y recipientes comparables. Se registra cada maceta con identificador estable, par, especie, sustrato, ubicación y descripción de la planta. Se elige un lugar protegido de lluvia y se documentan los cambios de exposición.
+Se consideran seis macetas de *Crassula ovata* (árbol de jade), con sustrato para cactus y suculentas y macetas plásticas idénticas. La selección, las fuentes de manejo y los materiales se justifican en `docs/especie.md`. Se registra cada maceta con identificador estable, par, especie, sustrato, ubicación y descripción de la planta. Se elige un lugar protegido de lluvia y se documentan los cambios de exposición.
 
 Se pesa siempre el mismo conjunto: maceta, sustrato y planta, sin bandeja ni plato. Se utiliza una bandeja individual removible para recoger el drenaje, sin permitir su reabsorción. La especie, el sustrato, la ubicación y los instrumentos se documentan en los metadatos del montaje.
 
@@ -31,6 +31,10 @@ Sin riego se pesa la maceta y se anota una lectura `no_irrigation`. Con riego se
 
 Solo la fila `post_drainage` contiene `irrigation_ml`, `drainage_ml` e `irrigation_timestamp`, para evitar duplicaciones.
 
+Después de cada pesaje `pre_irrigation` o `no_irrigation` se realiza la prueba del sustrato superficial: un palillo de madera a 2.5 cm de profundidad junto al borde. Se registra `top_soil_dry = yes` si sale seco y sin sustrato adherido, y `no` en caso contrario. La prueba nunca precede al pesaje. El agua se aplica al sustrato, sin mojar las hojas, hasta obtener drenaje.
+
+Si la pérdida entre revisiones no supera el criterio de cinco `sigma_lectura` durante el piloto, se reduce la frecuencia a 07:00 y 19:00, lo que conserva los bloques de día y noche.
+
 **Incidentes y faltantes**
 
 | Situación | Registro |
@@ -39,6 +43,7 @@ Solo la fila `post_drainage` contiene `irrigation_ml`, `drainage_ml` e `irrigati
 | Drenaje no medido | Valor vacío, sin sustituir por cero |
 | Derrame, lluvia accidental o pérdida de sustrato | Descripción y marca `suspect` o `bad` |
 | Caída de hojas, poda o cambios de ubicación | Nota para evaluar la deriva de masa |
+| Hojas arrugadas o blandas, manchas, tallo blando o plagas | Descripción en `notes`; define el límite de `D_seguro` (`docs/especie.md`) |
 | Balanza con fallas | Marca `bad` y nueva verificación instrumental |
 
 Se conserva cero únicamente cuando se confirmó una cantidad nula. La marca `bad` excluye la lectura del ajuste; `suspect` la conserva identificada para revisión. Las observaciones originales no se completan con valores sintéticos.
@@ -73,6 +78,7 @@ Las ventanas se definen en `configs/data.json` y se congelan antes del ajuste fi
 | Horarios y bloques de pérdida | `configs/model.json` y configuración base |
 | Ventanas de ajuste y validación | `configs/data.json` |
 | Tolerancia de error de validación | Criterio definido antes de observar el error final |
+| Déficit con sustrato superficial seco | `results/tables/umbral_sustrato_seco.csv` y `deficit_top_dry_median` |
 | Límite operacional, dosis y presupuesto diario | `configs/base.json`, con justificación |
 | Dosis y horario de referencia | Política base congelada antes de optimizar |
 
@@ -82,3 +88,4 @@ Las ventanas se definen en `configs/data.json` y se congelan antes del ajuste fi
 | --- | --- | --- |
 | 2026-11-03 | Protocolo, formatos y controles iniciales | Nelson Escalante |
 | 2026-11-03 | Coherencia del protocolo con el simulador | Nina Nájera |
+| 2026-11-04 | Especie *Crassula ovata*, prueba de sustrato superficial y síntomas | Nelson Escalante |
