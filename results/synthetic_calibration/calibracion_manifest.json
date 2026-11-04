@@ -1,0 +1,136 @@
+{
+  "created_utc": "2026-11-04T21:21:28+00:00",
+  "status": "frozen",
+  "git_commit": "41f77a3bc80358abfcf250ed46927d79967df7ab",
+  "python": "3.14.3",
+  "packages": {
+    "numpy": "2.4.3",
+    "pandas": "3.0.1",
+    "scipy": "1.17.1"
+  },
+  "input_sha256": {
+    "pots": "66f881587486e7b2917300f7cf9a1783dafa3bc54b78a0835ce2887d6e371a69",
+    "observations": "1a043a8c9cfe102326f2395fcc8a30efdb446496252ac048dabf7a853d32fd4a",
+    "scale_checks": "1c7e838f9b152a8e66d8894b07a55bd4ac0531f41b896023b72aee58f9c25590"
+  },
+  "data_config": {
+    "data_dir": ".",
+    "files": {
+      "pots": "macetas.csv",
+      "observations": "observaciones.csv",
+      "scale_checks": "balanza.csv"
+    },
+    "timezone": "America/Guatemala",
+    "water_density_g_per_ml": 1.0,
+    "allowed_data_origins": [
+      "synthetic"
+    ],
+    "split": {
+      "frozen": true,
+      "frozen_on": "generado",
+      "windows": [
+        {
+          "phase": "pilot",
+          "start": "2000-01-03T00:00:00-06:00",
+          "end": "2000-01-05T00:00:00-06:00"
+        },
+        {
+          "phase": "fit",
+          "start": "2000-01-05T00:00:00-06:00",
+          "end": "2000-01-12T00:00:00-06:00"
+        },
+        {
+          "phase": "validation",
+          "start": "2000-01-12T00:00:00-06:00",
+          "end": "2000-01-19T00:00:00-06:00"
+        }
+      ]
+    },
+    "quality": {
+      "exclude_flags": [
+        "bad"
+      ],
+      "tolerance_sigmas": 3.0,
+      "mass_tolerance_g": null,
+      "drainage_excess_tolerance_ml": 2.0
+    },
+    "outputs": {
+      "processed_dir": "salidas/processed",
+      "tables_dir": "salidas/tables"
+    }
+  },
+  "model_config": {
+    "data_config": "data.json",
+    "time_blocks": [
+      {
+        "name": "day",
+        "start_hour": 6,
+        "end_hour": 18
+      },
+      {
+        "name": "night",
+        "start_hour": 18,
+        "end_hour": 6
+      }
+    ],
+    "simulation": {
+      "method": "rk4",
+      "step_h": 0.25,
+      "review_hours": [
+        7,
+        13,
+        19
+      ],
+      "close_balance": true
+    },
+    "calibration": {
+      "_nota": "Modelos candidatos: E = q(t)*max(0, a + b*D). constant: solo a; blocks: a y q por bloque; blocks_linear: a, b y q. Se elige el más simple con AICc a menos de 'tolerance' del mínimo.",
+      "candidate_models": [
+        "constant",
+        "blocks",
+        "blocks_linear"
+      ],
+      "selection": {
+        "criterion": "aicc",
+        "tolerance": 2.0
+      },
+      "scope": "pooled",
+      "min_interval_h": 1.0,
+      "max_interval_h": 36.0,
+      "bounds": {
+        "a_ml_per_h": [
+          0.0,
+          50.0
+        ],
+        "b_per_h": [
+          -0.1,
+          0.0
+        ],
+        "q": [
+          0.0,
+          5.0
+        ]
+      },
+      "bootstrap": {
+        "n": 500,
+        "seed": 20261103,
+        "unit": "day"
+      }
+    }
+  },
+  "bootstrap_seeds": {
+    "pooled": 20261103,
+    "M01": 20261104,
+    "M02": 20261105,
+    "M03": 20261106,
+    "M04": 20261107,
+    "M05": 20261108,
+    "M06": 20261109
+  },
+  "n_observations": 342,
+  "n_fit_intervals": 120,
+  "issues": {
+    "errors": 0,
+    "warnings": 0
+  }
+}

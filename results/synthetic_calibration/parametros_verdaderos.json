@@ -1,0 +1,53 @@
+{
+  "seed": 20260001,
+  "params": {
+    "a_ml_per_h": 2.5,
+    "b_per_h": -0.006,
+    "q": [
+      1.0,
+      0.35
+    ]
+  },
+  "time_blocks": [
+    {
+      "name": "day",
+      "start_hour": 6,
+      "end_hour": 18
+    },
+    {
+      "name": "night",
+      "start_hour": 18,
+      "end_hour": 6
+    }
+  ],
+  "per_pot": {
+    "M01": {
+      "reference_mass_g": 1089.4,
+      "a_ml_per_h": 2.18807723163309
+    },
+    "M02": {
+      "reference_mass_g": 962.3,
+      "a_ml_per_h": 2.4148773840230744
+    },
+    "M03": {
+      "reference_mass_g": 1079.4,
+      "a_ml_per_h": 2.4865413649392836
+    },
+    "M04": {
+      "reference_mass_g": 1013.7,
+      "a_ml_per_h": 2.721632878687757
+    },
+    "M05": {
+      "reference_mass_g": 1066.4,
+      "a_ml_per_h": 2.537974452120673
+    },
+    "M06": {
+      "reference_mass_g": 930.9,
+      "a_ml_per_h": 2.35980712677557
+    }
+  },
+  "dose_ml": 150.0,
+  "noise_g": 0.4,
+  "resolution_g": 0.1,
+  "drain_tau_minutes": 4.0
+}

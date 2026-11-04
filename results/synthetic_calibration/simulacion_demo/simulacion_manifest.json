@@ -1,0 +1,276 @@
+{
+  "python": "3.14.3",
+  "data_origin": "synthetic",
+  "pot_id": null,
+  "simulation": {
+    "start": "2000-01-03T00:00:00-06:00",
+    "end": "2000-01-10T00:00:00-06:00",
+    "initial_deficit_ml": 0.0,
+    "method": "rk4",
+    "step_h": 0.25,
+    "review_hours": [
+      7,
+      13,
+      19
+    ],
+    "safe_deficit_ml": 100.0,
+    "max_dose_ml": 200.0,
+    "max_daily_ml": 300.0,
+    "close_balance": true
+  },
+  "policy": {
+    "status": "synthetic_example",
+    "justification": "Ejemplo numérico para comprobar la ejecución; valores hipotéticos sin respaldo experimental.",
+    "policy": {
+      "dose_ml": 40.0,
+      "irrigation_hours": [
+        7
+      ],
+      "every_n_days": 1
+    },
+    "simulation": {
+      "start": "2000-01-03T00:00:00-06:00",
+      "end": "2000-01-10T00:00:00-06:00",
+      "initial_deficit_ml": 0.0,
+      "safe_deficit_ml": 100.0,
+      "max_dose_ml": 200.0,
+      "max_daily_ml": 300.0
+    },
+    "loss_multiplier": 1.0
+  },
+  "parameters": {
+    "status": "frozen",
+    "data_origin": [
+      "synthetic"
+    ],
+    "loss_model": "dD/dt = q(t) * max(0, a + b*D); D en mL, t en h",
+    "time_blocks": [
+      {
+        "name": "day",
+        "start_hour": 6,
+        "end_hour": 18
+      },
+      {
+        "name": "night",
+        "start_hour": 18,
+        "end_hour": 6
+      }
+    ],
+    "timezone": "America/Guatemala",
+    "selected_scope": "pooled",
+    "pooled": {
+      "model": "blocks_linear",
+      "a_ml_per_h": 2.3941971572455043,
+      "b_per_h": -0.005102857651558125,
+      "q": {
+        "day": 1.0,
+        "night": 0.3547254042351522
+      },
+      "ci95": {
+        "a_ml_per_h": [
+          2.3115989238617254,
+          2.4218760813602693
+        ],
+        "b_per_h": [
+          -0.005496672636943479,
+          -0.00383402647705635
+        ],
+        "q_night": [
+          0.34560450126737086,
+          0.3606250245885259
+        ]
+      },
+      "rmse_ml": 1.0753175210333898,
+      "n_intervals": 120
+    },
+    "per_pot": {
+      "M01": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 2.182161472913762,
+        "b_per_h": -0.0061737005755529385,
+        "q": {
+          "day": 1.0,
+          "night": 0.36114967419056604
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            2.0861880822576824,
+            2.307198748930161
+          ],
+          "b_per_h": [
+            -0.008218346668565926,
+            -0.004496506386601323
+          ],
+          "q_night": [
+            0.33411564263014026,
+            0.3894856195937671
+          ]
+        },
+        "rmse_ml": 0.6707964502837395,
+        "n_intervals": 20
+      },
+      "M02": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 2.3912498842290155,
+        "b_per_h": -0.005974366674862545,
+        "q": {
+          "day": 1.0,
+          "night": 0.3593960943547527
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            2.343788431865032,
+            2.434803217435215
+          ],
+          "b_per_h": [
+            -0.0066492885366562105,
+            -0.004802793649923413
+          ],
+          "q_night": [
+            0.3311309214850837,
+            0.3847331604600995
+          ]
+        },
+        "rmse_ml": 0.6176126718176018,
+        "n_intervals": 20
+      },
+      "M03": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 2.4661498451347788,
+        "b_per_h": -0.005776520730073892,
+        "q": {
+          "day": 1.0,
+          "night": 0.3440574599649478
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            2.415249584510004,
+            2.502376893967679
+          ],
+          "b_per_h": [
+            -0.006419548753224548,
+            -0.004730996565172476
+          ],
+          "q_night": [
+            0.32620568449419546,
+            0.3647339473425423
+          ]
+        },
+        "rmse_ml": 0.3832111399852979,
+        "n_intervals": 20
+      },
+      "M04": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 2.696682005779924,
+        "b_per_h": -0.005067657951120371,
+        "q": {
+          "day": 1.0,
+          "night": 0.3343789355507371
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            2.6396491918213716,
+            2.8172508912850933
+          ],
+          "b_per_h": [
+            -0.006775552168291856,
+            -0.0044176014226745015
+          ],
+          "q_night": [
+            0.3080150131814897,
+            0.37565196453941774
+          ]
+        },
+        "rmse_ml": 0.7790954007903276,
+        "n_intervals": 20
+      },
+      "M05": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 2.484541755996042,
+        "b_per_h": -0.005373592779256855,
+        "q": {
+          "day": 1.0,
+          "night": 0.3686547553948462
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            2.4267084817006377,
+            2.603941134565644
+          ],
+          "b_per_h": [
+            -0.007009130415695219,
+            -0.004304304962629977
+          ],
+          "q_night": [
+            0.3517112670047646,
+            0.39680269188486555
+          ]
+        },
+        "rmse_ml": 0.5520131172639592,
+        "n_intervals": 20
+      },
+      "M06": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 2.3557046028341224,
+        "b_per_h": -0.006722808361589086,
+        "q": {
+          "day": 1.0,
+          "night": 0.3821562903841656
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            2.287900955085252,
+            2.5280022595034004
+          ],
+          "b_per_h": [
+            -0.009446692486142244,
+            -0.0048619173513802325
+          ],
+          "q_night": [
+            0.37117253645765325,
+            0.409218533091014
+          ]
+        },
+        "rmse_ml": 0.49232275707306056,
+        "n_intervals": 20
+      }
+    },
+    "reference_mass_g": {
+      "M01": 1089.4,
+      "M02": 962.3,
+      "M03": 1079.4,
+      "M04": 1013.7,
+      "M05": 1066.4,
+      "M06": 930.9
+    },
+    "water_density_g_per_ml": 1.0,
+    "measurement": {
+      "sigma_reading_g": 0.3162277660168249,
+      "sigma_deficit_ml": 0.3162277660168249
+    },
+    "observed_range_fit": {
+      "deficit_ml": [
+        0.40000000000009095,
+        115.20000000000005
+      ],
+      "loss_rate_ml_per_h": [
+        0.6666666666666666,
+        2.6333333333333258
+      ]
+    },
+    "drainage_stable_minutes_median": 20.0,
+    "irrigation_event_check": {
+      "n_events": 18,
+      "drainage_residual_mean_ml": 0.3166666666667008,
+      "drainage_residual_sd_ml": 0.7964996953582857,
+      "deficit_post_residual_mean_ml": 0.253434418574867
+    }
+  },
+  "input_sha256": {
+    "model_config": "33f4e1e73e5ece0e4c7779601c74f0b73a18eb5347975eeade30bae3bb44238f",
+    "base_config": "dd45aa4e92a076f5096ea3c331aeb2b376746d9c596bcff839a278732f27464e",
+    "parameters": "3582a54f9631700799294b451a3cf0bec5c25e48d950871caaf0d15f9e44763a"
+  },
+  "randomness": "none",
+  "real_validation": false
+}

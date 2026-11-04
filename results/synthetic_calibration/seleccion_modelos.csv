@@ -1,0 +1,22 @@
+﻿scope,model,k,n_intervals,rss_ml2,rmse_ml,aicc,delta_aicc,selected,success,message
+pooled,constant,1,120,2873.215748564698,4.893205960448884,383.1173473367147,359.4826140561617,False,True,`ftol` termination condition is satisfied.
+pooled,blocks,2,120,204.34674131748721,1.304948087465191,67.98174656574712,44.34701328519408,False,True,`xtol` termination condition is satisfied.
+pooled,blocks_linear,3,120,138.7569325249674,1.0753175210333898,23.634733280553032,0.0,True,True,`ftol` termination condition is satisfied.
+M01,constant,1,20,371.45241057100964,4.309596330116137,60.65599185516697,69.12757348766816,False,True,`xtol` termination condition is satisfied.
+M01,blocks,2,20,21.597553399225482,1.039171626807273,6.242837676268885,14.714419308770076,False,True,`xtol` termination condition is satisfied.
+M01,blocks_linear,3,20,8.999357554265307,0.6707964502837395,-8.471581632501191,0.0,True,True,`ftol` termination condition is satisfied.
+M02,constant,1,20,451.27974230949275,4.7501565358917,64.5493251193469,76.325075625054,False,True,`ftol` termination condition is satisfied.
+M02,blocks,2,20,21.753606758588045,1.0429191425654254,6.386828317217613,18.16257882292471,False,True,Both `ftol` and `xtol` termination conditions are satisfied.
+M02,blocks_linear,3,20,7.628908247793534,0.6176126718176018,-11.775750505707098,0.0,True,True,`ftol` termination condition is satisfied.
+M03,constant,1,20,495.89925070366405,4.979454039870556,66.43503240136674,97.3017988959723,False,True,`ftol` termination condition is satisfied.
+M03,blocks,2,20,16.686229014152875,0.9134065090131797,1.0829122681404089,31.94967876274597,False,True,Both `ftol` and `xtol` termination conditions are satisfied.
+M03,blocks_linear,3,20,2.937015556176631,0.3832111399852979,-30.866766494605564,0.0,True,True,`ftol` termination condition is satisfied.
+M04,constant,1,20,622.7169677328891,5.579950572061051,70.9894189542387,73.47428995011188,False,True,Both `ftol` and `xtol` termination conditions are satisfied.
+M04,blocks,2,20,24.872439239281448,1.1151779956419838,9.066443533679871,11.551314529553057,False,True,Both `ftol` and `xtol` termination conditions are satisfied.
+M04,blocks_linear,3,20,12.139792870652824,0.7790954007903276,-2.4848709958731856,0.0,True,True,`ftol` termination condition is satisfied.
+M05,constant,1,20,474.91388688252175,4.872955401409507,65.57024668765928,81.83758548078066,False,True,`ftol` termination condition is satisfied.
+M05,blocks,2,20,19.1101299021246,0.9775001253740226,3.79560799843099,20.062946791552378,False,True,Both `ftol` and `xtol` termination conditions are satisfied.
+M05,blocks_linear,3,20,6.094369632629472,0.5520131172639592,-16.26733879312139,0.0,True,True,`ftol` termination condition is satisfied.
+M06,constant,1,20,400.0768023764131,4.472565272728913,62.14070744350707,82.98553813388452,False,True,Both `ftol` and `xtol` termination conditions are satisfied.
+M06,blocks,2,20,22.84120735188379,1.0686722451688306,7.362561775493048,28.207392465870495,False,True,Both `ftol` and `xtol` termination conditions are satisfied.
+M06,blocks_linear,3,20,4.847633942640396,0.49232275707306056,-20.844830690377446,0.0,True,True,`ftol` termination condition is satisfied.
