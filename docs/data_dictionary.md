@@ -1,18 +1,18 @@
-# Diccionario de datos
+**Diccionario de datos**
 
-**Responsable:** Nelson Escalante. Implementado en `src/macetas/data_io.py`; cualquier cambio aquí debe reflejarse allí y viceversa.
+Responsable: Nelson Escalante. Implementado en `src/macetas/data_io.py`; cualquier cambio aquí debe reflejarse allí y viceversa.
 
-## Reglas generales
+**Reglas generales**
 
 - Archivos CSV en UTF-8, separador coma, decimales con punto, una fila por registro.
-- Fechas: ISO 8601 **con zona horaria** (`2026-11-10T07:05:00-06:00`). Una fecha sin zona es un error.
-- Vacío = **faltante**. Cero solo cuando la cantidad se midió y fue cero.
+- Fechas: ISO 8601 con zona horaria (`2026-11-10T07:05:00-06:00`). Una fecha sin zona es un error.
+- Vacío = faltante. Cero solo cuando la cantidad se midió y fue cero.
 - Los CSV de `data/raw/` solo se amplían agregando filas. No se sobrescriben, no se ordenan, no se completan con estimaciones.
 - `row` en los reportes es el número de línea del CSV (la línea 1 es el encabezado).
 
-## Origen de los datos (`data_origin`)
+**Origen de los datos (`data_origin`)**
 
-Obligatorio en los tres archivos. El enunciado exige distinguir datos reales, públicos, estimados y sintéticos.
+Obligatorio en los tres archivos. Se distinguen datos reales, públicos, estimados y sintéticos.
 
 | Valor | Significado |
 | --- | --- |
@@ -23,7 +23,7 @@ Obligatorio en los tres archivos. El enunciado exige distinguir datos reales, p�
 
 `configs/data.json` solo admite `observed` en `data/raw/`. Los datos sintéticos viven en `data/synthetic/` con su propia configuración. Cualquier mezcla produce un error de calidad.
 
-## `macetas.csv` — una fila por maceta
+**`macetas.csv` — una fila por maceta**
 
 | Columna | Tipo / unidad | Obligatoria | Descripción |
 | --- | --- | --- | --- |
@@ -40,7 +40,7 @@ Obligatorio en los tres archivos. El enunciado exige distinguir datos reales, p�
 | `data_origin` | ver arriba | sí | |
 | `notes` | texto | — | |
 
-## `observaciones.csv` — una fila por lectura
+**`observaciones.csv` — una fila por lectura**
 
 | Columna | Tipo / unidad | Obligatoria | Descripción |
 | --- | --- | --- | --- |
@@ -60,27 +60,27 @@ Obligatorio en los tres archivos. El enunciado exige distinguir datos reales, p�
 | `quality_flag` | `ok`, `suspect`, `bad` | sí | `bad` excluye la lectura del ajuste |
 | `data_origin` | ver arriba | sí | |
 
-### Etapas de lectura (`reading_stage`)
+**Etapas de lectura (`reading_stage`)**
 
 | Valor | Cuándo | Lleva `event_id` | Lleva riego/drenaje |
 | --- | --- | --- | --- |
 | `no_irrigation` | Revisión sin riego | no | no |
 | `pre_irrigation` | Pesaje inmediatamente antes de regar | sí | no |
 | `drainage_check` | Pesajes intermedios durante el drenaje (piloto) | sí | no |
-| `post_drainage` | Pesaje al terminar el tiempo de drenaje | sí | **sí** |
+| `post_drainage` | Pesaje al terminar el tiempo de drenaje | sí | sí |
 
-**Ampliación respecto del plan:** se añadieron `irrigation_timestamp` (el plan pide registrar la hora de aplicación) y la etapa `drainage_check` (para estimar el tiempo de drenaje en el piloto), además de `data_origin`.
+Se incluyen `irrigation_timestamp` para la hora real de aplicación, `drainage_check` para estudiar el drenaje y `data_origin` para conservar la procedencia.
 
-### Ejemplo ilustrativo (valores inventados, no son datos)
+**Ejemplo ilustrativo (valores inventados, no son datos)**
 
 ```csv
 timestamp,pot_id,observer,phase,treatment,reading_stage,mass_g,irrigation_ml,drainage_ml,irrigation_timestamp,event_id,ambient_temperature_c,notes,quality_flag,data_origin
-2026-11-12T07:04:00-06:00,M01,A,fit,base,pre_irrigation,912.4,,,,M01-E003,,,ok,observed
-2026-11-12T07:37:00-06:00,M01,A,fit,base,post_drainage,1001.9,150,61,2026-11-12T07:06:00-06:00,M01-E003,,,ok,observed
-2026-11-12T13:02:00-06:00,M01,B,fit,base,no_irrigation,988.0,,,,,,bandeja vacía,ok,observed
+2026-11-12T07:04:00-06:00,M01,Nelson Escalante,fit,base,pre_irrigation,912.4,,,,M01-E003,,,ok,observed
+2026-11-12T07:37:00-06:00,M01,Nelson Escalante,fit,base,post_drainage,1001.9,150,61,2026-11-12T07:06:00-06:00,M01-E003,,,ok,observed
+2026-11-12T13:02:00-06:00,M01,Nina Nájera,fit,base,no_irrigation,988.0,,,,,,bandeja vacía,ok,observed
 ```
 
-## `balanza.csv` — una fila por pesaje de verificación
+**`balanza.csv` — una fila por pesaje de verificación**
 
 | Columna | Tipo / unidad | Obligatoria | Descripción |
 | --- | --- | --- | --- |
@@ -94,13 +94,13 @@ timestamp,pot_id,observer,phase,treatment,reading_stage,mass_g,irrigation_ml,dra
 | `notes` | texto | — | |
 | `data_origin` | ver arriba | sí | |
 
-## Controles de calidad (`validate-data`)
+**Controles de calidad (`validate-data`)**
 
-**Errores** (impiden calibrar): columnas faltantes; fechas sin zona o inválidas; valores no numéricos; categorías no permitidas; `pot_id` desconocido o repetido; `M_ref` no positiva; lecturas duplicadas; riego o drenaje fuera de la fila `post_drainage`; valores negativos; `post_drainage` sin riego; etapas de riego sin `event_id`; eventos con más de una fila previa o posterior o con varias macetas; origen no permitido; `phase` distinta de su ventana.
+Errores (impiden calibrar): columnas faltantes; fechas sin zona o inválidas; valores no numéricos; categorías no permitidas; `pot_id` desconocido o repetido; `M_ref` no positiva; lecturas duplicadas; riego o drenaje fuera de la fila `post_drainage`; valores negativos; `post_drainage` sin riego; etapas de riego sin `event_id`; eventos con más de una fila previa o posterior o con varias macetas; origen no permitido; `phase` distinta de su ventana.
 
-**Advertencias** (se reportan y se conservan): masa faltante; drenaje u hora de riego no medidos; evento incompleto; hora de riego fuera del evento; drenaje mayor que el riego; masa por encima de `M_ref` más la tolerancia (déficit negativo); aumento de masa sin riego; lectura fuera de toda ventana; falta de verificación de balanza.
+Advertencias (se reportan y se conservan): masa faltante; drenaje u hora de riego no medidos; evento incompleto; hora de riego fuera del evento; drenaje mayor que el riego; masa por encima de `M_ref` más la tolerancia (déficit negativo); aumento de masa sin riego; lectura fuera de toda ventana; falta de verificación de balanza.
 
-## Archivos derivados
+**Archivos derivados**
 
 | Archivo | Generado por | Contenido |
 | --- | --- | --- |
@@ -111,5 +111,5 @@ timestamp,pot_id,observer,phase,treatment,reading_stage,mass_g,irrigation_ml,dra
 | `results/tables/seleccion_modelos.csv` | `calibrate` | Comparación de modelos candidatos (AICc) |
 | `results/tables/eventos_riego.csv` | `calibrate` | Contraste de cada riego con la regla de drenaje ideal |
 | `results/tables/tiempo_drenaje.csv` | `calibrate` | Tiempo de estabilización tras el riego (piloto) |
-| `results/tables/parametros_modelo.json` | `calibrate` | Parámetros para el simulador (B) |
+| `results/tables/parametros_modelo.json` | `calibrate` | Parámetros para el simulador |
 | `results/tables/calibracion_manifest.json` | `calibrate` | Hash de los CSV, configuración, versiones, semillas y commit |
