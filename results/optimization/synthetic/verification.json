@@ -1,0 +1,46 @@
+{
+  "data_origin": "synthetic",
+  "real_validation": false,
+  "selected_run_reproduced": true,
+  "history_reproduced": true,
+  "source_hashes_match": true,
+  "run_count": 90,
+  "logical_evaluations": 5400,
+  "fine_step_h": 0.125,
+  "fine_step_feasible": true,
+  "fine_step_water_ml": 226.35091649908236,
+  "water_difference_ml": 2.7569058147491887e-12,
+  "fine_step_audits": [
+    {
+      "seed": 12001,
+      "feasible": true,
+      "violation": 0,
+      "violations": {},
+      "time_over_limit_h": 0.0,
+      "max_deficit_ml": 97.40423215981035,
+      "total_irrigation_ml": 216.255790721683,
+      "tolerance_ml": 1e-07
+    },
+    {
+      "seed": 12002,
+      "feasible": true,
+      "violation": 0,
+      "violations": {},
+      "time_over_limit_h": 0.0,
+      "max_deficit_ml": 99.38866054373673,
+      "total_irrigation_ml": 222.9705375925617,
+      "tolerance_ml": 1e-07
+    },
+    {
+      "seed": 12003,
+      "feasible": true,
+      "violation": 0,
+      "violations": {},
+      "time_over_limit_h": 0.0,
+      "max_deficit_ml": 99.73841959375274,
+      "total_irrigation_ml": 239.8264211830023,
+      "tolerance_ml": 1e-07
+    }
+  ],
+  "tests": "88 passed"
+}

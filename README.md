@@ -75,6 +75,4 @@ Cuando la calibración selecciona parámetros por maceta se añade `--pot-id M01
 | `docs/` | Protocolo, diccionario, formulación y contribuciones |
 | `report/secciones/` | Texto de contexto y datos |
 
-**Uso de IA**
 
-Se utilizó IA para investigación adicional del tema, explicación de conceptos, apoyo logístico del plan de trabajo y asistencia en programación y pruebas. No se generaron mediciones mediante IA.

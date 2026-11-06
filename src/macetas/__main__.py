@@ -80,6 +80,15 @@ def _validate_model(args) -> int:
     return 0
 
 
+def _optimize(args) -> int:
+    from .optimization import run_optimization
+
+    policy, output = run_optimization(args.config, allow_synthetic=args.allow_synthetic, output_dir=args.out)
+    print(f"Estado: {policy['status']} | Origen: {policy['data_origin']} | Salidas: {output}")
+    print("Búsqueda de desarrollo; no constituye validación real ni evaluación final.")
+    return 0 if policy["status"] == "frozen" else 2
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="python -m src.macetas")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -113,6 +122,12 @@ def main(argv=None) -> int:
     p = sub.add_parser("validate-model", help="Casos analíticos y convergencia de Euler y RK4")
     p.add_argument("--out", default="results/verification")
     p.set_defaults(func=_validate_model)
+
+    p = sub.add_parser("optimize", help="PSO y búsqueda aleatoria; congela una política de desarrollo")
+    p.add_argument("--config", default="configs/pso.json")
+    p.add_argument("--allow-synthetic", action="store_true")
+    p.add_argument("--out", default=None)
+    p.set_defaults(func=_optimize)
 
     args = parser.parse_args(argv)
     try:
