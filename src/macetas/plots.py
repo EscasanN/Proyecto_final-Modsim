@@ -53,7 +53,9 @@ def generate_plots(experiment_dir, *, validation_dir=None, output_dir=None):
             ax.scatter(pd.to_datetime(subset.timestamp), subset.deficit_before_ml, marker="v", label="Riego (incluye cierre)")
             ax.axhline(runs.safe_deficit_ml.iloc[0], ls="--", color="#a33d3d", label="Límite operacional del ejemplo" if origin == "synthetic" else "Límite operacional")
             title = f"Dinámica de políticas, semilla {seed}; observaciones no disponibles"
-        ax.set(title=f"{title}\nOrigen: {origin}", xlabel="Fecha y hora (America/Guatemala)", ylabel="Déficit de agua [mL]")
+        # Con validación, la figura muestra observaciones: su origen manda, no el de los experimentos.
+        shown_origin = ", ".join(sorted(observed.data_origin.unique())) if validation_dir else origin
+        ax.set(title=f"{title}\nOrigen: {shown_origin}", xlabel="Fecha y hora (America/Guatemala)", ylabel="Déficit de agua [mL]")
         ax.legend(fontsize=8)
         fig.autofmt_xdate()
         _save(fig, output, "01_system")
@@ -89,7 +91,34 @@ def generate_plots(experiment_dir, *, validation_dir=None, output_dir=None):
         axes[1].set(title="Cumplimiento de restricciones", ylabel="Proporción factible [0–1]", ylim=(0, 1.05))
         fig.suptitle(f"Sensibilidad con política congelada; origen: {origin}")
         _save(fig, output, "03_sensitivity")
+
+        if validation_dir:
+            _validation_all(Path(validation_dir), output)
     return output
+
+
+def _validation_all(validation_dir, output):
+    """Todas las macetas: predicho frente a observado y MAE por maceta."""
+    comp = pd.read_csv(validation_dir / "comparisons.csv")
+    errors = pd.read_csv(validation_dir / "errors.csv")
+    origin = ", ".join(sorted(comp.data_origin.unique()))
+    fig, axes = plt.subplots(1, 2, figsize=(11, 4.8))
+    axes[0].scatter(comp.observed_deficit_ml, comp.predicted_deficit_ml, s=10, alpha=0.6, color=COLORS[0])
+    lim = [min(comp.observed_deficit_ml.min(), comp.predicted_deficit_ml.min()),
+           max(comp.observed_deficit_ml.max(), comp.predicted_deficit_ml.max())]
+    axes[0].plot(lim, lim, ls="--", color="gray", label="1:1")
+    axes[0].set(title="Predicho frente a observado (todas las macetas)",
+                xlabel="Déficit observado [mL]", ylabel="Déficit predicho [mL]")
+    axes[0].legend(fontsize=8)
+    per_pot = errors[errors.pot_id.ne("ALL")].sort_values("mae_ml")
+    axes[1].bar(per_pot.pot_id, per_pot.mae_ml, color=COLORS[1])
+    total = errors.loc[errors.pot_id.eq("ALL"), "mae_ml"].iloc[0]
+    axes[1].axhline(total, ls="--", color="gray", label=f"MAE agregado {total:.1f} mL")
+    axes[1].set(title="Error absoluto medio por maceta", ylabel="MAE [mL]")
+    axes[1].tick_params(axis="x", rotation=90, labelsize=7)
+    axes[1].legend(fontsize=8)
+    fig.suptitle(f"Validación con observaciones reservadas; origen: {origin}")
+    _save(fig, output, "04_validation_all")
 
 
 if __name__ == "__main__":

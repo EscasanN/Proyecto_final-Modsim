@@ -93,6 +93,7 @@ def run_validation(data_config, parameters_path, output_dir, *, allow_synthetic=
     inputs.update({k: Path(ds.config["_data_dir"]) / v for k, v in ds.config["files"].items()})
     write_json(output / "validation_manifest.json", {
         "data_origin": sorted(origins), "real_validation": origins == {"observed"},
+        "public_reference_validation": origins == {"public"},
         "method": method, "step_h": step_h, "split": ds.config["split"],
         "initialization": "Primera lectura utilizable por maceta y ventana; excluida de los errores.",
         "limitations": "Drenaje instantáneo del modelo B; no se reinicia con observaciones posteriores.",

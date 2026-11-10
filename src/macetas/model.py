@@ -71,8 +71,9 @@ class LossModel:
 def load_calibrated_model(path, pot_id: str | None = None, allow_synthetic: bool = False) -> LossModel:
     payload = json.loads(Path(path).read_text(encoding="utf-8-sig"))
     origins = payload.get("data_origin", [])
-    if origins not in (["observed"], ["synthetic"]):
-        raise ValueError("Se requiere un único origen de datos: observed o synthetic.")
+    # public: mediciones reales de terceros (data/reference), distintas de las propias.
+    if origins not in (["observed"], ["public"], ["synthetic"]):
+        raise ValueError("Se requiere un único origen de datos: observed, public o synthetic.")
     if origins == ["synthetic"] and not allow_synthetic:
         raise ValueError("Los parámetros son sintéticos; use --allow-synthetic para una demostración.")
     if payload.get("status") != "frozen":

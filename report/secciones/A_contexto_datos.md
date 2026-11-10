@@ -42,6 +42,12 @@ El código estima `a`, `b` y los factores horarios del modelo `dD/dt = q(t)max(0
 
 Se comprobó la recuperación de parámetros conocidos con datos sintéticos y la conexión de su exportación con el simulador. La verificación incluye conservación del agua, casos analíticos, tratamiento de eventos y convergencia numérica.
 
+**Validación con datos públicos reales**
+
+Mientras se completan las observaciones propias, el modelo de pérdidas se contrastó con mediciones reales publicadas: los pesajes cada 15 min de 21 macetas de *Ensete ventricosum* en secado continuo (Chase, 2026; Zenodo, CC BY 4.0). Se identifican como `public` y se muestrearon a las mismas horas del protocolo. Los primeros 7 días se usaron para ajustar y los 7 siguientes para validar, sin recalibrar. Se excluyó una planta con aportes de agua no documentados, según una regla aplicada a todas.
+
+El ajuste seleccionó la forma con dependencia del déficit (`a` = 21.6 mL/h, `b` = −0.0050 1/h, pérdida nocturna casi nula). En validación, el MAE agregado fue 172 mL (9.7 % del déficit medio). En las 16 macetas en que el ajuste por maceta identificó la reducción de pérdidas con el secado, el error mediano fue 3.7 % del déficit (60 mL). En las 5 en que el criterio AICc eligió una pérdida constante, el modelo sobrestimó el secado (error mediano 27.7 %), porque la validación se extiende a déficits mayores que los observados en el ajuste. Esto muestra el riesgo de extrapolar y la necesidad de que el ajuste propio cubra el rango de operación de las políticas. Los datos corresponden a otra especie y otra plataforma, por lo que comprueban la estructura del modelo y del procedimiento, no los parámetros del montaje de *Crassula ovata*.
+
 **Control de medición y limitaciones**
 
 El control de medición incluye repetibilidad de la balanza, referencias drenadas, horarios de pesaje y ciclos de secado. El intervalo operacional se sustenta en las características de la especie y en el piloto. Las fuentes recomiendan regar en profundidad cuando los ~2.5 cm superiores del sustrato están secos y evitar el agua estancada (Mahr, 2025; UConn). Ese criterio se registra en cada revisión mediante una prueba con palillo (`top_soil_dry`), y la calibración lo traduce a un déficit (`deficit_top_dry_median`). `D_seguro` se fija como el mayor déficit observado sin síntomas de estrés, de modo que las políticas no se evalúan fuera del rango registrado. La aproximación del drenaje mediante un evento instantáneo se evalúa con los residuos entre la respuesta observada y la predicha.
@@ -51,6 +57,8 @@ La frecuencia de pesaje limita la estimación del tiempo real fuera del interval
 **Referencias**
 
 Lieth, H. *Tensiometer-based irrigation of potted plants*. University of California, Davis. [Informe](https://lieth.ucdavis.edu/research/tens/96/potirg.htm).
+
+Chase, R. R. (2026). *Transpiration monitoring reveals diverse drought coping strategies in wild and cultivated enset (Ensete ventricosum)* [Conjunto de datos]. Zenodo. [doi:10.5281/zenodo.23213759](https://doi.org/10.5281/zenodo.23213759).
 
 Mahr, S. (2025). *Jade Plant, Crassula ovata*. Wisconsin Horticulture, University of Wisconsin–Madison. [Artículo](https://hort.extension.wisc.edu/articles/jade-plant-crassula-ovata/).
 

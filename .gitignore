@@ -5,3 +5,8 @@ __pycache__/
 
 # Datos sintéticos: se regeneran con `python -m src.macetas make-synthetic` y su semilla.
 data/synthetic/
+
+# Originales públicos (Zenodo, CC BY 4.0): se descargan con el comando de
+# data/reference/chase2026_enset/README.md y se verifican por SHA-256.
+data/reference/chase2026_enset/original/
+data/reference/chase2026_enset/converted/salidas/

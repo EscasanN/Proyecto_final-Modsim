@@ -186,3 +186,15 @@ def test_cycle_without_dry_reading_is_reported_as_missing(tmp_path):
     assert len(out) == 1  # el ciclo previo al primer riego no cuenta
     assert out["deficit_at_first_dry_ml"].iloc[0] == pytest.approx(20.0)
     assert out["hours_since_irrigation"].iloc[0] == pytest.approx(11.5)
+
+
+def test_calibration_without_irrigation_events(tmp_path):
+    """Un secado continuo (sin riegos) es válido: la tabla de eventos queda vacía."""
+    windows = [{"phase": "fit", "start": "2000-01-01T00:00:00-06:00", "end": "2000-01-04T00:00:00-06:00"}]
+    rows = [obs(f"2000-01-0{1 + i // 3}T{h:02d}:00:00-06:00", mass=1000.0 - 6.0 * i)
+            for i, h in enumerate([7, 13, 19] * 3)]
+    cfg = write_dataset(tmp_path, [pot(mass=1000.0)], rows, scale_rows(), windows)
+    result = calibrate(write_model_config(tmp_path, cfg, candidates=("constant",)))
+    assert len(result.events) == 0
+    assert result.selected["pooled"].a > 0
+    assert all(p.exists() for p in write_outputs(result).values())

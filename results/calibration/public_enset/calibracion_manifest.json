@@ -1,0 +1,169 @@
+{
+  "created_utc": "2026-11-10T18:00:21+00:00",
+  "status": "frozen",
+  "git_commit": "93b15fb3d2b2a63fffb58210359449865d3901b3",
+  "python": "3.14.3",
+  "packages": {
+    "numpy": "2.4.3",
+    "pandas": "3.0.1",
+    "scipy": "1.17.1"
+  },
+  "input_sha256": {
+    "pots": "9e9d74492f5f84face1ebe2af88c08643872b010e66a2c1b10908e2d5feaa21d",
+    "observations": "d2c78b95fbd7b7df3fd67e971cbb002419169b704613d749736f2af49a76f367",
+    "scale_checks": "5332822b77a9995ce1a2f91c93bcbe910e55968b39627a0c6f553ff1aead7168"
+  },
+  "data_config": {
+    "source": {
+      "citation": "Chase, R. R. (2026). Transpiration monitoring reveals diverse drought coping strategies in wild and cultivated enset (Ensete ventricosum) [Data set]. Zenodo.",
+      "doi": "10.5281/zenodo.23213759",
+      "url": "https://zenodo.org/records/23213759",
+      "license": "CC BY 4.0",
+      "file": "Phenospex_data.csv",
+      "sha256": "f3dc9a70477d8a9423d665a813c3391f5db9eb4282338ff89050f93d52c36336"
+    },
+    "data_dir": ".",
+    "files": {
+      "pots": "macetas.csv",
+      "observations": "observaciones.csv",
+      "scale_checks": "balanza.csv"
+    },
+    "timezone": "America/Guatemala",
+    "water_density_g_per_ml": 1.0,
+    "allowed_data_origins": [
+      "public"
+    ],
+    "split": {
+      "frozen": true,
+      "frozen_on": "conversión",
+      "windows": [
+        {
+          "phase": "fit",
+          "start": "2024-07-24T00:00:00-06:00",
+          "end": "2024-07-31T00:00:00-06:00"
+        },
+        {
+          "phase": "validation",
+          "start": "2024-07-31T00:00:00-06:00",
+          "end": "2024-08-07T00:00:00-06:00"
+        }
+      ]
+    },
+    "quality": {
+      "exclude_flags": [
+        "bad"
+      ],
+      "tolerance_sigmas": 3.0,
+      "mass_tolerance_g": 2.38,
+      "_nota_tolerancia": "Sin verificación de balanza en la fuente. Se estima con la desviación de las diferencias de 15 min entre 01:00 y 04:59 (0.56 g), cota superior del ruido.",
+      "drainage_excess_tolerance_ml": 2.0
+    },
+    "conversion": {
+      "review_hours": [
+        7,
+        13,
+        19
+      ],
+      "tolerance_min": 15.0,
+      "rise_threshold_g": 50.0,
+      "fit_days": 7,
+      "n_plants": 21,
+      "excluded_plant_ids": [
+        13
+      ],
+      "_nota_exclusion": "Subida neta de masa > rise_threshold_g en 3 h durante el estrés: aportes de agua no documentados por la fuente."
+    },
+    "outputs": {
+      "processed_dir": "salidas/processed",
+      "tables_dir": "salidas/tables"
+    }
+  },
+  "model_config": {
+    "data_config": "../data/reference/chase2026_enset/converted/data_config.json",
+    "time_blocks": [
+      {
+        "name": "day",
+        "start_hour": 6,
+        "end_hour": 18
+      },
+      {
+        "name": "night",
+        "start_hour": 18,
+        "end_hour": 6
+      }
+    ],
+    "simulation": {
+      "method": "rk4",
+      "step_h": 0.25,
+      "review_hours": [
+        7,
+        13,
+        19
+      ],
+      "close_balance": true
+    },
+    "calibration": {
+      "candidate_models": [
+        "constant",
+        "blocks",
+        "blocks_linear"
+      ],
+      "selection": {
+        "criterion": "aicc",
+        "tolerance": 2.0
+      },
+      "scope": "per_pot",
+      "min_interval_h": 1.0,
+      "max_interval_h": 36.0,
+      "bounds": {
+        "a_ml_per_h": [
+          0.0,
+          50.0
+        ],
+        "b_per_h": [
+          -0.1,
+          0.0
+        ],
+        "q": [
+          0.0,
+          5.0
+        ]
+      },
+      "bootstrap": {
+        "n": 500,
+        "seed": 20261103,
+        "unit": "day"
+      }
+    }
+  },
+  "bootstrap_seeds": {
+    "pooled": 20261103,
+    "E01": 20261104,
+    "E02": 20261105,
+    "E03": 20261106,
+    "E05": 20261107,
+    "E06": 20261108,
+    "E07": 20261109,
+    "E09": 20261110,
+    "E10": 20261111,
+    "E11": 20261112,
+    "E12": 20261113,
+    "E14": 20261114,
+    "E15": 20261115,
+    "E16": 20261116,
+    "E17": 20261117,
+    "E22": 20261118,
+    "E23": 20261119,
+    "E24": 20261120,
+    "E27": 20261121,
+    "E28": 20261122,
+    "E29": 20261123,
+    "E31": 20261124
+  },
+  "n_observations": 793,
+  "n_fit_intervals": 361,
+  "issues": {
+    "errors": 0,
+    "warnings": 61
+  }
+}

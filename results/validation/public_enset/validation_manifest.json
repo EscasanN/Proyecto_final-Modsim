@@ -1,0 +1,58 @@
+{
+  "data_origin": [
+    "public"
+  ],
+  "real_validation": false,
+  "public_reference_validation": true,
+  "method": "rk4",
+  "step_h": 0.25,
+  "split": {
+    "frozen": true,
+    "frozen_on": "conversión",
+    "windows": [
+      {
+        "phase": "fit",
+        "start": "2024-07-24T00:00:00-06:00",
+        "end": "2024-07-31T00:00:00-06:00"
+      },
+      {
+        "phase": "validation",
+        "start": "2024-07-31T00:00:00-06:00",
+        "end": "2024-08-07T00:00:00-06:00"
+      }
+    ]
+  },
+  "initialization": "Primera lectura utilizable por maceta y ventana; excluida de los errores.",
+  "limitations": "Drenaje instantáneo del modelo B; no se reinicia con observaciones posteriores.",
+  "input_sha256": {
+    "parameters": "834c267c1da62e316987c2d48ac453920319b5811f80710d1ecb91e11610165c",
+    "data_config": "97108c9cdd85767afb63b1f264292e485aa5de2e6fa5bf785dceee4c58d91a6d",
+    "calibration_manifest": "9d53239de8653913c84d76643363811cb24e355e6c3e0c7db4be0f6af34b2b1a",
+    "pots": "9e9d74492f5f84face1ebe2af88c08643872b010e66a2c1b10908e2d5feaa21d",
+    "observations": "d2c78b95fbd7b7df3fd67e971cbb002419169b704613d749736f2af49a76f367",
+    "scale_checks": "5332822b77a9995ce1a2f91c93bcbe910e55968b39627a0c6f553ff1aead7168"
+  },
+  "source_sha256": {
+    "calibration.py": "c3c7389ce56e7b6e1a6f586c0939e310168d65d0c3c581033fbc8e26a24ec580",
+    "constraints.py": "4940753d471ff92bf68fd35ac90b5fbc33989c1f8cc50ca4f7c7006d7dacd922",
+    "data_io.py": "eb28d0b96ce101f8bdd050e59f742f78a6ef11c022295a009a7f9005cddd9a2f",
+    "experiments.py": "f3f9d0a1710a55b37fb406751a6156b1c04fbcc9148ae3bbbd031564820bab1b",
+    "integrators.py": "b37dc5a7e2c7863ea51001e138c91f725a8d16b0ccf828fa909c6593926fd301",
+    "metrics.py": "43c2d0287e9ac1e7f570e4a06fad58a4ec3acde257775891a57c631c806927a4",
+    "model.py": "89e7f0d85c468b59fdd795e8599a4b9b605128e84c1f6100f08fa96b519c532d",
+    "optimization.py": "6c6d89f6a3cdced27afef5b4b909de7ae5fcb79414ac67baf41292bc5507c352",
+    "plots.py": "b542bf0cfa88b046522faec85697fa3405256895497ed78341e091d73e16d3d8",
+    "policies.py": "03728b5fea0c3905d4946ff975595ec2edba1b6e1ba07351843adc5c21e17ca1",
+    "presentation.py": "9eeca0d666dc1653cc230f247b7384b96e2d7b67636d45b9db0b760a46ebe98f",
+    "pso.py": "cfa4cfaa8101681271aa0971a146da6aa1e28460f3b5b35ad7484f156376f380",
+    "public_data.py": "ae969809c2a15c16368cd4fc29104f08a76394efe432ccd7cc4c44a119f13363",
+    "simulation_io.py": "3134f42ec93a0a1bd3510777e22f04403cede0700d19fbdfe34c81669a6cf90f",
+    "simulator.py": "4beade094700560a0b625472f3711e9aa48d7cdb359f636d456168e39e6a187c",
+    "synthetic_data.py": "ac79e5284cb283d6fadd3238ce24703af2d0f2bd96597453353ea6450ca4d4f3",
+    "time_blocks.py": "e15f77f7cc9ac4613f73f35b48a780e7c95004ec25946015c69ab51d5e059e33",
+    "validation.py": "7558b246c5b7afbc7c6d5d6887658cfa5e3f51430507ebee2d21581285a2d597",
+    "verification.py": "69822435a62eed94925ea6664956f6050c836585b0fdc3b109be4f2e3c2b846e",
+    "__init__.py": "68940278264a7a06b24c59332ebdbabedb6b025b0c2dac808519042fe1803a3e",
+    "__main__.py": "edc1ce2832c60c46fb4a925b0290cf1fb30006fca656d1e1b80286242fa7857e"
+  }
+}

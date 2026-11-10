@@ -56,6 +56,19 @@ def _make_synthetic(args) -> int:
     return 0
 
 
+def _import_public(args) -> int:
+    from .public_data import SOURCE, convert_chase2026
+
+    paths = convert_chase2026(args.source, args.out)
+    print(f"Datos PÚBLICOS convertidos ({SOURCE['citation']} doi:{SOURCE['doi']}, {SOURCE['license']}).")
+    print("Son mediciones de terceros, no observaciones del proyecto.")
+    for name, path in paths.items():
+        print(f"  {name}: {path}")
+    print(f"Calibrar con: python -m src.macetas calibrate --config configs/model.json "
+          f"--data-config {paths['config']}")
+    return 0
+
+
 def _simulate(args) -> int:
     from .simulation_io import run_from_files
 
@@ -107,6 +120,11 @@ def main(argv=None) -> int:
     p.add_argument("--out", default="data/synthetic")
     p.add_argument("--seed", type=int, default=20260001)
     p.set_defaults(func=_make_synthetic)
+
+    p = sub.add_parser("import-public", help="Convierte datos PÚBLICOS de Chase (2026) al formato del proyecto")
+    p.add_argument("--source", default="data/reference/chase2026_enset/original/Phenospex_data.csv")
+    p.add_argument("--out", default="data/reference/chase2026_enset/converted")
+    p.set_defaults(func=_import_public)
 
     p = sub.add_parser("simulate", help="Simulación del balance con política fija")
     p.add_argument("--config", default="configs/model.json")

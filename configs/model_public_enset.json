@@ -1,0 +1,27 @@
+{
+  "_nota": "Calibración con DATOS PÚBLICOS de Chase (2026, Zenodo, CC BY 4.0). Igual a model.json salvo data_config y scope. Se usa per_pot porque, en la ventana fit, 15 de 21 plantas tienen un IC95 de a que excluye el valor agrupado (decisión tomada antes de calcular errores de validación).",
+  "data_config": "../data/reference/chase2026_enset/converted/data_config.json",
+  "time_blocks": [
+    {"name": "day", "start_hour": 6, "end_hour": 18},
+    {"name": "night", "start_hour": 18, "end_hour": 6}
+  ],
+  "simulation": {
+    "method": "rk4",
+    "step_h": 0.25,
+    "review_hours": [7, 13, 19],
+    "close_balance": true
+  },
+  "calibration": {
+    "candidate_models": ["constant", "blocks", "blocks_linear"],
+    "selection": {"criterion": "aicc", "tolerance": 2.0},
+    "scope": "per_pot",
+    "min_interval_h": 1.0,
+    "max_interval_h": 36.0,
+    "bounds": {
+      "a_ml_per_h": [0.0, 50.0],
+      "b_per_h": [-0.1, 0.0],
+      "q": [0.0, 5.0]
+    },
+    "bootstrap": {"n": 500, "seed": 20261103, "unit": "day"}
+  }
+}

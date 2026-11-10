@@ -1,0 +1,67 @@
+{
+  "_nota": "DATOS PÚBLICOS de terceros (Chase 2026, Zenodo, CC BY 4.0), convertidos por src/macetas/public_data.py. Otra especie y otro montaje; no son mediciones del proyecto.",
+  "source": {
+    "citation": "Chase, R. R. (2026). Transpiration monitoring reveals diverse drought coping strategies in wild and cultivated enset (Ensete ventricosum) [Data set]. Zenodo.",
+    "doi": "10.5281/zenodo.23213759",
+    "url": "https://zenodo.org/records/23213759",
+    "license": "CC BY 4.0",
+    "file": "Phenospex_data.csv",
+    "sha256": "f3dc9a70477d8a9423d665a813c3391f5db9eb4282338ff89050f93d52c36336"
+  },
+  "data_dir": ".",
+  "files": {
+    "pots": "macetas.csv",
+    "observations": "observaciones.csv",
+    "scale_checks": "balanza.csv"
+  },
+  "timezone": "America/Guatemala",
+  "_nota_timezone": "La fuente no declara zona horaria; se conserva la hora de reloj del registro con desfase nominal -06:00. No indica que el ensayo ocurriera en Guatemala.",
+  "water_density_g_per_ml": 1.0,
+  "allowed_data_origins": [
+    "public"
+  ],
+  "split": {
+    "frozen": true,
+    "frozen_on": "conversión",
+    "windows": [
+      {
+        "phase": "fit",
+        "start": "2024-07-24T00:00:00-06:00",
+        "end": "2024-07-31T00:00:00-06:00"
+      },
+      {
+        "phase": "validation",
+        "start": "2024-07-31T00:00:00-06:00",
+        "end": "2024-08-07T00:00:00-06:00"
+      }
+    ]
+  },
+  "quality": {
+    "exclude_flags": [
+      "bad"
+    ],
+    "tolerance_sigmas": 3.0,
+    "mass_tolerance_g": 2.38,
+    "_nota_tolerancia": "Sin verificación de balanza en la fuente. Se estima con la desviación de las diferencias de 15 min entre 01:00 y 04:59 (0.56 g), cota superior del ruido.",
+    "drainage_excess_tolerance_ml": 2.0
+  },
+  "conversion": {
+    "review_hours": [
+      7,
+      13,
+      19
+    ],
+    "tolerance_min": 15.0,
+    "rise_threshold_g": 50.0,
+    "fit_days": 7,
+    "n_plants": 21,
+    "excluded_plant_ids": [
+      13
+    ],
+    "_nota_exclusion": "Subida neta de masa > rise_threshold_g en 3 h durante el estrés: aportes de agua no documentados por la fuente."
+  },
+  "outputs": {
+    "processed_dir": "salidas/processed",
+    "tables_dir": "salidas/tables"
+  }
+}
