@@ -1,0 +1,712 @@
+{
+  "data_origin": "synthetic",
+  "real_validation": false,
+  "stochastic": true,
+  "seeds": {
+    "search": [
+      11001,
+      11002
+    ],
+    "selection": [
+      12001,
+      12002,
+      12003
+    ],
+    "evaluation": [
+      13001,
+      13002,
+      13003,
+      13004,
+      13005,
+      13006,
+      13007,
+      13008,
+      13009,
+      13010,
+      13011,
+      13012,
+      13013,
+      13014,
+      13015,
+      13016,
+      13017,
+      13018,
+      13019,
+      13020,
+      13021,
+      13022,
+      13023,
+      13024,
+      13025,
+      13026,
+      13027,
+      13028,
+      13029,
+      13030
+    ],
+    "optimizer": [
+      21001,
+      21002,
+      21003,
+      21004,
+      21005,
+      21006,
+      21007,
+      21008,
+      21009,
+      21010,
+      21011,
+      21012,
+      21013,
+      21014,
+      21015,
+      21016,
+      21017,
+      21018,
+      21019,
+      21020,
+      21021,
+      21022,
+      21023,
+      21024,
+      21025,
+      21026,
+      21027,
+      21028,
+      21029,
+      21030
+    ]
+  },
+  "evaluation_seeds_used": [
+    13001,
+    13002,
+    13003,
+    13004,
+    13005,
+    13006,
+    13007,
+    13008,
+    13009,
+    13010,
+    13011,
+    13012,
+    13013,
+    13014,
+    13015,
+    13016,
+    13017,
+    13018,
+    13019,
+    13020,
+    13021,
+    13022,
+    13023,
+    13024,
+    13025,
+    13026,
+    13027,
+    13028,
+    13029,
+    13030
+  ],
+  "simulation": {
+    "start": "2000-01-03T00:00:00-06:00",
+    "end": "2000-01-10T00:00:00-06:00",
+    "initial_deficit_ml": 0.0,
+    "method": "rk4",
+    "step_h": 0.25,
+    "review_hours": [
+      7,
+      13,
+      19
+    ],
+    "safe_deficit_ml": 100.0,
+    "max_dose_ml": 200.0,
+    "max_daily_ml": 300.0,
+    "close_balance": true
+  },
+  "frozen_policy": {
+    "status": "frozen",
+    "scope": "development_only",
+    "data_origin": "synthetic",
+    "real_validation": false,
+    "policy": {
+      "activation_ml": 88.0,
+      "target_ml": 86.0,
+      "dose_max_ml": 46.0
+    },
+    "best_candidate": {
+      "activation_ml": 88.0,
+      "target_ml": 86.0,
+      "dose_max_ml": 46.0
+    },
+    "selected_run": {
+      "variant": "pso_inertia_07",
+      "seed": 21002,
+      "data_origin": "synthetic",
+      "evaluations": 60,
+      "duration_s": 5.5083729999896605,
+      "search_water_ml": 230.39347001336597,
+      "search_violation": 0.0,
+      "selection_water_ml": 226.3509164990796,
+      "selection_violation": 0.0,
+      "feasible": true,
+      "activation_ml": 88.0,
+      "target_ml": 86.0,
+      "dose_max_ml": 46.0
+    },
+    "simulation": {
+      "start": "2000-01-03T00:00:00-06:00",
+      "end": "2000-01-10T00:00:00-06:00",
+      "initial_deficit_ml": 0.0,
+      "method": "rk4",
+      "step_h": 0.25,
+      "review_hours": [
+        7,
+        13,
+        19
+      ],
+      "safe_deficit_ml": 100.0,
+      "max_dose_ml": 200.0,
+      "max_daily_ml": 300.0,
+      "close_balance": true
+    },
+    "constraints": {
+      "resolution_ml": 1.0,
+      "max_irrigations_per_day": 3,
+      "tolerance_ml": 1e-07,
+      "allowed_time_over_h": 0.0
+    },
+    "selection_audits": [
+      {
+        "seed": 12001,
+        "feasible": true,
+        "violation": 0,
+        "violations": {},
+        "time_over_limit_h": 0.0,
+        "max_deficit_ml": 97.40423215980873,
+        "total_irrigation_ml": 216.2557907216808,
+        "tolerance_ml": 1e-07
+      },
+      {
+        "seed": 12002,
+        "feasible": true,
+        "violation": 0,
+        "violations": {},
+        "time_over_limit_h": 0.0,
+        "max_deficit_ml": 99.38866054373432,
+        "total_irrigation_ml": 222.97053759255908,
+        "tolerance_ml": 1e-07
+      },
+      {
+        "seed": 12003,
+        "feasible": true,
+        "violation": 0,
+        "violations": {},
+        "time_over_limit_h": 0.0,
+        "max_deficit_ml": 99.73841959375005,
+        "total_irrigation_ml": 239.8264211829989,
+        "tolerance_ml": 1e-07
+      }
+    ],
+    "search_audits": [
+      {
+        "seed": 11001,
+        "feasible": true,
+        "violation": 0,
+        "violations": {},
+        "time_over_limit_h": 0.0,
+        "max_deficit_ml": 97.79136609293222,
+        "total_irrigation_ml": 222.74331359116425,
+        "tolerance_ml": 1e-07
+      },
+      {
+        "seed": 11002,
+        "feasible": true,
+        "violation": 0,
+        "violations": {},
+        "time_over_limit_h": 0.0,
+        "max_deficit_ml": 99.94766615251045,
+        "total_irrigation_ml": 238.0436264355677,
+        "tolerance_ml": 1e-07
+      }
+    ],
+    "base_selection": {
+      "water_ml": 309.72317387562094,
+      "audits": [
+        {
+          "seed": 12001,
+          "feasible": true,
+          "violation": 0,
+          "violations": {},
+          "time_over_limit_h": 0.0,
+          "max_deficit_ml": 41.240468888756524,
+          "total_irrigation_ml": 306.3904147279694,
+          "tolerance_ml": 1e-07
+        },
+        {
+          "seed": 12002,
+          "feasible": true,
+          "violation": 0,
+          "violations": {},
+          "time_over_limit_h": 0.0,
+          "max_deficit_ml": 41.63862672720757,
+          "total_irrigation_ml": 307.7474150391674,
+          "tolerance_ml": 1e-07
+        },
+        {
+          "seed": 12003,
+          "feasible": true,
+          "violation": 0,
+          "violations": {},
+          "time_over_limit_h": 0.0,
+          "max_deficit_ml": 42.339291090149025,
+          "total_irrigation_ml": 315.03169185972604,
+          "tolerance_ml": 1e-07
+        }
+      ]
+    },
+    "reserved_evaluation_seeds": [
+      13001,
+      13002,
+      13003,
+      13004,
+      13005,
+      13006,
+      13007,
+      13008,
+      13009,
+      13010,
+      13011,
+      13012,
+      13013,
+      13014,
+      13015,
+      13016,
+      13017,
+      13018,
+      13019,
+      13020,
+      13021,
+      13022,
+      13023,
+      13024,
+      13025,
+      13026,
+      13027,
+      13028,
+      13029,
+      13030
+    ]
+  },
+  "config": {
+    "optimization_config": "demo_pso.json",
+    "frozen_policy": "../results/optimization/synthetic/frozen_policy.json",
+    "output_dir": "../results/experiments/synthetic"
+  },
+  "development_config": {
+    "status": "synthetic_example",
+    "justification": "Demostración con la calibración sintética de A y la base hipotética de B. CV diario 0.10 hipotético, lognormal de media 1; no estimado de observaciones. Resolución 1 mL y frecuencia 3/día hipotéticas. Presupuesto reducido fijado antes de ejecutar: 60 evaluaciones por corrida, 30 corridas por variante.",
+    "model": "model.json",
+    "parameters": "../results/synthetic_calibration/parametros_modelo.json",
+    "base": "demo_base.json",
+    "output_dir": "../results/optimization/synthetic",
+    "constraints": {
+      "resolution_ml": 1.0,
+      "max_irrigations_per_day": 3,
+      "tolerance_ml": 1e-07,
+      "allowed_time_over_h": 0.0
+    },
+    "forcing": {
+      "daily_cv": 0.1
+    },
+    "budget": {
+      "particles": 10,
+      "iterations": 6
+    },
+    "variants": [
+      {
+        "name": "pso_inertia_07",
+        "algorithm": "pso",
+        "w": 0.7,
+        "c1": 1.4,
+        "c2": 1.4,
+        "velocity_max": 0.2
+      },
+      {
+        "name": "pso_inertia_04",
+        "algorithm": "pso",
+        "w": 0.4,
+        "c1": 1.4,
+        "c2": 1.4,
+        "velocity_max": 0.2
+      },
+      {
+        "name": "random",
+        "algorithm": "random"
+      }
+    ],
+    "seeds": {
+      "search": [
+        11001,
+        11002
+      ],
+      "selection": [
+        12001,
+        12002,
+        12003
+      ],
+      "evaluation": [
+        13001,
+        13002,
+        13003,
+        13004,
+        13005,
+        13006,
+        13007,
+        13008,
+        13009,
+        13010,
+        13011,
+        13012,
+        13013,
+        13014,
+        13015,
+        13016,
+        13017,
+        13018,
+        13019,
+        13020,
+        13021,
+        13022,
+        13023,
+        13024,
+        13025,
+        13026,
+        13027,
+        13028,
+        13029,
+        13030
+      ],
+      "optimizer": [
+        21001,
+        21002,
+        21003,
+        21004,
+        21005,
+        21006,
+        21007,
+        21008,
+        21009,
+        21010,
+        21011,
+        21012,
+        21013,
+        21014,
+        21015,
+        21016,
+        21017,
+        21018,
+        21019,
+        21020,
+        21021,
+        21022,
+        21023,
+        21024,
+        21025,
+        21026,
+        21027,
+        21028,
+        21029,
+        21030
+      ]
+    }
+  },
+  "parameters": {
+    "status": "frozen",
+    "data_origin": [
+      "synthetic"
+    ],
+    "loss_model": "dD/dt = q(t) * max(0, a + b*D); D en mL, t en h",
+    "time_blocks": [
+      {
+        "name": "day",
+        "start_hour": 6,
+        "end_hour": 18
+      },
+      {
+        "name": "night",
+        "start_hour": 18,
+        "end_hour": 6
+      }
+    ],
+    "timezone": "America/Guatemala",
+    "selected_scope": "pooled",
+    "pooled": {
+      "model": "blocks_linear",
+      "a_ml_per_h": 2.3941971572455043,
+      "b_per_h": -0.005102857651558125,
+      "q": {
+        "day": 1.0,
+        "night": 0.3547254042351522
+      },
+      "ci95": {
+        "a_ml_per_h": [
+          2.3115989238617254,
+          2.4218760813602693
+        ],
+        "b_per_h": [
+          -0.005496672636943479,
+          -0.00383402647705635
+        ],
+        "q_night": [
+          0.34560450126737086,
+          0.3606250245885259
+        ]
+      },
+      "rmse_ml": 1.0753175210333898,
+      "n_intervals": 120
+    },
+    "per_pot": {
+      "M01": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 2.182161472913762,
+        "b_per_h": -0.0061737005755529385,
+        "q": {
+          "day": 1.0,
+          "night": 0.36114967419056604
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            2.0861880822576824,
+            2.307198748930161
+          ],
+          "b_per_h": [
+            -0.008218346668565926,
+            -0.004496506386601323
+          ],
+          "q_night": [
+            0.33411564263014026,
+            0.3894856195937671
+          ]
+        },
+        "rmse_ml": 0.6707964502837395,
+        "n_intervals": 20
+      },
+      "M02": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 2.3912498842290155,
+        "b_per_h": -0.005974366674862545,
+        "q": {
+          "day": 1.0,
+          "night": 0.3593960943547527
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            2.343788431865032,
+            2.434803217435215
+          ],
+          "b_per_h": [
+            -0.0066492885366562105,
+            -0.004802793649923413
+          ],
+          "q_night": [
+            0.3311309214850837,
+            0.3847331604600995
+          ]
+        },
+        "rmse_ml": 0.6176126718176018,
+        "n_intervals": 20
+      },
+      "M03": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 2.4661498451347788,
+        "b_per_h": -0.005776520730073892,
+        "q": {
+          "day": 1.0,
+          "night": 0.3440574599649478
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            2.415249584510004,
+            2.502376893967679
+          ],
+          "b_per_h": [
+            -0.006419548753224548,
+            -0.004730996565172476
+          ],
+          "q_night": [
+            0.32620568449419546,
+            0.3647339473425423
+          ]
+        },
+        "rmse_ml": 0.3832111399852979,
+        "n_intervals": 20
+      },
+      "M04": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 2.696682005779924,
+        "b_per_h": -0.005067657951120371,
+        "q": {
+          "day": 1.0,
+          "night": 0.3343789355507371
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            2.6396491918213716,
+            2.8172508912850933
+          ],
+          "b_per_h": [
+            -0.006775552168291856,
+            -0.0044176014226745015
+          ],
+          "q_night": [
+            0.3080150131814897,
+            0.37565196453941774
+          ]
+        },
+        "rmse_ml": 0.7790954007903276,
+        "n_intervals": 20
+      },
+      "M05": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 2.484541755996042,
+        "b_per_h": -0.005373592779256855,
+        "q": {
+          "day": 1.0,
+          "night": 0.3686547553948462
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            2.4267084817006377,
+            2.603941134565644
+          ],
+          "b_per_h": [
+            -0.007009130415695219,
+            -0.004304304962629977
+          ],
+          "q_night": [
+            0.3517112670047646,
+            0.39680269188486555
+          ]
+        },
+        "rmse_ml": 0.5520131172639592,
+        "n_intervals": 20
+      },
+      "M06": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 2.3557046028341224,
+        "b_per_h": -0.006722808361589086,
+        "q": {
+          "day": 1.0,
+          "night": 0.3821562903841656
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            2.287900955085252,
+            2.5280022595034004
+          ],
+          "b_per_h": [
+            -0.009446692486142244,
+            -0.0048619173513802325
+          ],
+          "q_night": [
+            0.37117253645765325,
+            0.409218533091014
+          ]
+        },
+        "rmse_ml": 0.49232275707306056,
+        "n_intervals": 20
+      }
+    },
+    "reference_mass_g": {
+      "M01": 1089.4,
+      "M02": 962.3,
+      "M03": 1079.4,
+      "M04": 1013.7,
+      "M05": 1066.4,
+      "M06": 930.9
+    },
+    "water_density_g_per_ml": 1.0,
+    "measurement": {
+      "sigma_reading_g": 0.3162277660168249,
+      "sigma_deficit_ml": 0.3162277660168249
+    },
+    "observed_range_fit": {
+      "deficit_ml": [
+        0.40000000000009095,
+        115.20000000000005
+      ],
+      "loss_rate_ml_per_h": [
+        0.6666666666666666,
+        2.6333333333333258
+      ]
+    },
+    "drainage_stable_minutes_median": 20.0,
+    "top_soil_dry_deficit_ml": {
+      "median": 64.55000000000007,
+      "min": 61.09999999999991,
+      "max": 70.49999999999989
+    },
+    "irrigation_event_check": {
+      "n_events": 18,
+      "drainage_residual_mean_ml": 0.3166666666667008,
+      "drainage_residual_sd_ml": 0.7964996953582857,
+      "deficit_post_residual_mean_ml": 0.253434418574867
+    }
+  },
+  "base": {
+    "status": "synthetic_example",
+    "justification": "Ejemplo numérico para comprobar la ejecución; valores hipotéticos sin respaldo experimental.",
+    "policy": {
+      "dose_ml": 40.0,
+      "irrigation_hours": [
+        7
+      ],
+      "every_n_days": 1
+    },
+    "simulation": {
+      "start": "2000-01-03T00:00:00-06:00",
+      "end": "2000-01-10T00:00:00-06:00",
+      "initial_deficit_ml": 0.0,
+      "safe_deficit_ml": 100.0,
+      "max_dose_ml": 200.0,
+      "max_daily_ml": 300.0
+    },
+    "loss_multiplier": 1.0
+  },
+  "python": "3.13.1",
+  "numpy": "2.4.2",
+  "pandas": "2.3.3",
+  "input_sha256": {
+    "model": "33f4e1e73e5ece0e4c7779601c74f0b73a18eb5347975eeade30bae3bb44238f",
+    "parameters": "e479579dbb76d682b4923e2209ed06dbc5d25870d37a54338451c40c99e80b5b",
+    "base": "dd45aa4e92a076f5096ea3c331aeb2b376746d9c596bcff839a278732f27464e",
+    "config": "827264cb44932ae4ad3ec09461d0995e1692e89c9716dd73de8ea2ef1a7e471d",
+    "optimization_config": "53e6e6fc784255af12412e48bc709fe597838fcb3efd94016ebeae0293e12051",
+    "frozen_policy": "a983f20713022328ff75444001bace7b40c207e12e9afa989bf81969b1e01b70",
+    "optimization_manifest": "7f66c42d1a33f2f94f3066ad2144e64d576078c91b1f196b923cbaebfbfe4413"
+  },
+  "source_sha256": {
+    "calibration.py": "12e94635b763db16d4888eeb4caadffa5ae2a90a4532957f48c67f6c9c64de8c",
+    "constraints.py": "4940753d471ff92bf68fd35ac90b5fbc33989c1f8cc50ca4f7c7006d7dacd922",
+    "data_io.py": "eb28d0b96ce101f8bdd050e59f742f78a6ef11c022295a009a7f9005cddd9a2f",
+    "experiments.py": "dd17eb5a870b10ea82ae7451403cc182b8b4afcb2d9e551ef42169867e1930a7",
+    "integrators.py": "b37dc5a7e2c7863ea51001e138c91f725a8d16b0ccf828fa909c6593926fd301",
+    "metrics.py": "0fc430d3d04fc850976eac05029d672957381ca7e37534c8f48201096a4d5cea",
+    "model.py": "f1d8ffbf12eaa5fc71ce15cf464d4c76ffa9ae47ccdc3741ce51f42f9f87d862",
+    "optimization.py": "6c6d89f6a3cdced27afef5b4b909de7ae5fcb79414ac67baf41292bc5507c352",
+    "plots.py": "b468bb545ae84dad9d52909a050f84e7f70b420ee1a327762534858cb171cc62",
+    "policies.py": "03728b5fea0c3905d4946ff975595ec2edba1b6e1ba07351843adc5c21e17ca1",
+    "pso.py": "cfa4cfaa8101681271aa0971a146da6aa1e28460f3b5b35ad7484f156376f380",
+    "simulation_io.py": "3134f42ec93a0a1bd3510777e22f04403cede0700d19fbdfe34c81669a6cf90f",
+    "simulator.py": "4beade094700560a0b625472f3711e9aa48d7cdb359f636d456168e39e6a187c",
+    "synthetic_data.py": "ac79e5284cb283d6fadd3238ce24703af2d0f2bd96597453353ea6450ca4d4f3",
+    "time_blocks.py": "e15f77f7cc9ac4613f73f35b48a780e7c95004ec25946015c69ab51d5e059e33",
+    "validation.py": "dd261d4a414473224251a5300b5e41ae972e8b77c6af4cd55bb12250ad2320a2",
+    "verification.py": "69822435a62eed94925ea6664956f6050c836585b0fdc3b109be4f2e3c2b846e",
+    "__init__.py": "40452a61d90aaeb1594ecbcfd33f69524f9f84bb4cfaaf8468f507a46f6fd9e0",
+    "__main__.py": "583e6057bd0065cf2ad2a4b1bf4a5fa9e6ee25ee82108f0a0d00a3c3b00684e6"
+  },
+  "reproducibility": "Resultados numéricos reproducibles; duration_s es tiempo de pared variable."
+}

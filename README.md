@@ -57,6 +57,33 @@ python -m src.macetas simulate --parameters results/tables/parametros_modelo.jso
 
 Cuando la calibración selecciona parámetros por maceta se añade `--pot-id M01`, con el identificador correspondiente. El simulador exige una partición congelada y rechaza parámetros sintéticos salvo habilitación explícita. No se deben usar los valores de demostración como límites de manejo de una especie.
 
+**Experimentos y validación (integrante D)**
+
+Para la exposición, abre `iniciar_panel.cmd` con doble clic, o ejecuta:
+
+```powershell
+.venv\Scripts\python.exe -m src.macetas.presentation
+```
+
+Abre un panel local con maceta animada, reproducción de trayectorias, consola de
+tareas, pruebas, comparación de políticas, errores de validación y figuras.
+Funciona sin servicios externos una vez instaladas las dependencias.
+Consulta la [guía de presentación](docs/presentation.md) para el recorrido sugerido.
+
+```powershell
+python -m pip install -r requirements-experiments.txt
+python -m src.macetas.experiments --config configs/demo_experiments.json --allow-synthetic
+python -m src.macetas.plots --experiments results/experiments/synthetic
+```
+
+La demostración evalúa B0/O0/B1/O1 con 30 semillas reservadas por condición, sin
+volver a ejecutar PSO. Guarda tablas, trazabilidad y tres figuras PNG/PDF en
+`results/experiments/synthetic/`. Es una demostración sintética, no validación real.
+El procedimiento de validación con observaciones reservadas, comandos completos,
+métricas y limitaciones se describen en [docs/validation.md](docs/validation.md).
+La configuración real `configs/experiments.json` espera las entradas reales
+congeladas de A/B/C; actualmente están pendientes.
+
 **Archivos principales**
 
 | Ruta | Contenido |

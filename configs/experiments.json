@@ -1,0 +1,5 @@
+{
+  "optimization_config": "pso.json",
+  "frozen_policy": "../results/optimization/observed/frozen_policy.json",
+  "output_dir": "../results/experiments/observed"
+}
