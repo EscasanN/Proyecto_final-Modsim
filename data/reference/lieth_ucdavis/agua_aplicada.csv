@@ -1,0 +1,9 @@
+experiment,period,species,pot_size_in,grower_ml_per_day,grower_is_lower_bound,tension_ml_per_day,reported_savings_pct,data_origin
+1,Summer 1989,Chrysanthemum (mums),6,345,false,265,23,public
+2,Fall/Winter 1989,Poinsettia,6,109,false,105,4,public
+3,Winter 1989,Chrysanthemum (mums),6,1098,true,225,79,public
+4,Winter 1989,Chrysanthemum (mums),6,247,false,165,33,public
+5,Spring 1990,Chrysanthemum (mums),6,1001,true,225,78,public
+6,Summer 1990,Gerbera,6,420,false,238,43,public
+7,Summer 1990,Hydrangea,8,544,false,422,23,public
+8,Fall/Winter 1990,Poinsettia,6,239,false,83,65,public
