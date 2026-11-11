@@ -81,4 +81,4 @@ Formulación del modelo: [docs/model.md](docs/model.md). Validación y experimen
 
 **Uso de IA**
 
-Se utilizó IA para investigación adicional del tema, explicación de conceptos, apoyo logístico del plan de trabajo y asistencia en programación y pruebas. No se generaron mediciones mediante IA; los datos reales proceden de Chase (2026) y Lieth (UC Davis), citados en `docs/references.bib`.
+Se utilizó IA para investigación adicional del tema, explicación de conceptos, apoyo logístico del plan de trabajo y asistencia en programación y pruebas. No se generaron mediciones mediante IA; los datos proceden de Chase (2026) y Lieth (UC Davis), citados en `docs/references.bib`.
