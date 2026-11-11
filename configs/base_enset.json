@@ -1,0 +1,19 @@
+{
+  "status": "frozen",
+  "frozen_on": "2026-11-11",
+  "justification": "Sistema real: ensayo documentado de Chase (2026), Ensete ventricosum en plataforma gravimétrica (datos públicos). Horario: un riego diario fijo, como el riego nocturno diario que la plataforma aplicó a las plantas control (01:00-08:00); se usa la revisión común de las 07:00. Dosis: 325 mL, pérdida de 24 h desde D=0 de la maceta representativa E12 según su calibración en la ventana fit (326.4 mL), redondeada a 5 mL. Límite operacional: 520 mL, mayor déficit alcanzado por las plantas control (bien regadas) respecto de su masa al inicio del periodo (517 mL), redondeado a 5 mL; queda dentro del rango calibrado de E12 (5-1628 mL). Dosis máxima y presupuesto diario: 750 mL, mayor riego diario estimado de las plantas control (747 mL). Estado inicial D=0: masa de referencia al inicio del periodo de estrés. Horizonte de 7 días.",
+  "policy": {
+    "dose_ml": 325.0,
+    "irrigation_hours": [7],
+    "every_n_days": 1
+  },
+  "simulation": {
+    "start": "2024-07-31T00:00:00-06:00",
+    "end": "2024-08-07T00:00:00-06:00",
+    "initial_deficit_ml": 0.0,
+    "safe_deficit_ml": 520.0,
+    "max_dose_ml": 750.0,
+    "max_daily_ml": 750.0
+  },
+  "loss_multiplier": 1.0
+}

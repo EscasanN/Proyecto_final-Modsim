@@ -476,9 +476,17 @@ def parameter_table(result: CalibrationResult) -> pd.DataFrame:
     add("scale_repeatability_sd", st["repeatability_sd_g"], "g", "measured",
         "Desviación estándar agrupada de pesajes repetidos", scale_src)
     add("scale_max_abs_bias", st["max_abs_bias_g"], "g", "measured", "|media - masa conocida|", scale_src)
-    add("sigma_reading", st["sigma_reading_g"], "g", "measured", "sqrt(sd^2 + res^2/12)", scale_src,
+    sigma, sigma_kind = st["sigma_reading_g"], "measured"
+    sigma_method, sigma_src = "sqrt(sd^2 + res^2/12)", scale_src
+    estimate = ds.config["quality"].get("estimated_sigma_reading_g")
+    if not np.isfinite(sigma) and estimate is not None:
+        # Sin verificación de balanza (p. ej. datos públicos): estimación declarada en la configuración.
+        sigma, sigma_kind = float(estimate), "estimated"
+        sigma_method = ds.config["quality"].get("_nota_sigma", "Estimación declarada en data_config.json")
+        sigma_src = "data_config.json (quality.estimated_sigma_reading_g)"
+    add("sigma_reading", sigma, "g", sigma_kind, sigma_method, sigma_src,
         "Error de una lectura; usar como error de medición de D_hat")
-    add("sigma_deficit", st["sigma_reading_g"] / rho, "mL", "derived", "sigma_reading / rho_w", scale_src)
+    add("sigma_deficit", sigma / rho, "mL", "derived", "sigma_reading / rho_w", sigma_src)
     add("mass_tolerance", ds.tolerances["mass_tolerance_g"], "g", "derived",
         "tolerance_sigmas * sqrt(2) * sigma_reading", ds.tolerances["mass_tolerance_source"])
     f = result.intervals.frame

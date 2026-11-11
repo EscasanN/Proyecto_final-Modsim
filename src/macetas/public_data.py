@@ -55,6 +55,40 @@ def watered_plants(data: pd.DataFrame, rise_threshold_g: float) -> list[int]:
     return sorted(int(i) for i in rises.index[rises > rise_threshold_g])
 
 
+def control_reference(raw: pd.DataFrame, start: pd.Timestamp, rewater: pd.Timestamp,
+                      step_threshold_g: float = 5.0, hours=(1, 7)) -> tuple[pd.DataFrame, dict]:
+    """Riego diario estimado de las plantas que permanecen en control (bien regadas).
+
+    La plataforma riega a las plantas control por pulsos nocturnos. El riego de un día
+    se estima como la suma de las subidas de masa mayores que `step_threshold_g` entre
+    las `hours` (incluidas); es una cota inferior, porque no descuenta la pérdida
+    simultánea. Se usan los días completos desde el inicio del estrés hasta antes de la
+    rehidratación final (`rewater`). El déficit se mide respecto de la masa al inicio.
+    """
+    ctrl_ids = raw.groupby("id")["treatment"].agg(lambda s: set(s) == {"control"})
+    g = raw[raw["id"].isin(ctrl_ids[ctrl_ids].index) & (raw["t"] >= start) & (raw["t"] < rewater)]
+    g = g.sort_values(["id", "t"]).copy()
+    step = g.groupby("id")["weight"].diff()
+    g["irrigation_estimated_ml"] = step.where((step > step_threshold_g) & g["t"].dt.hour.between(*hours), 0.0)
+    g["deficit_ml"] = g.groupby("id")["weight"].transform("first") - g["weight"]
+    last_full_day = (rewater.normalize() - pd.Timedelta(days=1)).date()
+    daily = (g.assign(date=g["t"].dt.date).groupby(["id", "genotype", "date"])["irrigation_estimated_ml"].sum()
+             .reset_index())
+    daily = daily[daily["date"] <= last_full_day]
+    daily["data_origin"] = "estimated"
+    summary = {"plant_ids": [int(i) for i in daily["id"].unique()],
+               "days": [str(daily["date"].min()), str(daily["date"].max())],
+               "irrigation_mean_ml_per_day": round(float(daily["irrigation_estimated_ml"].mean()), 1),
+               "irrigation_mean_by_plant_ml_per_day": {int(k): round(float(v), 1) for k, v in
+                                                       daily.groupby("id")["irrigation_estimated_ml"].mean().items()},
+               "irrigation_max_ml_per_day": round(float(daily["irrigation_estimated_ml"].max()), 1),
+               "max_deficit_ml": round(float(g["deficit_ml"].max()), 1),
+               "max_deficit_by_plant_ml": {int(k): round(float(v), 1) for k, v in g.groupby("id")["deficit_ml"].max().items()},
+               "method": f"Suma de subidas > {step_threshold_g} g entre {hours[0]}:00 y {hours[1]}:59; cota inferior "
+                         f"del riego (no descuenta la pérdida simultánea). Déficit respecto de la masa al inicio del estrés."}
+    return daily.rename(columns={"id": "plant_id"}), summary
+
+
 def convert_chase2026(source_csv, out_dir, review_hours=(7, 13, 19), tolerance_min: float = 15.0,
                       rise_threshold_g: float = 50.0, fit_days: int = 7, check_hash: bool = True) -> dict[str, Path]:
     """Escribe macetas.csv, observaciones.csv, balanza.csv vacío y data_config.json en `out_dir`."""
@@ -112,11 +146,21 @@ def convert_chase2026(source_csv, out_dir, review_hours=(7, 13, 19), tolerance_m
 
     out_dir.mkdir(parents=True, exist_ok=True)
     paths = {"pots": out_dir / "macetas.csv", "observations": out_dir / "observaciones.csv",
-             "scale_checks": out_dir / "balanza.csv", "config": out_dir / "data_config.json"}
+             "scale_checks": out_dir / "balanza.csv", "config": out_dir / "data_config.json",
+             "control": out_dir / "referencia_control_riego.csv"}
     pd.DataFrame(pots, columns=list(POT_COLUMNS)).to_csv(paths["pots"], index=False)
     obs = pd.DataFrame(rows, columns=list(OBSERVATION_COLUMNS)).sort_values(["pot_id", "timestamp"])
     obs.to_csv(paths["observations"], index=False)
     pd.DataFrame(columns=list(SCALE_COLUMNS)).to_csv(paths["scale_checks"], index=False)
+
+    # Referencia real del riego: plantas que permanecen en control, misma ventana que el estrés.
+    first = data["t"].min()
+    ctrl = raw[raw.groupby("id")["treatment"].transform(lambda t: set(t) == {"control"})].sort_values(["id", "t"])
+    big = ctrl[(ctrl.groupby("id")["weight"].diff() > 100) & (ctrl["t"] > first)]
+    rewater = big["t"].min() if len(big) else data["t"].max() + pd.Timedelta(minutes=15)
+    control_daily, control_summary = control_reference(raw, first, rewater)
+    control_summary["rewater_excluded_from"] = str(rewater)
+    control_daily.to_csv(paths["control"], index=False)
 
     # Diferencias entre lecturas consecutivas de 15 min de la misma noche (pérdida casi nula).
     diff = data.groupby("id")["weight"].diff()
@@ -142,12 +186,16 @@ def convert_chase2026(source_csv, out_dir, review_hours=(7, 13, 19), tolerance_m
             "mass_tolerance_g": round(3 * np.sqrt(2) * noise_sd, 2),
             "_nota_tolerancia": f"Sin verificación de balanza en la fuente. Se estima con la desviación de las "
                                 f"diferencias de 15 min entre 01:00 y 04:59 ({noise_sd:.2f} g), cota superior del ruido.",
-            "drainage_excess_tolerance_ml": 2.0},
+            "drainage_excess_tolerance_ml": 2.0,
+            "estimated_sigma_reading_g": round(noise_sd / np.sqrt(2), 3),
+            "_nota_sigma": "Estimado: desviación de diferencias nocturnas de 15 min dividida entre sqrt(2) "
+                           "(diferencia de dos lecturas); cota superior porque incluye la pérdida residual."},
         "conversion": {"review_hours": list(review_hours), "tolerance_min": tolerance_min,
                        "rise_threshold_g": rise_threshold_g, "fit_days": fit_days, "n_plants": len(pots),
                        "excluded_plant_ids": excluded,
                        "_nota_exclusion": "Subida neta de masa > rise_threshold_g en 3 h durante el estrés: "
                                           "aportes de agua no documentados por la fuente."},
+        "control_reference": control_summary,
         "outputs": {"processed_dir": "salidas/processed", "tables_dir": "salidas/tables"},
     }
     paths["config"].write_text(json.dumps(config, indent=2, ensure_ascii=False), encoding="utf-8")

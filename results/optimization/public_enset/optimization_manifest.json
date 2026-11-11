@@ -1,0 +1,773 @@
+{
+  "config": {
+    "status": "frozen",
+    "frozen_on": "2026-11-11",
+    "justification": "Calibración real por maceta con datos públicos de Chase (2026); maceta representativa E12, la más cercana a la mediana de (a, b, q_noche) entre las 16 macetas con modelo blocks_linear, elegida con parámetros de la ventana fit. CV diario 0.083: variación entre días de la razón pérdida observada/predicha (mediana entre macetas, 5 días de la ventana fit). Error de lectura 0.397 mL estimado del ruido nocturno de la fuente. Resolución de dosis 5 mL (probeta graduada) y hasta 3 riegos/día en las revisiones comunes. Presupuesto reducido fijado antes de ejecutar: 10 partículas x 6 iteraciones (60 evaluaciones por corrida), 30 corridas por variante, igual que la demostración.",
+    "model": "model_public_enset.json",
+    "parameters": "../results/calibration/public_enset/parametros_modelo.json",
+    "base": "base_enset.json",
+    "pot_id": "E12",
+    "output_dir": "../results/optimization/public_enset",
+    "constraints": {
+      "resolution_ml": 5.0,
+      "max_irrigations_per_day": 3,
+      "tolerance_ml": 1e-07,
+      "allowed_time_over_h": 0.0
+    },
+    "forcing": {
+      "daily_cv": 0.083
+    },
+    "budget": {
+      "particles": 10,
+      "iterations": 6
+    },
+    "variants": [
+      {
+        "name": "pso_inertia_07",
+        "algorithm": "pso",
+        "w": 0.7,
+        "c1": 1.4,
+        "c2": 1.4,
+        "velocity_max": 0.2
+      },
+      {
+        "name": "pso_inertia_04",
+        "algorithm": "pso",
+        "w": 0.4,
+        "c1": 1.4,
+        "c2": 1.4,
+        "velocity_max": 0.2
+      },
+      {
+        "name": "random",
+        "algorithm": "random"
+      }
+    ],
+    "seeds": {
+      "search": [
+        11001,
+        11002
+      ],
+      "selection": [
+        12001,
+        12002,
+        12003
+      ],
+      "evaluation": [
+        13001,
+        13002,
+        13003,
+        13004,
+        13005,
+        13006,
+        13007,
+        13008,
+        13009,
+        13010,
+        13011,
+        13012,
+        13013,
+        13014,
+        13015,
+        13016,
+        13017,
+        13018,
+        13019,
+        13020,
+        13021,
+        13022,
+        13023,
+        13024,
+        13025,
+        13026,
+        13027,
+        13028,
+        13029,
+        13030
+      ],
+      "optimizer": [
+        21001,
+        21002,
+        21003,
+        21004,
+        21005,
+        21006,
+        21007,
+        21008,
+        21009,
+        21010,
+        21011,
+        21012,
+        21013,
+        21014,
+        21015,
+        21016,
+        21017,
+        21018,
+        21019,
+        21020,
+        21021,
+        21022,
+        21023,
+        21024,
+        21025,
+        21026,
+        21027,
+        21028,
+        21029,
+        21030
+      ]
+    }
+  },
+  "parameters": {
+    "status": "frozen",
+    "data_origin": [
+      "public"
+    ],
+    "loss_model": "dD/dt = q(t) * max(0, a + b*D); D en mL, t en h",
+    "time_blocks": [
+      {
+        "name": "day",
+        "start_hour": 6,
+        "end_hour": 18
+      },
+      {
+        "name": "night",
+        "start_hour": 18,
+        "end_hour": 6
+      }
+    ],
+    "timezone": "America/Guatemala",
+    "selected_scope": "per_pot",
+    "pooled": {
+      "model": "blocks_linear",
+      "a_ml_per_h": 21.5531516366887,
+      "b_per_h": -0.0049761856678331995,
+      "q": {
+        "day": 1.0,
+        "night": 3.962620841338783e-21
+      },
+      "ci95": {
+        "a_ml_per_h": [
+          14.304644553655024,
+          24.67360208041219
+        ],
+        "b_per_h": [
+          -0.007784043651140869,
+          -4.083082577305359e-14
+        ],
+        "q_night": [
+          2.8562469020471473e-26,
+          0.0040424306009552834
+        ]
+      },
+      "rmse_ml": 44.778534253109655,
+      "n_intervals": 361
+    },
+    "per_pot": {
+      "E01": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 34.17323757137068,
+        "b_per_h": -0.006035865120066457,
+        "q": {
+          "day": 1.0,
+          "night": 2.0793212258373386e-23
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            28.75823675946474,
+            45.94330390778396
+          ],
+          "b_per_h": [
+            -0.012286630106579708,
+            -4.802285001360002e-14
+          ],
+          "q_night": [
+            6.850500908816889e-29,
+            5.974333013935832e-14
+          ]
+        },
+        "rmse_ml": 39.23327212198115,
+        "n_intervals": 17
+      },
+      "E02": {
+        "model": "blocks",
+        "a_ml_per_h": 23.599440161717336,
+        "b_per_h": 0.0,
+        "q": {
+          "day": 1.0,
+          "night": 4.007249315454454e-24
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            21.533711365370333,
+            25.357400979352654
+          ],
+          "q_night": [
+            3.9778434405285975e-27,
+            2.5386376558495682e-14
+          ]
+        },
+        "rmse_ml": 30.353778436584577,
+        "n_intervals": 16
+      },
+      "E03": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 34.27838679920832,
+        "b_per_h": -0.010989854821472533,
+        "q": {
+          "day": 1.0,
+          "night": 8.103796462154284e-16
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            26.278240815515577,
+            37.77183304426296
+          ],
+          "b_per_h": [
+            -0.013960390546994961,
+            -0.005917787635978986
+          ],
+          "q_night": [
+            8.723598351186259e-22,
+            0.009034927709643476
+          ]
+        },
+        "rmse_ml": 34.0132787615897,
+        "n_intervals": 18
+      },
+      "E05": {
+        "model": "blocks",
+        "a_ml_per_h": 23.38426703409089,
+        "b_per_h": 0.0,
+        "q": {
+          "day": 1.0,
+          "night": 6.122665029782361e-26
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            18.794584021235313,
+            27.305438126442354
+          ],
+          "q_night": [
+            2.3846210063370455e-26,
+            0.011279337561346223
+          ]
+        },
+        "rmse_ml": 40.45036318891381,
+        "n_intervals": 17
+      },
+      "E06": {
+        "model": "blocks",
+        "a_ml_per_h": 21.861112303180757,
+        "b_per_h": 0.0,
+        "q": {
+          "day": 1.0,
+          "night": 8.116071332340058e-18
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            18.615630062774414,
+            25.17407776072551
+          ],
+          "q_night": [
+            1.0314454943377884e-27,
+            4.355545332382139e-14
+          ]
+        },
+        "rmse_ml": 34.942832712318925,
+        "n_intervals": 17
+      },
+      "E07": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 34.89334544107869,
+        "b_per_h": -0.017071452775986304,
+        "q": {
+          "day": 1.0,
+          "night": 0.0015120570005342213
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            29.785911612471065,
+            39.573401480397486
+          ],
+          "b_per_h": [
+            -0.020391185973867732,
+            -0.01317698046079469
+          ],
+          "q_night": [
+            1.4113565675572515e-24,
+            0.02399234382900626
+          ]
+        },
+        "rmse_ml": 31.95482436550703,
+        "n_intervals": 17
+      },
+      "E09": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 27.702737768114808,
+        "b_per_h": -0.01474944763282871,
+        "q": {
+          "day": 1.0,
+          "night": 0.061160712562849134
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            22.812974200769567,
+            29.851465768437315
+          ],
+          "b_per_h": [
+            -0.01736513967254524,
+            -0.010603878990991198
+          ],
+          "q_night": [
+            0.029956082753671284,
+            0.10987147709442797
+          ]
+        },
+        "rmse_ml": 25.509937376789992,
+        "n_intervals": 17
+      },
+      "E10": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 31.933356426849656,
+        "b_per_h": -0.015498585715571823,
+        "q": {
+          "day": 1.0,
+          "night": 0.018540150210313407
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            27.774975257189745,
+            36.117116723994265
+          ],
+          "b_per_h": [
+            -0.018890568034003807,
+            -0.012115539260380326
+          ],
+          "q_night": [
+            6.066551094296367e-19,
+            0.04746851201688632
+          ]
+        },
+        "rmse_ml": 28.69660074203972,
+        "n_intervals": 18
+      },
+      "E11": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 29.003379953070187,
+        "b_per_h": -0.010840265449818915,
+        "q": {
+          "day": 1.0,
+          "night": 6.43981859238677e-20
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            23.534805796962683,
+            31.706418708402534
+          ],
+          "b_per_h": [
+            -0.013035522642797536,
+            -0.006268732490804167
+          ],
+          "q_night": [
+            5.013177201321493e-24,
+            6.751895214260165e-16
+          ]
+        },
+        "rmse_ml": 27.542365318763807,
+        "n_intervals": 17
+      },
+      "E12": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 28.230598561451153,
+        "b_per_h": -0.01021657929373539,
+        "q": {
+          "day": 1.0,
+          "night": 0.025250257011530778
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            25.2199252359728,
+            33.49971868371475
+          ],
+          "b_per_h": [
+            -0.0139677058179198,
+            -0.006418759788580374
+          ],
+          "q_night": [
+            0.001072520287670697,
+            0.05153994190252654
+          ]
+        },
+        "rmse_ml": 29.500592404669327,
+        "n_intervals": 18
+      },
+      "E14": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 18.39843075762461,
+        "b_per_h": -0.007916909191619127,
+        "q": {
+          "day": 1.0,
+          "night": 0.029529190945609247
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            15.568040667009296,
+            19.537043060839196
+          ],
+          "b_per_h": [
+            -0.01024023151693876,
+            -0.004698210084035329
+          ],
+          "q_night": [
+            0.014023559579220066,
+            0.045627056147739306
+          ]
+        },
+        "rmse_ml": 14.653811811277988,
+        "n_intervals": 17
+      },
+      "E15": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 38.43340533022309,
+        "b_per_h": -0.01606894964628817,
+        "q": {
+          "day": 1.0,
+          "night": 0.018569668568659235
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            32.69988629414553,
+            41.8640419173746
+          ],
+          "b_per_h": [
+            -0.01826290122313697,
+            -0.012454180729273796
+          ],
+          "q_night": [
+            1.9011072907929933e-19,
+            0.041705127441670216
+          ]
+        },
+        "rmse_ml": 35.705470869385536,
+        "n_intervals": 17
+      },
+      "E16": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 32.14727337270279,
+        "b_per_h": -0.014277818654047019,
+        "q": {
+          "day": 1.0,
+          "night": 0.05124195172648744
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            27.888558281339076,
+            35.29651047615615
+          ],
+          "b_per_h": [
+            -0.017040303505626058,
+            -0.010881289019988395
+          ],
+          "q_night": [
+            0.021265266578898347,
+            0.08797939971461076
+          ]
+        },
+        "rmse_ml": 30.869369870995637,
+        "n_intervals": 17
+      },
+      "E17": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 32.265388222841246,
+        "b_per_h": -0.01432108732412255,
+        "q": {
+          "day": 1.0,
+          "night": 0.05584400788452861
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            29.846826851802167,
+            40.20384926543447
+          ],
+          "b_per_h": [
+            -0.019921818349280997,
+            -0.012168526697701723
+          ],
+          "q_night": [
+            0.02340214126829277,
+            0.09892535403545066
+          ]
+        },
+        "rmse_ml": 34.833478335555526,
+        "n_intervals": 17
+      },
+      "E22": {
+        "model": "blocks",
+        "a_ml_per_h": 17.71524808357728,
+        "b_per_h": 0.0,
+        "q": {
+          "day": 1.0,
+          "night": 0.04603988859741199
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            15.060608657824119,
+            20.105309707376342
+          ],
+          "q_night": [
+            0.024609257762624792,
+            0.07444978566117715
+          ]
+        },
+        "rmse_ml": 30.95849407110141,
+        "n_intervals": 17
+      },
+      "E23": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 21.477905656933853,
+        "b_per_h": -0.012124610638481886,
+        "q": {
+          "day": 1.0,
+          "night": 3.1526093458879614e-20
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            18.77453713827244,
+            23.280681953378053
+          ],
+          "b_per_h": [
+            -0.015754289712044033,
+            -0.008455864899260297
+          ],
+          "q_night": [
+            1.425745072028001e-25,
+            6.966101126275946e-16
+          ]
+        },
+        "rmse_ml": 15.683998401754339,
+        "n_intervals": 18
+      },
+      "E24": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 22.091156373405166,
+        "b_per_h": -0.010876377812627711,
+        "q": {
+          "day": 1.0,
+          "night": 3.972322280519095e-20
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            19.439118201283243,
+            23.643208677926552
+          ],
+          "b_per_h": [
+            -0.013233124417712737,
+            -0.007928254147446084
+          ],
+          "q_night": [
+            2.996087998787843e-25,
+            1.140660802906689e-15
+          ]
+        },
+        "rmse_ml": 16.864361916701917,
+        "n_intervals": 17
+      },
+      "E27": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 17.981157833318804,
+        "b_per_h": -0.013305999607787859,
+        "q": {
+          "day": 1.0,
+          "night": 3.201454815443099e-20
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            14.106865484164844,
+            19.681581053564443
+          ],
+          "b_per_h": [
+            -0.018137929258443146,
+            -0.007316505360581487
+          ],
+          "q_night": [
+            5.642184848786126e-27,
+            4.854458287111438e-16
+          ]
+        },
+        "rmse_ml": 11.607852631808292,
+        "n_intervals": 17
+      },
+      "E28": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 20.816679500185526,
+        "b_per_h": -0.008581842498578556,
+        "q": {
+          "day": 1.0,
+          "night": 9.989864397744946e-23
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            17.647452991712584,
+            24.64397418316999
+          ],
+          "b_per_h": [
+            -0.012380124744343147,
+            -0.00491372677353886
+          ],
+          "q_night": [
+            1.3070945131929766e-23,
+            1.516517091034985e-14
+          ]
+        },
+        "rmse_ml": 20.017400607645524,
+        "n_intervals": 17
+      },
+      "E29": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 16.605032411496875,
+        "b_per_h": -0.009965729633881669,
+        "q": {
+          "day": 1.0,
+          "night": 0.07821363633038346
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            13.790225971769948,
+            17.753487669362723
+          ],
+          "b_per_h": [
+            -0.012654565470999827,
+            -0.006570100220561889
+          ],
+          "q_night": [
+            0.044312526100389,
+            0.12928197961780868
+          ]
+        },
+        "rmse_ml": 12.143206381442223,
+        "n_intervals": 17
+      },
+      "E31": {
+        "model": "blocks_linear",
+        "a_ml_per_h": 17.358179440965063,
+        "b_per_h": -0.010013190736769526,
+        "q": {
+          "day": 1.0,
+          "night": 0.12495427943493383
+        },
+        "ci95": {
+          "a_ml_per_h": [
+            15.56017846712501,
+            18.704354131019954
+          ],
+          "b_per_h": [
+            -0.01160119358803894,
+            -0.005658404671269299
+          ],
+          "q_night": [
+            0.07742208923489853,
+            0.19381553127077014
+          ]
+        },
+        "rmse_ml": 15.07128831829708,
+        "n_intervals": 18
+      }
+    },
+    "reference_mass_g": {
+      "E01": 7892.8,
+      "E02": 7264.9,
+      "E03": 7262.8,
+      "E05": 7415.0,
+      "E06": 6913.0,
+      "E07": 6661.5,
+      "E09": 6723.7,
+      "E10": 6789.3,
+      "E11": 7139.8,
+      "E12": 6765.7,
+      "E14": 6812.8,
+      "E15": 6569.3,
+      "E16": 6820.6,
+      "E17": 6869.7,
+      "E22": 7387.8,
+      "E23": 6671.9,
+      "E24": 6691.9,
+      "E27": 6557.4,
+      "E28": 7007.4,
+      "E29": 6245.4,
+      "E31": 6504.9
+    },
+    "water_density_g_per_ml": 1.0,
+    "measurement": {
+      "sigma_reading_g": 0.397,
+      "sigma_deficit_ml": 0.397
+    },
+    "observed_range_fit": {
+      "deficit_ml": [
+        -1.300000000000182,
+        2200.5
+      ],
+      "loss_rate_ml_per_h": [
+        -2.6723404255319614,
+        44.73333333333327
+      ]
+    },
+    "drainage_stable_minutes_median": null,
+    "top_soil_dry_deficit_ml": {
+      "median": null,
+      "min": null,
+      "max": null
+    },
+    "irrigation_event_check": {
+      "n_events": 0,
+      "drainage_residual_mean_ml": null,
+      "drainage_residual_sd_ml": null,
+      "deficit_post_residual_mean_ml": null
+    }
+  },
+  "python": "3.14.3",
+  "numpy": "2.4.3",
+  "pandas": "3.0.1",
+  "git_head": "361a1c2e67128f75bcf1308fcb655196e1aca58c",
+  "working_tree_changes_included": true,
+  "data_origin": "public",
+  "real_validation": false,
+  "evaluation_bank_generated": false,
+  "input_sha256": {
+    "config": "741c294306af54fdff36e952a3ee337169a3bf815036421d5cd7ac59d07178ea",
+    "model": "97a341a5bae6b2cb5dbf119352e18d76042e11456cfdee6c41216ee48a95eaa7",
+    "parameters": "71413835000478b9a77aa60f32cc153176e1c161c0deb7a8f23de47485b33758",
+    "base": "ac3ad7a9427c2a5596911e9ae9f972de46b394fa07fbcf42ecbc89ba07eca4a9"
+  },
+  "source_sha256": {
+    "calibration.py": "39a99b58017035b8a259f4577c39347ae8b337a54ad8f7c648b7f2f08f02babf",
+    "comparison_table.py": "04ca090bff56d215760c17cc4bbd43ed07c4a33141f7795f79bdaf9f963dc02f",
+    "constraints.py": "4940753d471ff92bf68fd35ac90b5fbc33989c1f8cc50ca4f7c7006d7dacd922",
+    "data_io.py": "eb28d0b96ce101f8bdd050e59f742f78a6ef11c022295a009a7f9005cddd9a2f",
+    "experiments.py": "f3f9d0a1710a55b37fb406751a6156b1c04fbcc9148ae3bbbd031564820bab1b",
+    "integrators.py": "b37dc5a7e2c7863ea51001e138c91f725a8d16b0ccf828fa909c6593926fd301",
+    "metrics.py": "43c2d0287e9ac1e7f570e4a06fad58a4ec3acde257775891a57c631c806927a4",
+    "model.py": "89e7f0d85c468b59fdd795e8599a4b9b605128e84c1f6100f08fa96b519c532d",
+    "optimization.py": "6c6d89f6a3cdced27afef5b4b909de7ae5fcb79414ac67baf41292bc5507c352",
+    "plots.py": "c684866cd0bed4a21c42275d2fd1f3bb6c37e375543e0ddc4b16691d76447bc2",
+    "policies.py": "03728b5fea0c3905d4946ff975595ec2edba1b6e1ba07351843adc5c21e17ca1",
+    "presentation.py": "9eeca0d666dc1653cc230f247b7384b96e2d7b67636d45b9db0b760a46ebe98f",
+    "pso.py": "cfa4cfaa8101681271aa0971a146da6aa1e28460f3b5b35ad7484f156376f380",
+    "public_data.py": "8e5106785d6cd37a24a63cbf7fb6a9c55453c2b54c1c1b6cf9d2201a1e12fac7",
+    "simulation_io.py": "3134f42ec93a0a1bd3510777e22f04403cede0700d19fbdfe34c81669a6cf90f",
+    "simulator.py": "4beade094700560a0b625472f3711e9aa48d7cdb359f636d456168e39e6a187c",
+    "synthetic_data.py": "ac79e5284cb283d6fadd3238ce24703af2d0f2bd96597453353ea6450ca4d4f3",
+    "time_blocks.py": "e15f77f7cc9ac4613f73f35b48a780e7c95004ec25946015c69ab51d5e059e33",
+    "validation.py": "7558b246c5b7afbc7c6d5d6887658cfa5e3f51430507ebee2d21581285a2d597",
+    "verification.py": "69822435a62eed94925ea6664956f6050c836585b0fdc3b109be4f2e3c2b846e",
+    "__init__.py": "68940278264a7a06b24c59332ebdbabedb6b025b0c2dac808519042fe1803a3e",
+    "__main__.py": "edc1ce2832c60c46fb4a925b0290cf1fb30006fca656d1e1b80286242fa7857e"
+  },
+  "unique_candidates": {
+    "search": 4359,
+    "selection": 85
+  },
+  "cache_note": "Presupuesto cuenta llamadas lógicas; caché compartida para políticas efectivas idénticas. Duración incluye caché caliente.",
+  "selection_rule": "Factibilidad en búsqueda y selección; menor agua de selección; empate por orden de corrida."
+}

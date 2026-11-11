@@ -1,7 +1,7 @@
 {
-  "created_utc": "2026-11-10T18:00:21+00:00",
+  "created_utc": "2026-11-11T18:23:06+00:00",
   "status": "frozen",
-  "git_commit": "93b15fb3d2b2a63fffb58210359449865d3901b3",
+  "git_commit": "361a1c2e67128f75bcf1308fcb655196e1aca58c",
   "python": "3.14.3",
   "packages": {
     "numpy": "2.4.3",
@@ -56,7 +56,9 @@
       "tolerance_sigmas": 3.0,
       "mass_tolerance_g": 2.38,
       "_nota_tolerancia": "Sin verificación de balanza en la fuente. Se estima con la desviación de las diferencias de 15 min entre 01:00 y 04:59 (0.56 g), cota superior del ruido.",
-      "drainage_excess_tolerance_ml": 2.0
+      "drainage_excess_tolerance_ml": 2.0,
+      "estimated_sigma_reading_g": 0.397,
+      "_nota_sigma": "Estimado: desviación de diferencias nocturnas de 15 min dividida entre sqrt(2) (diferencia de dos lecturas); cota superior porque incluye la pérdida residual."
     },
     "conversion": {
       "review_hours": [

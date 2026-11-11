@@ -1,0 +1,5 @@
+{
+  "optimization_config": "pso_enset.json",
+  "frozen_policy": "../results/optimization/public_enset/frozen_policy.json",
+  "output_dir": "../results/experiments/public_enset"
+}

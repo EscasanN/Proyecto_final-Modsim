@@ -579,8 +579,8 @@
   },
   "water_density_g_per_ml": 1.0,
   "measurement": {
-    "sigma_reading_g": null,
-    "sigma_deficit_ml": null
+    "sigma_reading_g": 0.397,
+    "sigma_deficit_ml": 0.397
   },
   "observed_range_fit": {
     "deficit_ml": [

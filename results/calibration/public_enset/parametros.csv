@@ -91,8 +91,8 @@ global,water_density,1.0,g/mL,assumed,,,,,,,,Supuesto de trabajo,"Plan, sección
 global,scale_resolution,,g,measured,,,,,,,,Máxima resolución declarada,data/raw/balanza.csv,public,
 global,scale_repeatability_sd,,g,measured,,,,,,,,Desviación estándar agrupada de pesajes repetidos,data/raw/balanza.csv,public,
 global,scale_max_abs_bias,,g,measured,,,,,,,,|media - masa conocida|,data/raw/balanza.csv,public,
-global,sigma_reading,,g,measured,,,,,,,,sqrt(sd^2 + res^2/12),data/raw/balanza.csv,public,Error de una lectura; usar como error de medición de D_hat
-global,sigma_deficit,,mL,derived,,,,,,,,sigma_reading / rho_w,data/raw/balanza.csv,public,
+global,sigma_reading,0.397,g,estimated,,,,,,,,Estimado: desviación de diferencias nocturnas de 15 min dividida entre sqrt(2) (diferencia de dos lecturas); cota superior porque incluye la pérdida residual.,data_config.json (quality.estimated_sigma_reading_g),public,Error de una lectura; usar como error de medición de D_hat
+global,sigma_deficit,0.397,mL,derived,,,,,,,,sigma_reading / rho_w,data_config.json (quality.estimated_sigma_reading_g),public,
 global,mass_tolerance,2.38,g,derived,,,,,,,,tolerance_sigmas * sqrt(2) * sigma_reading,configuración,public,
 global,deficit_min_fit,-1.300000000000182,mL,observed_range,,,,,,,,Mínimo en intervalos de ajuste,Intervalos de secado de la fase fit (data/processed/intervalos_secado_fit.csv),public,No extrapolar fuera del rango observado
 global,deficit_max_fit,2200.5,mL,observed_range,,,,,,,,Máximo en intervalos de ajuste,Intervalos de secado de la fase fit (data/processed/intervalos_secado_fit.csv),public,No extrapolar fuera del rango observado

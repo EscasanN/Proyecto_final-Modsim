@@ -1,0 +1,174 @@
+{
+  "status": "frozen",
+  "scope": "development_only",
+  "data_origin": "public",
+  "real_validation": false,
+  "policy": {
+    "activation_ml": 365.0,
+    "target_ml": 350.0,
+    "dose_max_ml": 150.0
+  },
+  "best_candidate": {
+    "activation_ml": 365.0,
+    "target_ml": 350.0,
+    "dose_max_ml": 150.0
+  },
+  "selected_run": {
+    "variant": "pso_inertia_04",
+    "seed": 21011,
+    "data_origin": "public",
+    "evaluations": 60,
+    "duration_s": 3.1979666000006546,
+    "search_water_ml": 2111.150759191518,
+    "search_violation": 0.0,
+    "selection_water_ml": 2077.630341928783,
+    "selection_violation": 0.0,
+    "feasible": true,
+    "activation_ml": 365.0,
+    "target_ml": 350.0,
+    "dose_max_ml": 150.0
+  },
+  "simulation": {
+    "start": "2024-07-31T00:00:00-06:00",
+    "end": "2024-08-07T00:00:00-06:00",
+    "initial_deficit_ml": 0.0,
+    "method": "rk4",
+    "step_h": 0.25,
+    "review_hours": [
+      7,
+      13,
+      19
+    ],
+    "safe_deficit_ml": 520.0,
+    "max_dose_ml": 750.0,
+    "max_daily_ml": 750.0,
+    "close_balance": true
+  },
+  "constraints": {
+    "resolution_ml": 5.0,
+    "max_irrigations_per_day": 3,
+    "tolerance_ml": 1e-07,
+    "allowed_time_over_h": 0.0
+  },
+  "selection_audits": [
+    {
+      "seed": 12001,
+      "feasible": true,
+      "violation": 0,
+      "violations": {},
+      "time_over_limit_h": 0.0,
+      "max_deficit_ml": 493.26104571911975,
+      "total_irrigation_ml": 2000.8012325412317,
+      "tolerance_ml": 1e-07
+    },
+    {
+      "seed": 12002,
+      "feasible": true,
+      "violation": 0,
+      "violations": {},
+      "time_over_limit_h": 0.0,
+      "max_deficit_ml": 513.4977266246361,
+      "total_irrigation_ml": 2050.1933034686663,
+      "tolerance_ml": 1e-07
+    },
+    {
+      "seed": 12003,
+      "feasible": true,
+      "violation": 0,
+      "violations": {},
+      "time_over_limit_h": 0.0,
+      "max_deficit_ml": 510.1827148667736,
+      "total_irrigation_ml": 2181.89648977645,
+      "tolerance_ml": 1e-07
+    }
+  ],
+  "search_audits": [
+    {
+      "seed": 11001,
+      "feasible": true,
+      "violation": 0,
+      "violations": {},
+      "time_over_limit_h": 0.0,
+      "max_deficit_ml": 499.7039862024298,
+      "total_irrigation_ml": 2052.4505784597895,
+      "tolerance_ml": 1e-07
+    },
+    {
+      "seed": 11002,
+      "feasible": true,
+      "violation": 0,
+      "violations": {},
+      "time_over_limit_h": 0.0,
+      "max_deficit_ml": 513.0166202160225,
+      "total_irrigation_ml": 2169.8509399232466,
+      "tolerance_ml": 1e-07
+    }
+  ],
+  "base_selection": {
+    "water_ml": 2589.427850871132,
+    "audits": [
+      {
+        "seed": 12001,
+        "feasible": true,
+        "violation": 0,
+        "violations": {},
+        "time_over_limit_h": 0.0,
+        "max_deficit_ml": 358.03088256071806,
+        "total_irrigation_ml": 2540.4230608044973,
+        "tolerance_ml": 1e-07
+      },
+      {
+        "seed": 12002,
+        "feasible": true,
+        "violation": 0,
+        "violations": {},
+        "time_over_limit_h": 0.0,
+        "max_deficit_ml": 375.564303889117,
+        "total_irrigation_ml": 2570.71183814521,
+        "tolerance_ml": 1e-07
+      },
+      {
+        "seed": 12003,
+        "feasible": true,
+        "violation": 0,
+        "violations": {},
+        "time_over_limit_h": 0.0,
+        "max_deficit_ml": 391.32542832096334,
+        "total_irrigation_ml": 2657.1486536636876,
+        "tolerance_ml": 1e-07
+      }
+    ]
+  },
+  "reserved_evaluation_seeds": [
+    13001,
+    13002,
+    13003,
+    13004,
+    13005,
+    13006,
+    13007,
+    13008,
+    13009,
+    13010,
+    13011,
+    13012,
+    13013,
+    13014,
+    13015,
+    13016,
+    13017,
+    13018,
+    13019,
+    13020,
+    13021,
+    13022,
+    13023,
+    13024,
+    13025,
+    13026,
+    13027,
+    13028,
+    13029,
+    13030
+  ]
+}

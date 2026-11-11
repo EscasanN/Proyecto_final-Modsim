@@ -43,7 +43,9 @@
     "tolerance_sigmas": 3.0,
     "mass_tolerance_g": 2.38,
     "_nota_tolerancia": "Sin verificación de balanza en la fuente. Se estima con la desviación de las diferencias de 15 min entre 01:00 y 04:59 (0.56 g), cota superior del ruido.",
-    "drainage_excess_tolerance_ml": 2.0
+    "drainage_excess_tolerance_ml": 2.0,
+    "estimated_sigma_reading_g": 0.397,
+    "_nota_sigma": "Estimado: desviación de diferencias nocturnas de 15 min dividida entre sqrt(2) (diferencia de dos lecturas); cota superior porque incluye la pérdida residual."
   },
   "conversion": {
     "review_hours": [
@@ -59,6 +61,29 @@
       13
     ],
     "_nota_exclusion": "Subida neta de masa > rise_threshold_g en 3 h durante el estrés: aportes de agua no documentados por la fuente."
+  },
+  "control_reference": {
+    "plant_ids": [
+      4,
+      8
+    ],
+    "days": [
+      "2024-07-24",
+      "2024-08-05"
+    ],
+    "irrigation_mean_ml_per_day": 273.1,
+    "irrigation_mean_by_plant_ml_per_day": {
+      "4": 202.2,
+      "8": 344.0
+    },
+    "irrigation_max_ml_per_day": 746.8,
+    "max_deficit_ml": 517.0,
+    "max_deficit_by_plant_ml": {
+      "4": 453.1,
+      "8": 517.0
+    },
+    "method": "Suma de subidas > 5.0 g entre 1:00 y 7:59; cota inferior del riego (no descuenta la pérdida simultánea). Déficit respecto de la masa al inicio del estrés.",
+    "rewater_excluded_from": "2024-08-06 17:00:00"
   },
   "outputs": {
     "processed_dir": "salidas/processed",
