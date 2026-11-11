@@ -49,7 +49,7 @@ python -m src.macetas import-public
 python -m src.macetas validate-data --config data/reference/chase2026_enset/converted/data_config.json
 python -m src.macetas calibrate --config configs/model_public_enset.json
 python -m src.macetas.validation --data-config data/reference/chase2026_enset/converted/data_config.json --parameters data/reference/chase2026_enset/converted/salidas/tables/parametros_modelo.json --out results/validation/public_enset
-python -m src.macetas.plots --experiments results/experiments/synthetic --validation results/validation/public_enset --out results/validation/public_enset/figures
+python -m src.macetas.plots --validation results/validation/public_enset --validation-only
 ```
 
 Tablas de calibración: `results/calibration/public_enset/`. Validación y figuras: `results/validation/public_enset/`.

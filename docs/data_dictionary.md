@@ -1,5 +1,7 @@
 **Diccionario de datos**
 
+> El formato se aplica tanto a las mediciones propias previstas (`data/raw/`, trabajo futuro) como a los datos públicos convertidos de Chase (2026) en `data/reference/chase2026_enset/converted/` (`data_origin = public`).
+
 Responsable: Nelson Escalante. Implementado en `src/macetas/data_io.py`; cualquier cambio aquí debe reflejarse allí y viceversa.
 
 **Reglas generales**

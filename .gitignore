@@ -10,3 +10,6 @@ data/synthetic/
 # data/reference/chase2026_enset/README.md y se verifican por SHA-256.
 data/reference/chase2026_enset/original/
 data/reference/chase2026_enset/converted/salidas/
+
+# Salida de validate-data sobre las plantillas vacías de data/raw (se regenera).
+results/tables/calidad_datos.csv

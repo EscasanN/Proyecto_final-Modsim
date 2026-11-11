@@ -1,5 +1,0 @@
-﻿metrica,unidad,referencia_real,simulacion_base,simulacion_mejorada,cambio_absoluto,cambio_porcentual,fuente_referencia,fuente_simulacion
-Agua aplicada por maceta,mL/maceta/día,296.0,44.31422934944597,32.46097483133171,-11.853254518114255,-26.748190574733414,"Lieth: riego del productor, mediana de 6 experimentos (rango 109–544)","B0/O0, 30 réplicas, 7 días, origen synthetic"
-Reducción del agua aplicada respecto de la base,%,28.193393181951535,0.0,26.79919797530406,26.79919797530406,,"Lieth (otras especies): tensiómetro frente a productor, mediana (rango 3.7–65.3 %)",Media de ahorros pareados O0 frente a B0 en pares factibles (DE 2.2 %)
-Ejecuciones que cumplen las restricciones,%,,100.0,86.66666666666667,-13.333333333333329,,No reportado por las fuentes,Auditor independiente de restricciones
-Pérdida de agua en secado sin riego,mL/maceta/día,81.04076190476191,113.31845148176193,,32.27768957700002,39.82895621703601,"Chase (2026): ventana de validación, 21 macetas, origen public","Modelo por maceta calibrado en la ventana de ajuste; MAE 172 mL, sesgo +157 mL. La política no actúa sin riegos"

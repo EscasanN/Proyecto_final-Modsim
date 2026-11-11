@@ -1,5 +1,7 @@
 # Experimentos y validación (integrante D)
 
+> **Actualización (2026-11-11).** Ya existen resultados con mediciones reales públicas del sistema adoptado (Chase, 2026): validación en `results/validation/public_enset/`, optimización y experimentos en `results/optimization/public_enset/` y `results/experiments/public_enset/`. Ver `docs/sistema_enset.md`. Las menciones a resultados reales pendientes se refieren a las mediciones propias, que no se realizaron.
+
 ## Alcance y estado
 
 Se reutilizan la carga y calibración de A, el motor de B y la política,

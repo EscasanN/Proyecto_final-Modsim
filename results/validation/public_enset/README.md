@@ -33,4 +33,4 @@ La pérdida nocturna es prácticamente nula y la pérdida diurna disminuye al au
 
 **Archivos**
 
-`comparisons.csv` (cada lectura comparada), `errors.csv` (por maceta y ALL), `trajectory.csv`, `events.csv`, `validation_manifest.json` (hashes, partición, `public_reference_validation: true`). Figuras: `figures/01_system` (primera maceta, E01) y `figures/04_validation_all` (todas las macetas). Las figuras 02 y 03 de esta carpeta repiten los experimentos sintéticos y no contienen datos públicos.
+`comparisons.csv` (cada lectura comparada), `errors.csv` (por maceta y ALL), `trajectory.csv`, `events.csv`, `validation_manifest.json` (hashes, partición, `public_reference_validation: true`). Figuras (`python -m src.macetas.plots --validation results/validation/public_enset --validation-only`): `figures/01_system` (primera maceta, E01) y `figures/04_validation_all` (todas las macetas).

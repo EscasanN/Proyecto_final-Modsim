@@ -1,5 +1,7 @@
 **Hoja de registro y turnos**
 
+> **Trabajo futuro.** Este documento describe el montaje propio de *Crassula ovata* que no se llegó a medir. El sistema real de la entrega es el ensayo de Chase (2026); ver `docs/sistema_enset.md`.
+
 Responsable: Nelson Escalante. Formato de campo para anotar cada revisión antes de transcribir a `data/raw/observaciones.csv` el mismo día. Las columnas siguen `docs/data_dictionary.md`.
 
 **Hoja de revisión (imprimir una por revisión)**

@@ -1,2 +1,0 @@
-﻿severity,check,file,row,pot_id,message
-warning,tolerancia,balanza,,,Sin verificación de balanza: no se evalúan aumentos de masa ni déficits negativos.

@@ -2,66 +2,78 @@
 
 **Problema y objetivo**
 
-El riego con dosis y horario fijos puede aplicar más agua de la que una maceta perdió o dejar un déficit elevado antes de la siguiente revisión. Se estudia el peso de la maceta como indicador de cambios en el agua retenida y se establece una política fija como referencia para comparar decisiones de riego.
+El riego con dosis y horario fijos puede aplicar más agua de la que una maceta perdió, y el exceso sale como drenaje; o puede dejar un déficit elevado antes del riego siguiente. El peso de la maceta permite seguir el agua retenida: entre dos pesajes sin riego, la disminución de masa corresponde casi por completo al agua evaporada y transpirada. Se establece una política fija como referencia para comparar decisiones de riego.
 
 La pregunta de investigación es: ¿puede una política optimizada reducir el agua aplicada por maceta, respecto de un horario fijo razonable, manteniendo el déficit dentro de un intervalo operacional justificado?
 
-Se construyó un modelo del balance de agua con separación entre ajuste de parámetros, simulación y verificación numérica. La calibración utiliza observaciones reservadas para ajuste y la validación compara predicciones con períodos posteriores. La métrica principal es el agua total aplicada, en mL por maceta durante un horizonte común, incluyendo la reposición final.
+La métrica principal es el agua total aplicada, en mL por maceta durante un horizonte común de 7 días, incluida la reposición final al déficit inicial, a minimizar.
 
-**Sistema y alcance**
+**Sistema real y cambio de alcance**
 
-El sistema comprende seis macetas de *Crassula ovata* (árbol de jade), con sustrato para cactus y suculentas, macetas plásticas idénticas y una ubicación protegida de lluvia. La especie se eligió por su crecimiento relativamente lento, que limita la deriva de masa, por su identificación inequívoca y por la existencia de guías de extensión sobre su riego (Mahr, 2025; UConn). La identificación de las plantas y las características del montaje se conservan en los metadatos. Las entradas son los riegos y las condiciones que determinan las pérdidas. El estado es el déficit respecto de la referencia drenada; las salidas son déficit, agua aplicada y drenaje.
+El plan inicial preveía medir seis macetas propias de *Crassula ovata*. Esas mediciones no pudieron completarse en el plazo. Por ello se adoptó como sistema real un ensayo documentado y público: la plataforma gravimétrica de Chase (2026; Zenodo, doi:10.5281/zenodo.23213759, licencia CC BY 4.0), en la que macetas de *Ensete ventricosum* (enset) se pesaron cada 15 min del 11 de julio al 6 de agosto de 2024. Las mediciones son de terceros: el equipo no cultivó ni midió estas plantas. Se identifican en todo el repositorio como `data_origin = public`. El protocolo de *Crassula ovata* (`docs/protocol.md`, `docs/especie.md`) se conserva como diseño para trabajo futuro.
 
-Se excluyen automatización, crecimiento, rendimiento, salud de la planta y generalización a otras especies o estaciones. Un intervalo de déficit es una condición operacional y no una demostración de bienestar vegetal.
+| Elemento | Descripción |
+| --- | --- |
+| Sistema | Macetas de *Ensete ventricosum* en plataforma Phenospex (Chase, 2026) |
+| Entradas | Riegos; condiciones ambientales agrupadas en la pérdida `E` |
+| Estado | Déficit `D` respecto de la masa al inicio del periodo de estrés (mL) |
+| Salidas | Déficit, agua aplicada y drenaje (mL) |
+| Decisión | Cuánto regar en cada revisión (07:00, 13:00, 19:00) |
 
-Como antecedentes se registran el trabajo de Lieth sobre riego de macetas con tensiómetros y el método gravimétrico de Kombala Liyanage et al. Sus condiciones no son equivalentes al montaje propuesto. Se emplean como contexto del método y de las métricas, sin adoptar sus porcentajes de ahorro ni sustituir las observaciones propias.
+Se excluyen crecimiento, rendimiento, salud de la planta y generalización a otras especies, plataformas o estaciones. Un intervalo de déficit es una condición operacional, no una demostración de bienestar vegetal.
 
-**Procedencia y organización de los datos**
+Como antecedentes se registran el informe de Lieth (UC Davis) sobre riego de macetas con tensiómetros, que reporta agua aplicada por maceta con riego fijo y con riego guiado por mediciones, y el método gravimétrico de Kombala Liyanage et al. (2022).
 
-Las observaciones propias se identifican mediante `data_origin = observed`. La procedencia, el momento de cada pesaje y las condiciones del montaje se conservan en los registros originales. Los datos sintéticos se identifican como `synthetic` y se emplean en pruebas de funcionamiento; los casos analíticos permiten verificar las reglas e integradores.
+**Datos y conversión**
 
-| Archivo | Contenido | Función |
-| --- | --- | --- |
-| `macetas.csv` | Identificación, especie, sustrato, ubicación y referencia drenada | Caracterización de cada maceta |
-| `observaciones.csv` | Pesajes, riegos, drenaje, fechas y marcas de calidad | Calibración y comparación de predicciones |
-| `balanza.csv` | Pesajes repetidos, resolución y comprobaciones instrumentales | Estimación del error de lectura |
+La conversión (`src/macetas/public_data.py`) verifica el archivo original por SHA-256 y lo lleva al formato del proyecto (`docs/data_dictionary.md`):
 
-**Protocolo y variable observada**
+- Se usa el periodo de estrés hídrico, del 24 de julio al 6 de agosto, de las 22 plantas que pasaron de control a estrés: 14 días de secado continuo.
+- Se toman las lecturas más cercanas a las 07:00, 13:00 y 19:00.
+- Se excluyó una planta (id 13) con aportes de agua no documentados, según una regla aplicada a todas: una subida neta mayor que 50 g en 3 h.
+- La referencia de masa es la primera masa del periodo de estrés.
+- La fuente no incluye verificación de balanza. El error de lectura (0.40 mL) se estimó del ruido nocturno y se declara como estimación.
 
-Se registra una masa drenada de referencia por maceta y se realizan pesajes en revisiones con hora real y zona horaria. Cuando hay riego se vinculan las lecturas previa y posterior mediante un identificador de evento. El riego y el drenaje se anotan una sola vez, después del drenaje. Los valores faltantes no se reemplazan por cero y los datos originales no se completan con estimaciones.
+Resultado: 21 macetas, 793 lecturas, sin errores de calidad y con 61 advertencias por ganancias nocturnas de 2 a 19 g presentes en la fuente. Las advertencias se conservan sin corregir.
 
 $$D(t)=\frac{M_{ref}-M(t)}{\rho_w},\qquad \rho_w\approx1\ \mathrm{g/mL}.$$
 
-La interpretación supone que los otros componentes de la masa cambian poco durante el horizonte. El protocolo detallado se conserva en `docs/protocol.md` y las unidades y comprobaciones en `docs/data_dictionary.md`.
-
 **Partición y calibración**
 
-La separación se realiza mediante ventanas temporales completas de piloto, ajuste, validación e intervención, definidas en `configs/data.json`. Los períodos o ciclos de ajuste y validación se mantienen separados y la partición se congela antes del ajuste final. Las observaciones de validación quedan fuera de la selección de parámetros.
+Los primeros 7 días forman la ventana de ajuste y los 7 siguientes, la de validación; ambas se congelaron antes de calibrar. El código estima `a`, `b` y los factores horarios de `dD/dt = q(t)·max(0, a + bD)` con los intervalos de secado de la ventana de ajuste, usando la solución exacta por tramos. Se comparan tasa constante, tasa por bloques y tasa por bloques con dependencia del déficit, y se selecciona la de menor complejidad entre las que quedan a menos de 2 unidades del AICc mínimo. La incertidumbre se estima por remuestreo de días completos.
 
-El código estima `a`, `b` y los factores horarios del modelo `dD/dt = q(t)max(0,a+bD)` usando intervalos de secado de la fase `fit`. Se comparan modelos de tasa constante, por bloques y por bloques con dependencia del déficit. Se selecciona el de menor complejidad entre los que quedan a menos de dos unidades del AICc mínimo. La incertidumbre se estima mediante remuestreo de días cuando existen suficientes días independientes.
+En la ventana de ajuste, 15 de 21 macetas tienen un intervalo de confianza del 95 % de `a` que excluye el valor agrupado, por lo que se usan parámetros por maceta. El modelo con dependencia del déficit fue seleccionado en 16 macetas. El ajuste agrupado da `a` = 21.6 mL/h, `b` = −0.0050 1/h y una pérdida nocturna casi nula: la pérdida disminuye cuando la maceta se seca.
 
-Se comprobó la recuperación de parámetros conocidos con datos sintéticos y la conexión de su exportación con el simulador. La verificación incluye conservación del agua, casos analíticos, tratamiento de eventos y convergencia numérica.
+**Validación**
 
-**Validación con datos públicos reales**
+La validación predice la ventana reservada sin recalibrar y sin reiniciar con lecturas posteriores. El MAE agregado fue 172 mL (9.7 % del déficit medio). En las 16 macetas con dependencia del déficit, el error mediano fue 3.7 % del déficit (60 mL). En las 5 en que el criterio AICc eligió una pérdida constante, el modelo sobrestimó el secado (error mediano 27.7 %). La causa es que la validación alcanza déficits mayores que los del ajuste y esa forma no reduce la pérdida al secarse. No se modificó la regla de selección después de ver estos errores.
 
-Mientras se completan las observaciones propias, el modelo de pérdidas se contrastó con mediciones reales publicadas: los pesajes cada 15 min de 21 macetas de *Ensete ventricosum* en secado continuo (Chase, 2026; Zenodo, CC BY 4.0). Se identifican como `public` y se muestrearon a las mismas horas del protocolo. Los primeros 7 días se usaron para ajustar y los 7 siguientes para validar, sin recalibrar. Se excluyó una planta con aportes de agua no documentados, según una regla aplicada a todas.
+**Entradas de la optimización derivadas de los datos**
 
-El ajuste seleccionó la forma con dependencia del déficit (`a` = 21.6 mL/h, `b` = −0.0050 1/h, pérdida nocturna casi nula). En validación, el MAE agregado fue 172 mL (9.7 % del déficit medio). En las 16 macetas en que el ajuste por maceta identificó la reducción de pérdidas con el secado, el error mediano fue 3.7 % del déficit (60 mL). En las 5 en que el criterio AICc eligió una pérdida constante, el modelo sobrestimó el secado (error mediano 27.7 %), porque la validación se extiende a déficits mayores que los observados en el ajuste. Esto muestra el riesgo de extrapolar y la necesidad de que el ajuste propio cubra el rango de operación de las políticas. Los datos corresponden a otra especie y otra plataforma, por lo que comprueban la estructura del modelo y del procedimiento, no los parámetros del montaje de *Crassula ovata*.
+Las entradas de la comparación de políticas se obtuvieron de la ventana de ajuste o de las dos plantas que permanecieron en control (bien regadas) durante todo el ensayo (`docs/sistema_enset.md`):
 
-**Control de medición y limitaciones**
+| Entrada | Valor | Origen |
+| --- | --- | --- |
+| Maceta representativa | E12 (a = 28.2 mL/h, b = −0.0102 1/h) | La más cercana a la mediana de las 16 macetas con dependencia del déficit |
+| Variabilidad diaria | CV 0.083 | Razón pérdida observada / predicha entre días de ajuste |
+| Riego real de referencia | 273.1 mL/maceta/día | Riego nocturno de la plataforma a las plantas control, estimado por la masa (cota inferior) |
+| Límite operacional | 520 mL | Mayor déficit de las plantas control (517 mL) |
+| Política base | 325 mL diarios a las 07:00 | Riego diario fijo como el de la plataforma; dosis = pérdida de 24 h de E12 desde D = 0 |
 
-El control de medición incluye repetibilidad de la balanza, referencias drenadas, horarios de pesaje y ciclos de secado. El intervalo operacional se sustenta en las características de la especie y en el piloto. Las fuentes recomiendan regar en profundidad cuando los ~2.5 cm superiores del sustrato están secos y evitar el agua estancada (Mahr, 2025; UConn). Ese criterio se registra en cada revisión mediante una prueba con palillo (`top_soil_dry`), y la calibración lo traduce a un déficit (`deficit_top_dry_median`). `D_seguro` se fija como el mayor déficit observado sin síntomas de estrés, de modo que las políticas no se evalúan fuera del rango registrado. La aproximación del drenaje mediante un evento instantáneo se evalúa con los residuos entre la respuesta observada y la predicha.
+El intervalo de operación (0 a 520 mL) queda dentro del rango de déficit calibrado de E12 (5 a 1628 mL).
 
-La frecuencia de pesaje limita la estimación del tiempo real fuera del intervalo. Varias lecturas de una maceta no equivalen a plantas independientes. El crecimiento, la caída de hojas y las diferencias entre plantas pueden alterar la relación entre masa y agua. La interpretación se limita al montaje y al período observados.
+**Limitaciones de los datos**
+
+- Los datos son de otro equipo, otra especie y otra plataforma. No permiten conclusiones sobre *Crassula ovata* ni sobre el montaje propuesto inicialmente.
+- La zona horaria no está declarada en la fuente. Se conserva la hora de reloj con un desfase nominal.
+- El riego de las plantas control se infiere de los aumentos de masa y es una cota inferior. Corresponde a dos plantas de genotipos distintos de E12.
+- Varias lecturas de una maceta no equivalen a plantas independientes; los intervalos de confianza dependen de 7 días de ajuste.
+- El límite operacional representa el régimen bien regado de la fuente, no un umbral fisiológico de la especie.
 
 **Referencias**
 
-Lieth, H. *Tensiometer-based irrigation of potted plants*. University of California, Davis. [Informe](https://lieth.ucdavis.edu/research/tens/96/potirg.htm).
-
 Chase, R. R. (2026). *Transpiration monitoring reveals diverse drought coping strategies in wild and cultivated enset (Ensete ventricosum)* [Conjunto de datos]. Zenodo. [doi:10.5281/zenodo.23213759](https://doi.org/10.5281/zenodo.23213759).
 
-Mahr, S. (2025). *Jade Plant, Crassula ovata*. Wisconsin Horticulture, University of Wisconsin–Madison. [Artículo](https://hort.extension.wisc.edu/articles/jade-plant-crassula-ovata/).
-
-University of Connecticut, Home Garden Education Office. *Jade Plants (Crassula ovata)*. [Ficha](https://homegarden.cahnr.uconn.edu/factsheets/jade-plants).
+Lieth, H. *Tensiometer-based irrigation of potted plants*. University of California, Davis. [Informe](https://lieth.ucdavis.edu/research/tens/96/potirg.htm).
 
 Kombala Liyanage, D., Chathuranga, I., Mori, B. A. y Thilakarathna, M. S. (2022). *A Simple, Semi-Automated, Gravimetric Method to Simulate Drought Stress on Plants*. Agronomy, 12(2), 349. [Artículo](https://doi.org/10.3390/agronomy12020349).

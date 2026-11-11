@@ -1,4 +1,5 @@
 {
+  "_estado": "TRABAJO FUTURO: configuración para mediciones propias (Crassula ovata, docs/protocol.md), que no se realizaron. La entrega usa el sistema real de Chase (2026): ver docs/sistema_enset.md y los archivos *_enset.json.",
   "_nota": "Configuración de datos (responsable: Nelson Escalante). Rutas relativas a este archivo. Las ventanas de partición se completan después del piloto y se congelan ANTES del ajuste final (frozen=true, frozen_on=fecha).",
   "data_dir": "../data/raw",
   "files": {
@@ -8,21 +9,41 @@
   },
   "timezone": "America/Guatemala",
   "water_density_g_per_ml": 1.0,
-  "allowed_data_origins": ["observed"],
+  "allowed_data_origins": [
+    "observed"
+  ],
   "split": {
     "frozen": false,
     "frozen_on": null,
     "_nota": "Inicio incluido, fin excluido, ISO 8601 con zona horaria (ej. 2026-11-10T00:00:00-06:00). Separar ciclos completos, no filas sueltas.",
     "windows": [
-      {"phase": "pilot", "start": null, "end": null},
-      {"phase": "fit", "start": null, "end": null},
-      {"phase": "validation", "start": null, "end": null},
-      {"phase": "intervention", "start": null, "end": null}
+      {
+        "phase": "pilot",
+        "start": null,
+        "end": null
+      },
+      {
+        "phase": "fit",
+        "start": null,
+        "end": null
+      },
+      {
+        "phase": "validation",
+        "start": null,
+        "end": null
+      },
+      {
+        "phase": "intervention",
+        "start": null,
+        "end": null
+      }
     ]
   },
   "quality": {
     "_nota": "Con null, las tolerancias de masa se derivan de la verificación de balanza: tolerance_sigmas * sqrt(2) * sigma_lectura.",
-    "exclude_flags": ["bad"],
+    "exclude_flags": [
+      "bad"
+    ],
     "tolerance_sigmas": 3.0,
     "mass_tolerance_g": null,
     "drainage_excess_tolerance_ml": 2.0

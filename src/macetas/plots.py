@@ -19,7 +19,14 @@ def _save(fig, output, name):
     plt.close(fig)
 
 
-def generate_plots(experiment_dir, *, validation_dir=None, output_dir=None):
+def generate_plots(experiment_dir=None, *, validation_dir=None, output_dir=None, validation_only=False):
+    if validation_only:
+        # Solo figuras de validación: evita copiar figuras de experimentos en la carpeta de validación.
+        output = Path(output_dir) if output_dir else Path(validation_dir) / "figures"
+        output.mkdir(parents=True, exist_ok=True)
+        _validation_first_pot(Path(validation_dir), output)
+        _validation_all(Path(validation_dir), output)
+        return output
     root = Path(experiment_dir)
     output = Path(output_dir) if output_dir else root / "figures"
     output.mkdir(parents=True, exist_ok=True)
@@ -97,6 +104,30 @@ def generate_plots(experiment_dir, *, validation_dir=None, output_dir=None):
     return output
 
 
+def _validation_first_pot(validation_dir, output):
+    """Figura 01 con la primera maceta y ventana de validación."""
+    observed = pd.read_csv(validation_dir / "comparisons.csv")
+    pot = sorted(observed.pot_id.unique())[0]
+    observed = observed[observed.pot_id.eq(pot) & observed.window_id.eq(observed.window_id.min())]
+    vt = pd.read_csv(validation_dir / "trajectory.csv")
+    vt = vt[vt.pot_id.eq(pot) & vt.window_id.eq(observed.window_id.iloc[0])]
+    ve = pd.read_csv(validation_dir / "events.csv")
+    ve = ve[ve.pot_id.eq(pot) & ve.window_id.eq(observed.window_id.iloc[0])]
+    with plt.rc_context({"axes.spines.top": False, "axes.spines.right": False, "font.size": 10}):
+        fig, ax = plt.subplots(figsize=(10, 4.5))
+        ax.plot(pd.to_datetime(vt.timestamp), vt.deficit_ml, color=COLORS[0], label=f"Simulado {pot}")
+        ax.scatter(pd.to_datetime(observed.timestamp), observed.observed_deficit_ml, marker="x", color=COLORS[1],
+                   label=f"Observado {pot} ({observed.data_origin.iloc[0]})")
+        for t in ve.timestamp:
+            ax.axvline(pd.Timestamp(t), color="gray", alpha=0.25)
+        origin = ", ".join(sorted(observed.data_origin.unique()))
+        ax.set(title=f"Validación de dinámica; líneas verticales: riegos registrados\nOrigen: {origin}",
+               xlabel="Fecha y hora (America/Guatemala)", ylabel="Déficit de agua [mL]")
+        ax.legend(fontsize=8)
+        fig.autofmt_xdate()
+        _save(fig, output, "01_system")
+
+
 def _validation_all(validation_dir, output):
     """Todas las macetas: predicho frente a observado y MAE por maceta."""
     comp = pd.read_csv(validation_dir / "comparisons.csv")
@@ -123,8 +154,15 @@ def _validation_all(validation_dir, output):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--experiments", required=True)
+    parser.add_argument("--experiments")
     parser.add_argument("--validation")
     parser.add_argument("--out")
+    parser.add_argument("--validation-only", action="store_true",
+                        help="Solo figuras 01 y 04 de validación; no requiere --experiments")
     args = parser.parse_args()
-    print(generate_plots(args.experiments, validation_dir=args.validation, output_dir=args.out))
+    if not args.validation_only and not args.experiments:
+        parser.error("--experiments es obligatorio salvo con --validation-only")
+    if args.validation_only and not args.validation:
+        parser.error("--validation-only requiere --validation")
+    print(generate_plots(args.experiments, validation_dir=args.validation, output_dir=args.out,
+                         validation_only=args.validation_only))

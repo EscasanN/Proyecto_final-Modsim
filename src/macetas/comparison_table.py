@@ -179,13 +179,14 @@ def to_markdown(table: pd.DataFrame, info: dict) -> str:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--lieth", default="data/reference/lieth_ucdavis/agua_aplicada.csv")
-    parser.add_argument("--experiments", default="results/experiments/synthetic")
+    parser.add_argument("--experiments", default="results/experiments/public_enset")
     parser.add_argument("--validation", default="results/validation/public_enset")
-    parser.add_argument("--control", default=None, help="data_config.json con control_reference (Chase 2026)")
+    parser.add_argument("--control", default="data/reference/chase2026_enset/converted/data_config.json",
+                        help="data_config.json con control_reference (Chase 2026); '' para omitirlo")
     parser.add_argument("--out", default="results/tables")
-    parser.add_argument("--name", default="comparacion_real")
+    parser.add_argument("--name", default="comparacion_real_enset")
     args = parser.parse_args(argv)
-    table, info = build_table(args.lieth, args.experiments, args.validation, args.control)
+    table, info = build_table(args.lieth, args.experiments, args.validation, args.control or None)
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     table.to_csv(out / f"{args.name}.csv", index=False, encoding="utf-8-sig")

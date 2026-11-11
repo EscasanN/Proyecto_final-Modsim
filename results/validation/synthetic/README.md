@@ -1,5 +1,7 @@
 # Validación sintética de dinámica
 
+> **Actualización (2026-11-11).** Ya existen resultados con mediciones reales públicas del sistema adoptado (Chase, 2026): validación en `results/validation/public_enset/`, optimización y experimentos en `results/optimization/public_enset/` y `results/experiments/public_enset/`. Ver `docs/sistema_enset.md`. Las menciones a resultados reales pendientes se refieren a las mediciones propias, que no se realizaron.
+
 Se usó el generador de A con sus opciones predeterminadas, calibración exclusivamente
 en fit y predicción continua en la ventana validation. No son observaciones reales.
 La primera lectura de cada una de seis macetas inicializa su trayectoria y queda

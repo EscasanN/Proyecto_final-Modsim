@@ -1,4 +1,5 @@
 {
+  "_estado": "TRABAJO FUTURO: configuración para mediciones propias (Crassula ovata, docs/protocol.md), que no se realizaron. La entrega usa el sistema real de Chase (2026): ver docs/sistema_enset.md y los archivos *_enset.json.",
   "status": "pending",
   "justification": null,
   "model": "model.json",

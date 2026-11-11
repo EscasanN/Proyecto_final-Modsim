@@ -37,7 +37,8 @@ python -m src.macetas import-public
 python -m src.macetas calibrate --config configs/model_public_enset.json
 python -m src.macetas optimize --config configs/pso_enset.json
 python -m src.macetas.experiments --config configs/experiments_enset.json
-python -m src.macetas.comparison_table --experiments results/experiments/public_enset --control data/reference/chase2026_enset/converted/data_config.json --name comparacion_real_enset
+python -m src.macetas.plots --experiments results/experiments/public_enset
+python -m src.macetas.comparison_table
 ```
 
 Los resultados de `calibrate` se copian de `data/reference/chase2026_enset/converted/salidas/tables/` a `results/calibration/public_enset/`, que es la ruta que usan la optimización y los experimentos.

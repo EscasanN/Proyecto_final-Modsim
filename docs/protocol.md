@@ -1,5 +1,7 @@
 **Protocolo de medición y registro**
 
+> **Trabajo futuro.** Este documento describe el montaje propio de *Crassula ovata* que no se llegó a medir. El sistema real de la entrega es el ensayo de Chase (2026); ver `docs/sistema_enset.md`.
+
 **Montaje**
 
 Se consideran seis macetas de *Crassula ovata* (árbol de jade), con sustrato para cactus y suculentas y macetas plásticas idénticas. La selección, las fuentes de manejo y los materiales se justifican en `docs/especie.md`. Se registra cada maceta con identificador estable, par, especie, sustrato, ubicación y descripción de la planta. Se elige un lugar protegido de lluvia y se documentan los cambios de exposición.

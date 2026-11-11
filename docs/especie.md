@@ -1,5 +1,7 @@
 **Especie del ensayo: *Crassula ovata* (árbol de jade)**
 
+> **Trabajo futuro.** Este documento describe el montaje propio de *Crassula ovata* que no se llegó a medir. El sistema real de la entrega es el ensayo de Chase (2026); ver `docs/sistema_enset.md`.
+
 Responsable: Nelson Escalante.
 
 **Selección**
