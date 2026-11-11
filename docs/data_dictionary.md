@@ -1,6 +1,6 @@
 **Diccionario de datos**
 
-> El formato se aplica tanto a las mediciones propias previstas (`data/raw/`, trabajo futuro) como a los datos públicos convertidos de Chase (2026) en `data/reference/chase2026_enset/converted/` (`data_origin = public`).
+> El formato se aplica a los datos públicos convertidos de Chase (2026) en `data/reference/chase2026_enset/converted/` (`data_origin = public`) y a las plantillas vacías de `data/raw/`.
 
 Responsable: Nelson Escalante. Implementado en `src/macetas/data_io.py`; cualquier cambio aquí debe reflejarse allí y viceversa.
 
@@ -58,7 +58,7 @@ Obligatorio en los tres archivos. Se distinguen datos reales, públicos, estimad
 | `irrigation_timestamp` | fecha con zona | solo en `post_drainage` | Hora real de aplicación del riego |
 | `event_id` | texto | en etapas de riego | Vincula las filas de un mismo riego (`M01-E001`) |
 | `ambient_temperature_c` | °C | — | Opcional; vacío si no se midió |
-| `top_soil_dry` | `yes`, `no` | en `pre_irrigation` y `no_irrigation` | Prueba del palillo a 2.5 cm (`docs/especie.md`); vacío si no se hizo |
+| `top_soil_dry` | `yes`, `no` | en `pre_irrigation` y `no_irrigation` | Indicador opcional de sustrato superficial seco; vacío si no se registró |
 | `notes` | texto | — | Incidentes y síntomas de la planta |
 | `quality_flag` | `ok`, `suspect`, `bad` | sí | `bad` excluye la lectura del ajuste |
 | `data_origin` | ver arriba | sí | |

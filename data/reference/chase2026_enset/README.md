@@ -14,7 +14,7 @@ Responsable de la conversión: Nelson Escalante.
 | Contenido | Masa de cada maceta cada 15 min en una plataforma gravimétrica Phenospex, del 2024-07-11 al 2024-08-06 |
 | Plantas | 24; desde el 2024-07-24, 22 pasan de control a estrés hídrico |
 
-Son **mediciones reales de terceros**, de otra especie, otra plataforma y otro lugar. Se identifican con `data_origin = public` y no sustituyen las observaciones propias del montaje de *Crassula ovata*. Se emplean para comprobar con datos reales la forma del modelo de pérdidas y el procedimiento de calibración y validación.
+Son **mediciones reales de terceros** y se identifican con `data_origin = public`. Constituyen el sistema real del proyecto: con ellas se calibra y valida el modelo de pérdidas y se derivan las entradas de la optimización (`docs/sistema_enset.md`).
 
 **Obtención**
 

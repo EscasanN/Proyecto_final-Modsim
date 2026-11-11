@@ -13,3 +13,6 @@ data/reference/chase2026_enset/converted/salidas/
 
 # Salida de validate-data sobre las plantillas vacías de data/raw (se regenera).
 results/tables/calidad_datos.csv
+
+# Paquete para subir a Overleaf (se regenera desde report/informe/).
+report/informe/*.zip

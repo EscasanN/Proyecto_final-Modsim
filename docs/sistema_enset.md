@@ -2,11 +2,11 @@
 
 Responsable: Nelson Escalante, con revisión de B, C y D.
 
-**Cambio de alcance**
+**Sistema real**
 
-No fue posible completar las mediciones propias del montaje de *Crassula ovata* dentro del plazo. Por eso se adoptó como sistema real un ensayo documentado y público: la plataforma gravimétrica de Chase (2026, Zenodo, doi:10.5281/zenodo.23213759, CC BY 4.0), con macetas de *Ensete ventricosum* pesadas cada 15 min. Las mediciones son de terceros y se identifican con `data_origin = public`. El equipo no midió ni cultivó estas plantas. El protocolo de *Crassula ovata* (`docs/protocol.md`, `docs/especie.md`) se conserva como diseño para trabajo futuro.
+El sistema real es un ensayo documentado y público: la plataforma gravimétrica de Chase (2026, Zenodo, doi:10.5281/zenodo.23213759, CC BY 4.0), con macetas de *Ensete ventricosum* pesadas cada 15 min. Las mediciones son de terceros y se identifican con `data_origin = public`. El equipo no midió ni cultivó estas plantas.
 
-Con este cambio, la calibración, la validación, la optimización y los experimentos se apoyan en el mismo sistema real.
+La calibración, la validación, la optimización y los experimentos se apoyan en el mismo sistema real.
 
 **Entradas derivadas de los datos**
 
@@ -14,8 +14,8 @@ Todas las entradas se obtienen de la ventana de ajuste o de las plantas control,
 
 | Entrada | Valor | Procedimiento | Archivo |
 | --- | --- | --- | --- |
-| Parámetros de pérdida | Por maceta, `blocks_linear` en 16 de 21 | Calibración en la ventana fit (7 días) | `results/calibration/public_enset/` |
-| Maceta representativa | E12: a = 28.23 mL/h, b = −0.0102 1/h, q noche = 0.025 | La más cercana a la mediana de (a, b, q noche), en unidades estandarizadas, entre las 16 macetas `blocks_linear` | `configs/pso_enset.json` (`pot_id`) |
+| Parámetros de pérdida | Por maceta, `blocks_linear` en 17 de 21 | Calibración en la ventana fit (7 días) | `results/calibration/public_enset/` |
+| Maceta representativa | E12: a = 28.23 mL/h, b = −0.0102 1/h, q noche = 0.025 | La más cercana a la mediana de (a, b, q noche), en unidades estandarizadas, entre las 17 macetas `blocks_linear` | `configs/pso_enset.json` (`pot_id`) |
 | Variabilidad diaria | CV 0.083 | Desviación entre días de la mediana, entre macetas, de la razón pérdida observada / predicha (07:00 a 07:00, 5 días fit) | `configs/pso_enset.json` (`forcing.daily_cv`) |
 | Error de lectura | 0.397 mL | Desviación de diferencias nocturnas de 15 min dividida entre √2; cota superior | `data/reference/chase2026_enset/converted/data_config.json` |
 | Riego real de referencia | 273.1 mL/maceta/día (202.2 y 344.0) | Plantas que permanecen en control (id 4 y 8): suma de subidas de masa > 5 g entre 01:00 y 07:59, del 24-jul al 5-ago; cota inferior | `referencia_control_riego.csv` y `control_reference` en `data_config.json` |

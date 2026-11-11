@@ -1,8 +1,8 @@
 """Lectura, control de calidad y transformación a déficit de las observaciones.
 
 Módulo de Nelson Escalante (datos, protocolo y calibración). Las reglas que aplica
-están descritas en docs/data_dictionary.md y docs/protocol.md; un cambio en ellas
-debe reflejarse en ambos documentos.
+están descritas en docs/data_dictionary.md; un cambio en ellas debe reflejarse
+en ese documento.
 
 Principios:
 - Los CSV originales solo se leen; nunca se modifican ni se completan.

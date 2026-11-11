@@ -38,4 +38,4 @@ Fecha: 2026-11-10 · Commit revisado: `93b15fb` · Alcance: `experiments.py`, `m
 
 **Conclusión**
 
-El trabajo de D cumple los requisitos de diseño experimental, repeticiones, control de aleatoriedad y validación de la rúbrica. Es reproducible y no se encontraron errores en los resultados numéricos. Los hallazgos 1 y 3 afectan la robustez con datos reales y conviene resolverlos antes de la evaluación con mediciones propias. Los hallazgos 4 a 7 afectan la demostración y la documentación.
+El trabajo de D cumple los requisitos de diseño experimental, repeticiones, control de aleatoriedad y validación de la rúbrica. Es reproducible y no se encontraron errores en los resultados numéricos. Los hallazgos 1 y 3 afectan la robustez con datos reales y conviene resolverlos antes de reutilizar el flujo con otros datos. Los hallazgos 4 a 7 afectan la demostración y la documentación.

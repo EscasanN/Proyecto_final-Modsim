@@ -2,7 +2,7 @@
 
 Proyecto de CC3074 Modelización y Simulación, UVG 2026. El balance de agua de una maceta se representa con una ecuación diferencial resuelta con Euler y RK4. Una política de riego por umbrales se optimiza con enjambre de partículas (PSO) y se compara con una política fija.
 
-**Sistema real.** El sistema estudiado es el ensayo documentado de Chase (2026, Zenodo, [doi:10.5281/zenodo.23213759](https://doi.org/10.5281/zenodo.23213759), CC BY 4.0): macetas de *Ensete ventricosum* pesadas cada 15 min en una plataforma gravimétrica. Son mediciones públicas de terceros (`data_origin = public`); el equipo no las midió. Las mediciones propias previstas con *Crassula ovata* no se realizaron y quedan como trabajo futuro. El cambio de alcance y el origen de cada entrada se explican en [docs/sistema_enset.md](docs/sistema_enset.md).
+**Sistema real.** El sistema estudiado es el ensayo documentado de Chase (2026, Zenodo, [doi:10.5281/zenodo.23213759](https://doi.org/10.5281/zenodo.23213759), CC BY 4.0): macetas de *Ensete ventricosum* pesadas cada 15 min en una plataforma gravimétrica. Son mediciones públicas de terceros (`data_origin = public`); el equipo no las midió. El origen de cada entrada se explica en [docs/sistema_enset.md](docs/sistema_enset.md).
 
 **Instalación**
 
@@ -72,8 +72,8 @@ Abre un panel local en `http://127.0.0.1:8765` con trayectorias animadas, consol
 | `src/macetas/presentation.py`, `presentation_assets/` | Panel local |
 | `configs/*_enset.json` | Configuraciones del sistema real |
 | `configs/demo_*.json` | Demostración sintética |
-| `configs/data.json`, `base.json`, `pso.json`, `experiments.json` | Plantillas para mediciones propias (trabajo futuro) |
-| `data/raw/` | Plantillas vacías para mediciones propias (trabajo futuro) |
+| `configs/data.json`, `base.json`, `pso.json`, `experiments.json` | Plantillas sin datos con el formato del proyecto |
+| `data/raw/` | Plantillas vacías con el formato de los datos |
 | `docs/` | Sistema real, modelo, validación, calibración, datos, protocolo futuro, revisiones, referencias y contribuciones |
 | `report/secciones/` | Borradores de secciones del informe |
 

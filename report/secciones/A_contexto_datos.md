@@ -8,9 +8,9 @@ La pregunta de investigación es: ¿puede una política optimizada reducir el ag
 
 La métrica principal es el agua total aplicada, en mL por maceta durante un horizonte común de 7 días, incluida la reposición final al déficit inicial, a minimizar.
 
-**Sistema real y cambio de alcance**
+**Sistema real**
 
-El plan inicial preveía medir seis macetas propias de *Crassula ovata*. Esas mediciones no pudieron completarse en el plazo. Por ello se adoptó como sistema real un ensayo documentado y público: la plataforma gravimétrica de Chase (2026; Zenodo, doi:10.5281/zenodo.23213759, licencia CC BY 4.0), en la que macetas de *Ensete ventricosum* (enset) se pesaron cada 15 min del 11 de julio al 6 de agosto de 2024. Las mediciones son de terceros: el equipo no cultivó ni midió estas plantas. Se identifican en todo el repositorio como `data_origin = public`. El protocolo de *Crassula ovata* (`docs/protocol.md`, `docs/especie.md`) se conserva como diseño para trabajo futuro.
+El sistema real es un ensayo documentado y público: la plataforma gravimétrica de Chase (2026; Zenodo, doi:10.5281/zenodo.23213759, licencia CC BY 4.0), en la que macetas de *Ensete ventricosum* (enset) se pesaron cada 15 min del 11 de julio al 6 de agosto de 2024. Las mediciones son de terceros: el equipo no cultivó ni midió estas plantas. Se identifican en todo el repositorio como `data_origin = public`.
 
 | Elemento | Descripción |
 | --- | --- |
@@ -42,11 +42,11 @@ $$D(t)=\frac{M_{ref}-M(t)}{\rho_w},\qquad \rho_w\approx1\ \mathrm{g/mL}.$$
 
 Los primeros 7 días forman la ventana de ajuste y los 7 siguientes, la de validación; ambas se congelaron antes de calibrar. El código estima `a`, `b` y los factores horarios de `dD/dt = q(t)·max(0, a + bD)` con los intervalos de secado de la ventana de ajuste, usando la solución exacta por tramos. Se comparan tasa constante, tasa por bloques y tasa por bloques con dependencia del déficit, y se selecciona la de menor complejidad entre las que quedan a menos de 2 unidades del AICc mínimo. La incertidumbre se estima por remuestreo de días completos.
 
-En la ventana de ajuste, 15 de 21 macetas tienen un intervalo de confianza del 95 % de `a` que excluye el valor agrupado, por lo que se usan parámetros por maceta. El modelo con dependencia del déficit fue seleccionado en 16 macetas. El ajuste agrupado da `a` = 21.6 mL/h, `b` = −0.0050 1/h y una pérdida nocturna casi nula: la pérdida disminuye cuando la maceta se seca.
+En la ventana de ajuste, 15 de 21 macetas tienen un intervalo de confianza del 95 % de `a` que excluye el valor agrupado, por lo que se usan parámetros por maceta. El modelo con dependencia del déficit fue seleccionado en 17 macetas. El ajuste agrupado da `a` = 21.6 mL/h, `b` = −0.0050 1/h y una pérdida nocturna casi nula: la pérdida disminuye cuando la maceta se seca.
 
 **Validación**
 
-La validación predice la ventana reservada sin recalibrar y sin reiniciar con lecturas posteriores. El MAE agregado fue 172 mL (9.7 % del déficit medio). En las 16 macetas con dependencia del déficit, el error mediano fue 3.7 % del déficit (60 mL). En las 5 en que el criterio AICc eligió una pérdida constante, el modelo sobrestimó el secado (error mediano 27.7 %). La causa es que la validación alcanza déficits mayores que los del ajuste y esa forma no reduce la pérdida al secarse. No se modificó la regla de selección después de ver estos errores.
+La validación predice la ventana reservada sin recalibrar y sin reiniciar con lecturas posteriores. El MAE agregado fue 172 mL (9.7 % del déficit medio). En las 17 macetas con dependencia del déficit, el error mediano fue 3.7 % del déficit (60 mL). En las 4 en que el criterio AICc eligió una pérdida constante, el modelo sobrestimó el secado (error mediano 27.7 %). La causa es que la validación alcanza déficits mayores que los del ajuste y esa forma no reduce la pérdida al secarse. No se modificó la regla de selección después de ver estos errores.
 
 **Entradas de la optimización derivadas de los datos**
 
@@ -54,7 +54,7 @@ Las entradas de la comparación de políticas se obtuvieron de la ventana de aju
 
 | Entrada | Valor | Origen |
 | --- | --- | --- |
-| Maceta representativa | E12 (a = 28.2 mL/h, b = −0.0102 1/h) | La más cercana a la mediana de las 16 macetas con dependencia del déficit |
+| Maceta representativa | E12 (a = 28.2 mL/h, b = −0.0102 1/h) | La más cercana a la mediana de las 17 macetas con dependencia del déficit |
 | Variabilidad diaria | CV 0.083 | Razón pérdida observada / predicha entre días de ajuste |
 | Riego real de referencia | 273.1 mL/maceta/día | Riego nocturno de la plataforma a las plantas control, estimado por la masa (cota inferior) |
 | Límite operacional | 520 mL | Mayor déficit de las plantas control (517 mL) |
@@ -64,7 +64,7 @@ El intervalo de operación (0 a 520 mL) queda dentro del rango de déficit calib
 
 **Limitaciones de los datos**
 
-- Los datos son de otro equipo, otra especie y otra plataforma. No permiten conclusiones sobre *Crassula ovata* ni sobre el montaje propuesto inicialmente.
+- Los datos son de otro equipo y de una sola plataforma. Las conclusiones no se generalizan a otras especies ni montajes.
 - La zona horaria no está declarada en la fuente. Se conserva la hora de reloj con un desfase nominal.
 - El riego de las plantas control se infiere de los aumentos de masa y es una cota inferior. Corresponde a dos plantas de genotipos distintos de E12.
 - Varias lecturas de una maceta no equivalen a plantas independientes; los intervalos de confianza dependen de 7 días de ajuste.

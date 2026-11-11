@@ -1,6 +1,6 @@
 # Evidencia de C: búsqueda sintética
 
-> **Actualización (2026-11-11).** Ya existen resultados con mediciones reales públicas del sistema adoptado (Chase, 2026): validación en `results/validation/public_enset/`, optimización y experimentos en `results/optimization/public_enset/` y `results/experiments/public_enset/`. Ver `docs/sistema_enset.md`. Las menciones a resultados reales pendientes se refieren a las mediciones propias, que no se realizaron.
+> **Actualización (2026-11-11).** Ya existen resultados con mediciones reales públicas del sistema adoptado (Chase, 2026): validación en `results/validation/public_enset/`, optimización y experimentos en `results/optimization/public_enset/` y `results/experiments/public_enset/`. Ver `docs/sistema_enset.md`.
 
 Ejecución del 2026-11-06. **Datos y escenarios sintéticos; no son validación
 real ni evaluación final.** Se usó la calibración sintética existente de A,

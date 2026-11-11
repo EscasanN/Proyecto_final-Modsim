@@ -321,10 +321,9 @@ def drainage_time_estimates(dataset: Dataset, threshold_g: float) -> pd.DataFram
 def top_dry_thresholds(dataset: Dataset, phases=("pilot", "fit")) -> pd.DataFrame:
     """Déficit en la primera lectura de cada ciclo de secado con el sustrato superficial seco.
 
-    Un ciclo empieza en un riego (`post_drainage`) y termina en el siguiente. Las
-    fuentes de manejo de la especie recomiendan regar cuando los ~2.5 cm superiores
-    están secos; este déficit traduce ese criterio a la variable del modelo. Solo
-    usa piloto y ajuste.
+    Un ciclo empieza en un riego (`post_drainage`) y termina en el siguiente. Traduce
+    el indicador opcional `top_soil_dry` a la variable del modelo; sin ese indicador
+    la tabla queda vacía. Solo usa piloto y ajuste.
     """
     columns = ["pot_id", "cycle_start", "first_dry_timestamp", "hours_since_irrigation",
                "deficit_at_first_dry_ml", "max_deficit_cycle_ml", "n_readings_cycle"]
