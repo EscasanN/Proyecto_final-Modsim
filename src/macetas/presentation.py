@@ -20,16 +20,24 @@ ROOT = Path(__file__).resolve().parents[2]
 ASSETS = Path(__file__).parent / "presentation_assets"
 OUTPUT = "results/presentation"
 
+# Sistema real del proyecto: datos públicos de Chase (2026), macetas de enset.
+DATA_CONFIG = "data/reference/chase2026_enset/converted/data_config.json"
+PARAMETERS = "results/calibration/public_enset/parametros_modelo.json"
+BASE = "configs/base_enset.json"
+EXPERIMENTS = "results/experiments/public_enset"
+VALIDATION = "results/validation/public_enset"
+COMPARISON = "results/tables/comparacion_real_enset.md"
+
 TASKS = [
-    {"id": "simulate", "title": "Simular maceta", "detail": "Política fija · Euler o RK4 · parámetros sintéticos", "group": "demo"},
-    {"id": "experiments", "title": "Comparar políticas", "detail": "B0 / O0 / B1 / O1 · 30 semillas por condición", "group": "demo"},
+    {"id": "simulate", "title": "Simular maceta", "detail": "Política base · Euler o RK4 · maceta E12 del enset", "group": "demo"},
+    {"id": "experiments", "title": "Comparar políticas", "detail": "B0 / O0 / B1 / O1 · 30 semillas reservadas · enset", "group": "demo"},
     {"id": "validate-model", "title": "Verificar el modelo", "detail": "Casos analíticos, conservación y convergencia", "group": "evidence"},
-    {"id": "validate-data", "title": "Revisar datos reales", "detail": "Calidad y disponibilidad · puede señalar datos pendientes", "group": "evidence"},
-    {"id": "calibrate", "title": "Preparar y calibrar ejemplo", "detail": "Generador sintético de A · ajuste solo en fit", "group": "evidence"},
-    {"id": "validation", "title": "Validar predicciones", "detail": "Prepara el ejemplo y compara observaciones reservadas", "group": "evidence"},
-    {"id": "plots", "title": "Regenerar figuras", "detail": "Tres figuras PNG/PDF desde las tablas disponibles", "group": "evidence"},
+    {"id": "validate-data", "title": "Revisar datos reales", "detail": "Calidad de los pesajes de Chase (2026) · 21 macetas", "group": "evidence"},
+    {"id": "calibrate", "title": "Calibrar con datos reales", "detail": "Ventana de ajuste (7 días) · parámetros por maceta", "group": "evidence"},
+    {"id": "validation", "title": "Validar predicciones", "detail": "Predice la segunda semana sin recalibrar", "group": "evidence"},
+    {"id": "plots", "title": "Regenerar figuras", "detail": "Figuras PNG/PDF desde las tablas del enset", "group": "evidence"},
     {"id": "tests", "title": "Ejecutar todas las pruebas", "detail": "Suite completa de pytest · resultado real en consola", "group": "evidence"},
-    {"id": "optimize", "title": "Ejecutar PSO de desarrollo", "detail": "Proceso largo · 30 búsquedas por variante · salida separada", "group": "advanced"},
+    {"id": "optimize", "title": "Ejecutar PSO", "detail": "Proceso largo · 30 búsquedas por variante · salida separada", "group": "advanced"},
 ]
 
 
@@ -40,39 +48,66 @@ def task_commands(task, options=None):
     if method not in ("euler", "rk4") or step not in ("0.125", "0.25", "0.5", "1"):
         raise ValueError("Método o paso no admitido.")
     python = [sys.executable, "-X", "utf8", "-u", "-m"]
-    inputs = f"{OUTPUT}/synthetic_inputs"
-    parameters = f"{inputs}/salidas/tables/parametros_modelo.json"
-    preparation = [python + ["src.macetas", "make-synthetic", "--out", inputs],
-                   python + ["src.macetas", "calibrate", "--config", "configs/model.json",
-                             "--data-config", f"{inputs}/data_config.json"]]
     commands = {
-        "simulate": [python + ["src.macetas", "simulate", "--parameters", "configs/demo_parameters.json",
-                     "--base", "configs/demo_base.json", "--allow-synthetic", "--method", method,
+        "simulate": [python + ["src.macetas", "simulate", "--config", "configs/model_public_enset.json",
+                     "--parameters", PARAMETERS, "--base", BASE, "--pot-id", "E12", "--method", method,
                      "--step-h", step, "--out", f"{OUTPUT}/simulation"]],
-        "experiments": [python + ["src.macetas.experiments", "--config", "configs/demo_experiments.json",
-                                   "--allow-synthetic", "--out", f"{OUTPUT}/experiments"]],
+        "experiments": [python + ["src.macetas.experiments", "--config", "configs/experiments_enset.json",
+                                   "--out", f"{OUTPUT}/experiments"]],
         "validate-model": [python + ["src.macetas", "validate-model", "--out", f"{OUTPUT}/verification"]],
-        "validate-data": [python + ["src.macetas", "validate-data"]],
-        "calibrate": preparation,
-        "validation": preparation + [python + ["src.macetas.validation", "--data-config", f"{inputs}/data_config.json",
-                       "--parameters", parameters, "--allow-synthetic", "--method", method,
+        "validate-data": [python + ["src.macetas", "validate-data", "--config", DATA_CONFIG]],
+        # Escribe en data/reference/.../converted/salidas (no versionado); no toca results/calibration.
+        "calibrate": [python + ["src.macetas", "calibrate", "--config", "configs/model_public_enset.json"]],
+        "validation": [python + ["src.macetas.validation", "--data-config", DATA_CONFIG,
+                       "--parameters", PARAMETERS, "--method", method,
                        "--step-h", step, "--out", f"{OUTPUT}/validation"]],
-        "plots": [python + ["src.macetas.plots", "--experiments", str(experiment_root().relative_to(ROOT)),
+        "plots": [python + ["src.macetas.plots", "--experiments", experiment_root().relative_to(ROOT).as_posix(),
+                            "--validation", validation_root().relative_to(ROOT).as_posix(),
                             "--out", f"{OUTPUT}/figures"]],
-        "tests": [python + ["pytest", "-q", "--assert=plain", f"--basetemp=.venv/ui-tests-{uuid.uuid4().hex[:10]}"]],
-        "optimize": [python + ["src.macetas", "optimize", "--config", "configs/demo_pso.json",
-                               "--allow-synthetic", "--out", f"{OUTPUT}/optimization"]],
+        "tests": [python + ["pytest", "-q", "--assert=plain", f"--basetemp={OUTPUT}/ui-tests-{uuid.uuid4().hex[:10]}"]],
+        "optimize": [python + ["src.macetas", "optimize", "--config", "configs/pso_enset.json",
+                               "--out", f"{OUTPUT}/optimization"]],
     }
     if task not in commands:
         raise ValueError("Tarea desconocida.")
-    if task == "plots" and (ROOT / OUTPUT / "validation/comparisons.csv").exists():
-        commands[task][0] += ["--validation", f"{OUTPUT}/validation"]
     return commands[task]
 
 
 def experiment_root():
     candidate = ROOT / OUTPUT / "experiments"
-    return candidate if (candidate / "runs.csv").exists() else ROOT / "results/experiments/synthetic"
+    return candidate if (candidate / "runs.csv").exists() else ROOT / EXPERIMENTS
+
+
+def validation_root():
+    candidate = ROOT / OUTPUT / "validation"
+    return candidate if (candidate / "errors.csv").exists() else ROOT / VALIDATION
+
+
+def validation_origin(root):
+    path = root / "validation_manifest.json"
+    if not path.exists():
+        return None
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    if manifest.get("real_validation"):
+        return "observed"
+    return "public" if manifest.get("public_reference_validation") else "synthetic"
+
+
+def figure_paths():
+    """Figuras de la presentación: experimentos y validación del enset (o las regeneradas)."""
+    generated = sorted((ROOT / OUTPUT / "figures").glob("*.png"))
+    if generated:
+        return generated
+    experiments = [ROOT / EXPERIMENTS / "figures" / f"{name}.png" for name in ("01_system", "02_policies", "03_sensitivity")]
+    return [p for p in experiments + [ROOT / VALIDATION / "figures/04_validation_all.png"] if p.is_file()]
+
+
+def real_status():
+    if not (ROOT / COMPARISON).is_file():
+        return "Comparación con el sistema real: falta results/tables/comparacion_real_enset.md."
+    return ("Comparación con el sistema real (Chase, 2026): las plantas control recibieron unos 273 mL/día; "
+            "la simulación base aplica 370 y la optimizada 298 (−19.5 % en pares factibles). "
+            "La mejora es simulada: la política no se aplicó en plantas reales. Tabla: " + COMPARISON + ".")
 
 
 def read_rows(path):
@@ -91,7 +126,7 @@ def trajectory_payload(source="experiments", condition="B0", seed=None):
         events = read_rows(root / "riegos.csv")
         metrics_path = root / "metricas.json"
         metrics = json.loads(metrics_path.read_text(encoding="utf-8")) if metrics_path.exists() else {}
-        limit = json.loads((ROOT / "configs/demo_base.json").read_text(encoding="utf-8"))["simulation"]["safe_deficit_ml"]
+        limit = json.loads((ROOT / BASE).read_text(encoding="utf-8"))["simulation"]["safe_deficit_ml"]
         seeds, chosen = [], None
     else:
         root = experiment_root()
@@ -191,22 +226,22 @@ def make_server(port=8765):
             parsed = urlparse(self.path)
             try:
                 if parsed.path == "/api/state":
-                    figures = sorted((ROOT / OUTPUT / "figures").glob("*.png"))
-                    if not figures:
-                        figures = sorted((ROOT / "results/experiments/synthetic/figures").glob("*.png"))
+                    figures = figure_paths()
                     candidates = [("Ejecuciones CSV", experiment_root() / "runs.csv"),
                                   ("Resumen CSV", experiment_root() / "summary.csv"),
                                   ("Diferencias pareadas CSV", experiment_root() / "paired.csv"),
                                   ("Conservación CSV", experiment_root() / "balance.csv"),
-                                  ("Validación CSV", ROOT / OUTPUT / "validation/errors.csv"),
+                                  ("Validación CSV", validation_root() / "errors.csv"),
+                                  ("Comparación real (Parte 6)", ROOT / COMPARISON),
                                   ("Convergencia CSV", ROOT / OUTPUT / "verification/convergencia.csv")]
                     artifacts = [{"label": name, "url": "/files/" + p.relative_to(ROOT / "results").as_posix()}
                                  for name, p in candidates if p.is_file()]
                     self.send_json({**runner.snapshot(), "token": token, "tasks": TASKS, "artifacts": artifacts,
                                     "summary": read_rows(experiment_root() / "summary.csv"),
-                                    "validation": read_rows(ROOT / OUTPUT / "validation/errors.csv") or read_rows(ROOT / "results/validation/synthetic/errors.csv"),
+                                    "validation": read_rows(validation_root() / "errors.csv"),
+                                    "validation_origin": validation_origin(validation_root()),
                                     "figures": ["/files/" + p.relative_to(ROOT / "results").as_posix() for p in figures],
-                                    "real_status": "Pendiente: mediciones y configuraciones reales congeladas de A/B/C."})
+                                    "real_status": real_status()})
                 elif parsed.path == "/api/trajectory":
                     query = parse_qs(parsed.query)
                     self.send_json(trajectory_payload(query.get("source", ["experiments"])[0],

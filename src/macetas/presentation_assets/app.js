@@ -4,6 +4,7 @@ let payload = null, panelState = null, token = "", playing = false, position = 0
 let previousFrame = 0, renderedIndex = -1, lastJobKey = "", busy = false, rainTimer, trajectoryRequest = 0;
 const number = (value, digits = 1) => Number(value).toLocaleString("es-GT", {minimumFractionDigits: digits, maximumFractionDigits: digits});
 const isTrue = value => value === true || value === "True" || value === "true";
+const originLabel = origin => ({synthetic: "Ejemplo sintético", public: "Datos reales públicos · Chase (2026)", observed: "Mediciones propias"})[origin] || origin;
 const dateLabel = value => new Intl.DateTimeFormat("es-GT", {timeZone: "America/Guatemala", month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false}).format(new Date(value));
 
 function toast(message) {
@@ -38,7 +39,7 @@ async function loadTrajectory() {
     payload.end = Date.parse(data.trajectory.at(-1).timestamp);
     payload.times = data.trajectory.map(row => Date.parse(row.timestamp));
     position = 0; renderedIndex = -1;
-    $("origin").textContent = data.data_origin === "synthetic" ? "Ejemplo sintético" : data.data_origin;
+    $("origin").textContent = originLabel(data.data_origin);
     $("limit").textContent = number(data.safe_deficit_ml, 0);
     const feasible = isTrue(data.metrics.feasible);
     $("feasibility").textContent = feasible ? "✓ Ejecución completa factible" : "! Ejecución completa no factible";
@@ -145,7 +146,8 @@ function updateSummary(state) {
   }
   $("interpretation").textContent=state.summary.length ? "Un menor consumo no basta: una política debe cumplir las restricciones. El agua total incluye la reposición final. B: base; O: optimizada; 0: normal; 1: pérdidas +20 %." : "Ejecuta la comparación para generar resultados. No hay resultados disponibles todavía.";
   const v=state.validation.find(r=>r.pot_id==="ALL");
-  $("validation-result").textContent=v?`Validación sintética · ${v.n_observations} observaciones reservadas · MAE ${number(v.mae_ml,3)} mL · RMSE ${number(v.rmse_ml,3)} mL · sesgo ${number(v.bias_ml,3)} mL. No constituye validación real.`:"Validación de dinámica: ejecuta «Validar predicciones» para calcular errores reservados.";
+  const vNote={public:"Validación con datos reales públicos (enset, segunda semana sin recalibrar)",synthetic:"Validación sintética · no constituye validación real",observed:"Validación con mediciones propias"}[state.validation_origin]||"Validación";
+  $("validation-result").textContent=v?`${vNote} · ${v.n_observations} observaciones reservadas · MAE ${number(v.mae_ml,1)} mL · RMSE ${number(v.rmse_ml,1)} mL · sesgo ${number(v.bias_ml,1)} mL.`:"Validación: ejecuta «Validar predicciones» para calcular errores reservados.";
   $("real-pending").textContent=state.real_status;
   $("artifacts").replaceChildren(...(state.artifacts||[]).map(item=>{
     const link=document.createElement("a");link.href=item.url;link.textContent=item.label+" ↓";
@@ -155,7 +157,7 @@ function updateSummary(state) {
   if (JSON.stringify(state.figures)!==figures.dataset.paths) {
     figures.dataset.paths=JSON.stringify(state.figures); figures.replaceChildren();
     state.figures.forEach((path,i)=>{const a=document.createElement("a");a.href=path;a.target="_blank";a.rel="noopener";
-      const img=document.createElement("img");img.src=path;img.alt=["Dinámica del sistema","Comparación de políticas","Sensibilidad y factibilidad"][i]||"Figura experimental";
+      const img=document.createElement("img");img.src=path;const names={"01_system":"Dinámica del sistema","02_policies":"Comparación de políticas","03_sensitivity":"Sensibilidad y factibilidad","04_validation_all":"Validación en las 21 macetas"};img.alt=names[path.split("/").pop().replace(".png","")]||"Figura";
       a.append(img,document.createTextNode(`${String(i+1).padStart(2,"0")} / ${img.alt} ↗`));figures.append(a);});
   }
 }

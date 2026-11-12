@@ -35,7 +35,7 @@ def test_reject_unknown_task():
 
 def test_trajectory_uses_exported_values():
     payload = panel.trajectory_payload("experiments", "O1", 13001)
-    assert payload["data_origin"] == "synthetic"
+    assert payload["data_origin"] in ("public", "synthetic")
     assert len(payload["seeds"]) == 30
     assert payload["trajectory"][-1]["irrigation_ml"] == pytest.approx(float(payload["metrics"]["total_irrigation_ml"]))
     assert payload["events"][-1]["kind"] == "final_refill"
